@@ -1,11 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import styles from './header.module.scss';
+import styles from './header.module.css';
 import { useLocation } from 'react-router-dom'; // Thay thế usePathname
 import { AnimatePresence } from 'framer-motion';
 import Nav from './nav/Nav.jsx';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Rounded from '../../Common/RoundedButton.jsx';
+import Rounded from '../../Common/RoundedButton/RoundedButton';
 import Magnetic from '../../Common/Magnetic';
 
 export default function Header() {
