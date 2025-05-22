@@ -113,7 +113,7 @@
 @media (max-width: 500px) {
   .landing {
     height: 100vh;
-   
+    transition: all 0.2s;
   }
   .landing .slider p {
     font-size: 50px;

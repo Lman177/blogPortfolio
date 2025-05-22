@@ -8,8 +8,8 @@ import Lenis from 'lenis';
 import Landing from './Landing/Landing';
 import Project from './Project/Project';
 import Description from './Description/Description'
-// import SlidingImages from '../components/SlidingImages';
-// import Contact from '../components/Contact';
+import SlidingImages from './SlidingImage/SlidingImg';
+import Contact from './Contact/Contact';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,8 +52,8 @@ export default function Home() {
       <Landing />
       <Description scrollYProgress={scrollYProgress}/>
       <Project />
-      {/* <SlidingImages /> */}
-      {/* <Contact /> */}
+      <SlidingImages />
+      <Contact />
     </main>
   );
 }
