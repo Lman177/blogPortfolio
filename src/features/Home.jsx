@@ -20,16 +20,7 @@ export default function Home() {
     offset: ["start start", "end end"]
   }) 
 
-  useEffect( () => {
-    const lenis = new Lenis()
 
-    function raf(time) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-
-    requestAnimationFrame(raf)
-  }, [])
 
   // useEffect(() => {
   //   (async () => {
@@ -49,6 +40,8 @@ export default function Home() {
       {/* <AnimatePresence mode="wait">
         {isLoading && <Preloader />}
       </AnimatePresence> */}
+      
+      
       <Landing />
       <Description scrollYProgress={scrollYProgress}/>
       <Project />

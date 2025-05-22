@@ -15,6 +15,12 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './src/components'),
       '@features': path.resolve(__dirname, './src/features'),
       '@assets': path.resolve(__dirname, './src/assets'),
+      '@context': path.resolve(__dirname, './src/Context'),
+      '@Common': path.resolve(__dirname, './src/Common'),
+      
+
+
+
       // thêm alias khác nếu muốn
     },
   },

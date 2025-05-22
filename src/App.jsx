@@ -2,15 +2,39 @@
 import './App.css'; // giữ nguyên nếu là global css
 import Header from './features/Header/Header'
 import Home from './features/Home'; // đây là phần page chuyển từ `page.js`
-import { BrowserRouter } from 'react-router-dom';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import About from './features/About/About';
+import Work from './features/Work/Work';
+import Contact from './features/Contact/Contact';
+import { useEffect } from 'react';
+import { useRef } from "react";
+import Lenis from 'lenis';
+import { AnimatePresence } from 'framer-motion';
+import { ScrollProvider } from '@context/ScrollProvider';  // đảm bảo đường dẫn đúng
 function App() {
+
+    useEffect( () => {
+      const lenis = new Lenis()
+  
+      function raf(time) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+      }
+  
+      requestAnimationFrame(raf)
+    }, [])
   return (
     <div lang="en" >
-      
-        <Header />
-
-      <Home />
+       <ScrollProvider>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/work" element={<Work />} />
+          </Routes>
+        </BrowserRouter>
+      </ScrollProvider>
     </div>
   );
 }

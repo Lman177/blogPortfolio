@@ -4,7 +4,7 @@
     z-index: 2;
     top: 0;
     color: white;
-    padding: 35px;
+    padding: 25px;
     justify-content: space-between;
     width: 100%;
     font-weight: 300;
@@ -172,4 +172,23 @@
     .header .nav{
         display: none;
     }
+}
+
+/* Modifier class for black color theme */
+.black {
+  color: black;
+}
+
+.black .nav a,
+.black .logo p {
+  color: black;
+}
+
+.black .nav .el .indicator {
+  background-color: black !important;
+}
+
+.black .burger::before,
+.black .burger::after {
+  background-color: black;
 }

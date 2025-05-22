@@ -8,9 +8,9 @@ import { BrowserRouter } from 'react-router-dom';  // ✅ Import Router
 createRoot(document.getElementById('root')).render(
   <StrictMode>
 
-  <BrowserRouter>
+
     <App />
-  </BrowserRouter>
+  
 
   </StrictMode>,
 )

@@ -1,0 +1,95 @@
+.experience{
+    z-index: 2;
+    background-color: white;
+    width: 100%;
+
+    .divider_container {
+        z-index: 2;
+        position: relative;
+        width: 100%;
+        margin: 80px 0;
+        
+        .divider_line {
+        border: none;
+        border-top: 1px solid #dcdcdc;
+        margin: 0;
+        }
+        
+    }
+    
+.heading {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 24px;
+  color: #333;
+}
+
+.timeline {
+  position: relative;
+  margin: 0 auto;
+  width: 80%;
+  padding: 2rem 0;
+}
+
+.verticalLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background-color: #ccc;
+  transform: translateX(-50%);
+}
+
+.timelineItem {
+  width: 44.25%;
+  padding: 1rem 2rem;
+  position: relative;
+  margin-right: 50px;
+}
+
+.left {
+    
+  left: 0;
+  text-align: right;
+}
+
+.right {
+  left: 50%;
+  text-align: left;
+}
+
+.content {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.date {
+  display: block;
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+.dot {
+  position: absolute;
+  top: 1rem;
+  width: 12px;
+  height: 12px;
+  background-color: black;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.left .dot {
+  right: -6px;
+}
+
+.right .dot {
+  left: -6px;
+}
+}
+
