@@ -1,16 +1,29 @@
 .about {
-    padding: 100px 100px;
-    height: 100vh;
-    z-index: -1;
+    
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
     // overflow-y: auto;
     h1{
+        padding-top: 100px;
+        padding-left: 100px;
+        padding-right: 100px;
         font-size: 80px;
         margin-bottom: 20px;
         font-weight: 400;
     }
-    p{
-        font-size: 20px;
-        line-height: 1.6;
+    .text{
+        h2{
+            padding-left: 100px;
+            font-size: 20px;
+            line-height: 1.6;
+        }
+        p{
+            padding-left: 100px;
+            font-size: 20px;
+            line-height: 1.6;
+        }
         
     }
 
@@ -51,7 +64,8 @@
         justify-content: space-between;
         width: 100%;
         height: 100%;
-        position: relative;
+        
+
 
         .text{
             padding-top: 30px;
@@ -75,7 +89,7 @@
                 }
         }
         .block{
-            top: -70px;
+            top: -60px;
             width: 100vw;
             height: 100px;
             background-color: white;
@@ -85,16 +99,20 @@
             
         }
         .imageContainer{
+            margin-top: 40px;
             display: flex;
             align-items: center;
-            width: 70%;
+            width: 60%;
+            
             .image{
                 width: 100%;
                 height: 100%;
-
+                
                 img{
-                    width: 100%;
-                    height: 100%;
+                    position: relative;
+                    border-radius: 10%;
+                    width: 80%;
+                    height: 80%;
                     object-fit: cover;
                     
                 }
@@ -104,9 +122,21 @@
     }
 
 
-    .experience{
-        z-index: 2;
-    }
+        .circleContainer{
+            position: relative;
+            z-index: 2;
+            .circle{
+                height: 1550%;
+                width: 120%;
+                left: -10%;
+                border-radius: 0 0 50% 50%;
+                background-color: white;
+                z-index: 1;
+                position: absolute;
+                box-shadow: 0px 60px 50px rgba(0, 0, 0, 0.748);
+            }
+        }
 
 
 }
+

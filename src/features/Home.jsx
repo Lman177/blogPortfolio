@@ -46,7 +46,7 @@ export default function Home() {
       <Description scrollYProgress={scrollYProgress}/>
       <Project />
       <SlidingImages />
-      <Contact />
+        
     </main>
   );
 }

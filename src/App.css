@@ -4,6 +4,7 @@ body{
     margin: 0px;
     overflow: hidden; 
     font-family: 'Poppins', sans-serif;
+    height: 100vh;
     /* cursor: wait; Add after Preloader */
 
 }

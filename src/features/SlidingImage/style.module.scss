@@ -4,6 +4,7 @@
     color: #000000;
     text-align: center;
     margin-top: 150px;
+    height: 100%;
 }
 
 .slidingImages{
@@ -11,10 +12,9 @@
     flex-direction: column;
     gap: 3vw;
     position: relative;
-  
     background-color: white;
     z-index: 1;
-    margin-bottom: 100vh;
+   
     .slider{
         display: flex;
         position: relative;

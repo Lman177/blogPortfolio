@@ -33,6 +33,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/work" element={<Work />} />
           </Routes>
+          <Contact />
         </BrowserRouter>
       </ScrollProvider>
     </div>

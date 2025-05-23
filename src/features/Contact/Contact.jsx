@@ -12,8 +12,8 @@ export default function Contact() {
         target: container,
         offset: ["start end", "end end"]
     });
-    const x = useTransform(scrollYProgress, [0, 1], [0, 100]);
-    const y = useTransform(scrollYProgress, [0, 1], [-500, 0]);
+    const x = useTransform(scrollYProgress, [0, 0.3], [0, 30]);
+    const y = useTransform(scrollYProgress, [0, 1], [-100, 0]);
     const rotate = useTransform(scrollYProgress, [0, 1], [120, 90]);
 
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());

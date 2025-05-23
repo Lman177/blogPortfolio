@@ -46,9 +46,10 @@ export default function Description({scrollYProgress}) {
                               custom={index} 
                               initial="initial"
                               animate={isInView ? "open" : "closed"} 
-
                               key={index}>
+
                                 {word}
+                                
                             </motion.span>
                         </span>
 

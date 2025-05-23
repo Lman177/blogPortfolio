@@ -11,7 +11,8 @@ import { useScrollContext } from '@/context/ScrollProvider'; // import context
 const About = () => {
 
   const { scrollYProgress } = useScrollContext(); // lấy từ context
-  const moveUp = useTransform(scrollYProgress, [0, 2], ["0px", "-120px"]);
+  const moveUp = useTransform(scrollYProgress, [0, 0.7], ["0px", "-100px"]);
+  const height = useTransform(scrollYProgress, [0, 0.9], [80, 0]);
 
 
   return (
@@ -31,7 +32,9 @@ const About = () => {
         </div>      
         <div className={style.text}>
           <h2>
-          I specialize in building (and occasionally designing) exceptional digital experiences.
+          A 22-year-old aspiring developer & designer with a passion for making things not just work, but look great.
+
+Ever since I wrote my first line of code, I’ve been obsessed with design—how things move, feel, and interact. I believe great design is invisible, intuitive, and leaves a lasting impression. That's why I’m always experimenting with new frameworks, tools, and visual styles—whether it’s through animation, UI components, or full-on brand systems.
           </h2>
           <p>Always Exploring...</p>
         </div>   
@@ -52,7 +55,9 @@ const About = () => {
       </div>
 
     <Experience/> 
-    
+    <motion.div style={{ height }} className={style.circleContainer}>
+                <div className={style.circle}></div>
+      </motion.div>
     </div>
   )
 }
