@@ -41,14 +41,14 @@ export default function Header() {
   return (
     <>
       <div ref={header} className={`${styles.header} ${isHome ? styles.header : styles.black}`}>
-        <div className={styles.logo}>
+        <a className={styles.logo} href="/" >
           <p className={styles.copyright}>©</p>
           <div className={styles.name}>
             <p className={styles.codeBy}>Code by</p>
             <p className={styles.nam}>Nam</p>
             <p className={styles.hoang}>Hoang</p>
           </div>
-        </div>
+        </a>
         <div className={styles.nav}>
           <Magnetic>
             <div className={styles.el}>
