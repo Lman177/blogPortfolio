@@ -11,6 +11,7 @@ import { useRef } from "react";
 import Lenis from 'lenis';
 import { AnimatePresence } from 'framer-motion';
 import { ScrollProvider } from '@context/ScrollProvider';  // đảm bảo đường dẫn đúng
+import UserAuthForm from './Blog/components/Login/userAuthForm.page';
 function App() {
 
     useEffect( () => {
@@ -32,6 +33,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/work" element={<Work />} />
+            <Route path="/auth" element={<UserAuthForm />} />
           </Routes>
           <Contact />
         </BrowserRouter>

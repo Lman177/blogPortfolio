@@ -40,7 +40,7 @@ export default function Curve({ children, backgroundColor }) {
     return (
         <div className="page curve" style={{ backgroundColor }}>
             <div style={{ opacity: dimensions.width == null ? 1 : 0 }} className="background" />
-            <motion.p className="route" {...anim(text)}>
+            <motion.p className="route"  key={location.pathname} {...anim(text)} >
                 {routes[location.pathname]}
             </motion.p>
             {dimensions.width != null && <SVG {...dimensions} />}
