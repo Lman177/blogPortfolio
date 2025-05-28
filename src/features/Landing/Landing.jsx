@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import styles from './landing.module.css';
 import { slideUp } from './animation'; // đảm bảo file này export đúng variants
-import backgroundImage from '@assets/background.png'; // Vite dùng import ảnh như vậy
+import backgroundImage from '@assets/mainImg.png'; // Vite dùng import ảnh như vậy
 
 const Landing = () => {
   const firstText = useRef(null);
