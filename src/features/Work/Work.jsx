@@ -4,11 +4,15 @@ import styles from './style.module.scss';
 import { projectsItem } from "@Common/projects.js"; // Đảm bảo đường dẫn đúng
 import {motion, useScroll, useTransform} from "framer-motion";
 import gsap from "gsap";
+import {useNavigate} from "react-router-dom";
+
+
 
 const Work = () => {
   const [activeButton, setActiveButton] = useState('All');
   const cursorLabel = useRef(null);
   const cursor = useRef(null);
+  const navigate = useNavigate(); // <--- Call useNavigate at the top level
 
   // State để điều khiển animation của cursor và cursorLabel
   const [cursorVariant, setCursorVariant] = useState("initial"); // "initial", "enter", "closed"
@@ -58,11 +62,13 @@ const Work = () => {
     { id: 'Development', label: 'Development', count: 11 },
   ];
 
-  // Hàm xử lý khi click vào project item (để điều hướng chẳng hạn)
-  // const handleProjectClick = (slug) => {
-  //   console.log("Navigate to project:", slug);
-  //   // Thêm logic điều hướng ở đây, ví dụ: router.push(`/projects/${slug}`)
-  // };
+  // Corrected handleProjectClick function
+  const handleProjectClick = (slug) => {
+    // Now 'navigate' is available from the component's scope
+    navigate(`/projectDetail/${slug}`);
+  };
+
+
 
   return (
       // Loại bỏ onMouseMove khỏi container cha nếu không muốn nó điều khiển cursor mặc định
@@ -137,7 +143,7 @@ const Work = () => {
                           // Hoặc đơn giản là luôn gọi, GSAP và Framer sẽ xử lý việc hiển thị
                           moveItems(e.clientX, e.clientY);
                         }}
-                        // onClick={() => handleProjectClick(project.slug)} // Nếu muốn click vào item để điều hướng
+                        onClick={() => handleProjectClick(project.slug)} // Nếu muốn click vào item để điều hướng
                     >
                       <div className={styles.project_image_container} style={{backgroundColor: project.color}}>
                         <img src={project.src} alt={project.title} width={600}/>

@@ -59,8 +59,8 @@ const Landing = () => {
 
       <div className={styles.sliderContainer}>
         <div ref={slider} className={styles.slider}>
-          <p ref={firstText}>Hoang Nam -</p>
-          <p ref={secondText}>Developer -</p>
+          <p ref={firstText}>Hoang Nam - </p>
+          <p ref={secondText}>Developer</p>
         </div>
       </div>
 

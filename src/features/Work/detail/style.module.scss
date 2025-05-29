@@ -1,0 +1,14 @@
+.container {
+  width: 100vw;
+  height: 100%;
+  z-index: 1;
+  position: relative;
+  background-color: white;
+  .detail_container {
+    padding-top: 150px;
+    padding-left: 100px;
+    padding-right: 100px;
+
+  }
+
+}
