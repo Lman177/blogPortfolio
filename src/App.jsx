@@ -36,7 +36,7 @@ function App() {
                         <Route path="/projectDetail/:slug" element={<ProjectDetail/>}/>
 
                     </Routes>
-                    {/*<Contact/>*/}
+                    <Contact/>
                 </BrowserRouter>
             </ScrollProvider>
         </div>

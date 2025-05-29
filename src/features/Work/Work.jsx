@@ -26,7 +26,7 @@ const Work = () => {
   const yMoveCursor = useRef(null);
   const xMoveCursorLabel = useRef(null);
   const yMoveCursorLabel = useRef(null);
-  const height = useTransform(scrollYProgress, [0, 0.9], [50, 0]);
+  const height = useTransform(scrollYProgress, [0,1], [300, 0]);
 
   useEffect(() => {
     xMoveCursor.current = gsap.quickTo(cursor.current, "left", { duration: 0.5, ease: "power3" });
@@ -62,7 +62,6 @@ const Work = () => {
     { id: 'Development', label: 'Development', count: 11 },
   ];
 
-  // Corrected handleProjectClick function
   const handleProjectClick = (slug) => {
     // Now 'navigate' is available from the component's scope
     navigate(`/projectDetail/${slug}`);

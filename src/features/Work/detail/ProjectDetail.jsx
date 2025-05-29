@@ -1,14 +1,21 @@
 // src/components/ProjectDetail/ProjectDetail.jsx (hoặc đường dẫn tương ứng)
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { projectsItem } from '@Common/projects.js'; // Đường dẫn đến file projects.js của bạn
-import styles from './style.module.scss'; // Sử dụng file style hiện tại của bạn
+import styles from './style.module.scss';
+import {motion, useScroll, useTransform} from "framer-motion"; // Sử dụng file style hiện tại của bạn
 
 const ProjectDetail = () => {
     const { slug } = useParams();
     const [project, setProject] = useState(null);
     const [loading, setLoading] = useState(true);
+    const container = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: container,
+        offset: ["start end", "end start"]
+    });
+    const height = useTransform(scrollYProgress, [0, 0.9], [300, 0]);
 
     useEffect(() => {
         const foundProject = projectsItem.find(p => p.slug === slug);
@@ -83,9 +90,9 @@ const ProjectDetail = () => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} ref={container}>
             <div className={styles.detail_container}>
-                <div className={styles.header} >
+                <div className={styles.header}>
                     <h1>{project.title}</h1>
                     {project.categoryName && project.year && (
                         <p className={styles.categoryAndYear}>
@@ -95,11 +102,11 @@ const ProjectDetail = () => {
                 </div>
 
                 {project.src && (
-                    <img src={project.src} alt={`Ảnh bìa ${project.title}`} className={styles.coverImage} />
+                    <img src={project.src} alt={`Ảnh bìa ${project.title}`} className={styles.coverImage}/>
                 )}
 
                 {project.excerpt && (
-                    <p className={styles.excerpt} dangerouslySetInnerHTML={{ __html: project.excerpt }}></p>
+                    <p className={styles.excerpt} dangerouslySetInnerHTML={{__html: project.excerpt}}></p>
                 )}
 
                 <div className={styles.contentBody}>
@@ -119,7 +126,8 @@ const ProjectDetail = () => {
 
                 {/* Giữ lại link xem trực tiếp nếu có */}
                 {project.liveLink && (
-                    <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className={styles.liveLinkButton}>
+                    <a href={project.liveLink} target="_blank" rel="noopener noreferrer"
+                       className={styles.liveLinkButton}>
                         Xem trực tiếp dự án
                     </a>
                 )}
@@ -128,6 +136,9 @@ const ProjectDetail = () => {
                     <Link to="/" className={styles.backButton}>← Quay lại danh sách</Link>
                 </div>
             </div>
+            <motion.div style={{height}} className={styles.circleContainer}>
+                <div className={styles.circle}></div>
+            </motion.div>
         </div>
     );
 };
