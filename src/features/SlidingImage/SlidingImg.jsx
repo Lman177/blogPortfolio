@@ -38,7 +38,7 @@ export default function SlidingImg() {
                                 <img
                                 alt="image"
                                 src={`/images/${project.src}`}
-                                style={{ width: "100%", height: "auto" }}
+
                             />
                         </div>
                     </div>
@@ -51,15 +51,13 @@ export default function SlidingImg() {
                             <img
                                 alt="image"
                                 src={`/images/${project.src}`}
-                                style={{ width: "100%", height: "auto" }}
+
                             />
                         </div>
                     </div>
                 ))}
             </motion.div>
-            <motion.div style={{ height }} className={styles.circleContainer}>
-                <div className={styles.circle}></div>
-            </motion.div>
+
         </div>
         </>
     );

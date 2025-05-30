@@ -81,7 +81,7 @@ const ProjectDetail = () => {
 
     if (!project) {
         return (
-            <div className={styles.notFoundState}> {/* Thêm class cho dễ style */}
+            <div className={styles.notFoundState}>
                 <h2>Không tìm thấy dự án</h2>
                 <p>Dự án với slug "{slug}" không tồn tại.</p>
                 <Link to="/">Quay lại trang chủ</Link>
@@ -104,6 +104,9 @@ const ProjectDetail = () => {
                 {project.src && (
                     <img src={project.src} alt={`Ảnh bìa ${project.title}`} className={styles.coverImage}/>
                 )}
+                {/*{project.technologies  (*/}
+                {/*    <p className={styles.excerpt}  dangerouslySetInnerHTML={{__html: project.technologies}}>  </p>*/}
+                {/*)}*/}
 
                 {project.excerpt && (
                     <p className={styles.excerpt} dangerouslySetInnerHTML={{__html: project.excerpt}}></p>

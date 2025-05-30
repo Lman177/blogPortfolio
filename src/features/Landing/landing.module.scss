@@ -1,36 +1,57 @@
+// It's a good practice to have this globally, e.g., in your index.css or App.css
+// *, *::before, *::after {
+//   box-sizing: border-box;
+// }
+
 .landing {
   position: relative;
-  display: flex;
+  display: flex; // display:flex might not be doing much if children are absolutely positioned
+  // but generally harmless here.
   height: 100vh;
-  scale: 1;
-  width: 100vw;
-  overflow: hidden;
+  // width: 100vw; // Using width: 100%; on body/html and then width: 100% here is often safer
+  // to avoid issues with scrollbar width if overflow wasn't hidden.
+  // But with overflow: hidden, 100vw is usually fine.
+  width: 100vw; // Assuming parent (#root, body, html) is set up for full width
+  overflow: hidden; // Keep this to prevent sliders from causing page scroll
+  // scale: 1; // Usually not needed unless for specific animation initial states
 
   img {
-    width: 100vw;
-    object-fit: cover;
+    width: 100%; // Make image take 100% width of .landing
+    height: 100%; // Make image take 100% height of .landing
+    object-fit: cover; // Good, keeps aspect ratio and covers area
+    position: absolute; // Ensure it's a background layer if other content is direct children
+    top: 0;
+    left: 0;
+    z-index: -1; // Send it behind other content if necessary
   }
 
   .sliderContainer {
     position: absolute;
-    top: calc(100vh - 170px);
+    // top: calc(100vh - 170px); // Fixed offset from top
+    // Use bottom for more intuitive positioning from the bottom edge
+    bottom: clamp(60px, 12vh, 170px); // min, preferred (viewport height based), max
+    left: 0; // Ensure it starts from the left edge
+    width: 100%; // Take full width for the sliding content's reference
+    overflow: hidden; // This container should also hide overflow if the slider itself is wider
   }
 
   .slider {
     position: relative;
-    white-space: nowrap;
+    white-space: nowrap; // Essential for the sliding text effect
 
     p {
       position: relative;
-      margin: 0px;
+      display: inline-block; // Helps with white-space: nowrap behavior
+      margin: 0;
       color: white;
-      font-size: 140px;
+      // font-size: 140px; // Too large and fixed
+      font-size: clamp(3rem, 15vw, 9rem); // min, preferred (viewport width based), max
       font-weight: 500;
-      padding-right: 0px;
+      padding-right: 50px; // Add some padding between the repeating texts
 
       &:nth-of-type(2) {
         position: absolute;
-        left: 100%;
+        left: 100%; // Position directly after the first p
         top: 0;
       }
     }
@@ -38,101 +59,88 @@
 
   .description {
     position: absolute;
-    top: 25%;
-    left: 10%;
-    color: black;
-    font-size: 24px;
-    font-weight: 300;
-    line-height: 2px;
+    // top: 25%; // Percentage based can be okay
+    // left: 10%;
+    top: clamp(15%, 5vh + 10%, 25%); // Adjust top to be responsive to viewport height too
+    left: clamp(1rem, 8vw, 10%);    // min, preferred, max for left positioning
+    right: clamp(1rem, 8vw, 10%);   // Add a right constraint to prevent overflow on small screens
+    color: black; // Default color for text within .description
+    // font-size: 24px; // Base font-size, use clamp for specific elements instead
+    // line-height: 2px; // CRITICAL ERROR: This will make text unreadable
+    line-height: 1.5; // A sensible default unitless line-height
+    max-width: 800px; // Prevent description from becoming too wide
 
-    p {
+    p { // This is the "Software Engineer" part
       font-weight: normal;
-      font-size: 40px;
+      // font-size: 40px; // Too large and fixed
+      font-size: clamp(1.25rem, 4vw, 2.5rem); // min, preferred, max
+      margin-bottom: 0.5em; // Add some space below
+      color: #333; // Example color
     }
-    h1 {
+
+    h1 { // "NAM LE"
       font-weight: bold;
-      margin-top: 100px;
-      font-size: 90px;
-      margin-left: -4px;
+      // margin-top: 100px; // Too large and fixed
+      margin-top: clamp(1rem, 5vh, 3rem); // min, preferred, max
+      // font-size: 90px; // Too large and fixed
+      font-size: clamp(2.5rem, 10vw, 6rem); // min, preferred, max
+      // margin-left: -4px; // Small negative margins usually okay, but check visually
+      line-height: 1.1; // Tighter line-height for large headings
+      color: #000; // Example color
     }
-    label{
-        font-size: 20px;
-        font-weight: 600;
-        margin-top: 20px;
-        display: block;
-        color: #666666;
+    label { // "A Frontend Developer..."
+      // font-size: 20px; // Fixed
+      font-size: clamp(0.875rem, 2.5vw, 1.25rem); // min, preferred, max
+      font-weight: 600;
+      // margin-top: 20px; // Fixed
+      margin-top: clamp(1rem, 3vh, 1.5rem); // min, preferred, max
+      display: block;
+      color: #666666;
+      line-height: 1.6; // More readable line height for paragraph-like text
     }
   }
 }
 
+// Optional: Media query for more drastic changes on very small screens
+@media (max-width: 768px) {
+  .landing {
+    .sliderContainer {
+      bottom: clamp(40px, 8vh, 100px); // Adjust slider position further up
+    }
+    .slider p {
+      font-size: clamp(2.5rem, 18vw, 7rem); // Allow slider text to be relatively larger
+      padding-right: 30px;
+    }
+    .description {
+      top: clamp(10%, 2vh + 8%, 20%);
+      left: clamp(1rem, 5vw, 5%);
+      right: clamp(1rem, 5vw, 5%);
 
+      p {
+        font-size: clamp(1rem, 3.5vw, 2rem);
+      }
+      h1 {
+        font-size: clamp(2rem, 8vw, 4.5rem);
+        margin-top: clamp(0.5rem, 3vh, 2rem);
+      }
+      label {
+        font-size: clamp(0.8rem, 2.2vw, 1.1rem);
+        margin-top: clamp(0.75rem, 2vh, 1.25rem);
+      }
+    }
+  }
+}
 
-/* ----------- Responsive styles ----------- */
-//@media (max-width: 1200px) {
-//  .landing .slider p {
-//    font-size: 120px;
-//    padding-right: 30px;
-//  }
-//  .landing .description {
-//    font-size: 18px;
-//    left: 55%;
-//    top: 30%;
-//  }
-//  .landing .sliderContainer {
-//  position: absolute;
-//  top: calc(100vh - 150px);
-//
-//}
-//}
-//
-//@media (max-width: 800px) {
-//  .landing {
-//    height: 100vh;
-//
-//  }
-//  .landing img {
-//    height: 100%;
-//    object-fit: cover;
-//  }
-//  .landing .slider p {
-//    font-size: 60px;
-//    padding-right: 16px;
-//  }
-//  .landing .sliderContainer {
-//    position: absolute;
-//  top: calc(100vh - 100px);
-//  }
-//  .landing .description {
-//    font-size: 14px;
-//    left: 10%;
-//    top: 60%;
-//    width: 80vw;
-//    text-align: left;
-//  }
-//  .landing .description svg {
-//    transform: scale(1.2);
-//    margin-bottom: 30px;
-//  }
-//}
-//
-//@media (max-width: 500px) {
-//  .landing {
-//    height: 100vh;
-//    transition: all 0.2s;
-//  }
-//  .landing .slider p {
-//    font-size: 50px;
-//    padding-right: 8px;
-//  }
-//  .landing .sliderContainer {
-//    top: calc(100vh - 90px);
-//  }
-//  .landing .description {
-//    font-size: 12px;
-//    left: 5%;
-//    top: 65%;
-//    width: 90vw;
-//  }
-//
-//
-//}
+@media (max-width: 480px) {
+  .landing {
+    .slider p {
+      font-size: clamp(2rem, 15vw, 5rem); // Even smaller for very small devices
+    }
+    .description {
+      h1 {
+        font-size: clamp(1.8rem, 7vw, 3.5rem);
+      }
+      // Further adjustments if needed
+    }
+  }
+}

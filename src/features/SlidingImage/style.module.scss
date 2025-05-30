@@ -1,54 +1,74 @@
-.heading{
-    font-size: 3vw;
+// It's a good practice to have this globally, e.g., in your index.css or App.css
+// *, *::before, *::after {
+//   box-sizing: border-box;
+// }
+
+.heading {
+    // Use clamp() for responsive font size: min, preferred (vw), max
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
     font-weight: 700;
     color: #000000;
     text-align: center;
-    margin-top: 150px;
-    height: 100%;
+    // Use clamp() for responsive margins
+    margin-top: clamp(60px, 10vw, 150px);
+    margin-bottom: clamp(40px, 6vw, 80px); // Added for better spacing
+    // height: 100%; // This is usually not needed for a heading and can cause issues
+    // Remove unless you have a very specific reason for it and its parent has a defined height.
 }
 
-.slidingImages{
+.slidingImages {
     display: flex;
     flex-direction: column;
-    gap: 3vw;
+    gap: 3vw; // This responsive gap is good
     position: relative;
-    background-color: white;
-    z-index: 1;
-   
-    .slider{
-        display: flex;
-        position: relative;
-        gap: 3vw;
-        width: 120vw;
-        left: -10vw;
-        .project{
-            width: 25%;
-            height: 20vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            .imageContainer{
-                position: relative;
-                width: 80%;
-                height: 80%;
-                img{
-                    object-fit: cover;
-                }
-            }
-        }
-    }
-    .circleContainer{
-        position: relative;
-        margin-top: 100px;
-        .circle{
-            height: 1550%;
-            width: 120%;
-            left: -10%;
-            border-radius: 0 0 50% 50%;
-            background-color: white;
-            z-index: 1;
-            position: absolute;
-            box-shadow: 0px 60px 50px rgba(0, 0, 0, 0.748);
-        }
+     background-color: white; // Keep if needed, or remove if parent bg is sufficient
+    z-index: 2;
+    overflow-x: hidden; // CRUCIAL: Prevents horizontal scrollbars on the page
+    // due to the sliders moving left/right.
+    padding-block: 2vw; // Optional: add some vertical padding
+}
+
+.slider {
+    display: flex;
+    position: relative; // Needed for absolute positioning of children if any, or for stacking context
+    gap: 3vw; // This responsive gap is good
+
+    // The width: 100vw on the slider being transformed means the content within it
+    // (projects) will define its internal scrollable width.
+    // The motion.div slides this 100vw "window".
+    width: 100vw;
+
+    // If using 100vw, ensure the parent of .slidingImages handles full width correctly
+    // or that body has no unexpected margins/paddings that 100vw might overflow.
+    // A common alternative if 100vw causes issues is width: 100% and ensuring
+    // .slidingImages spans the desired width.
+    // For this particular animation (sliding a 100vw block), this is likely intentional.
+}
+
+.project {
+    width: 25%; // Each project takes 25% of the .slider's width (so 25vw)
+    height: 20vw; // Responsive height based on viewport width
+    // Use clamp for height if you want min/max limits:
+    // height: clamp(150px, 20vw, 350px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; // Prevent projects from shrinking if the flex container is somehow constrained
+}
+
+.imageContainer {
+    position: relative;
+    width: 100%; // Takes full width of .project
+    height: 80%; // Takes 80% height of .project
+    display: flex; // Added to help center the image if it's smaller
+    align-items: center; // Added
+    justify-content: center; // Added
+
+    img {
+        display: block; // Removes extra space below inline images
+        width: 100%;    // Image takes full width of its container
+        height: 100%;   // Image takes full height of its container
+        object-fit: cover; // Ensures image covers the area, might crop
+        // consider object-fit: contain; if you want to see the whole image without cropping
     }
 }

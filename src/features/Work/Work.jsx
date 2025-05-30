@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import styles from './style.module.scss';
 // import Rounded from "@Common/RoundedButton/RoundedButton.jsx"; // Gỡ bỏ nếu không dùng trong file này
 import { projectsItem } from "@Common/projects.js"; // Đảm bảo đường dẫn đúng
 import {motion, useScroll, useTransform} from "framer-motion";
 import gsap from "gsap";
 import {useNavigate} from "react-router-dom";
+import {LenisContext} from "@/App.jsx";
 
 
 
@@ -13,19 +14,17 @@ const Work = () => {
   const cursorLabel = useRef(null);
   const cursor = useRef(null);
   const navigate = useNavigate(); // <--- Call useNavigate at the top level
+  const { scrollYProgress } = useContext(LenisContext) || {};
 
   // State để điều khiển animation của cursor và cursorLabel
   const [cursorVariant, setCursorVariant] = useState("initial"); // "initial", "enter", "closed"
-  const container = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ["start end", "end start"]
-  });
+
   // GSAP refs cho quickTo
   const xMoveCursor = useRef(null);
   const yMoveCursor = useRef(null);
   const xMoveCursorLabel = useRef(null);
   const yMoveCursorLabel = useRef(null);
+
   const height = useTransform(scrollYProgress, [0,1], [300, 0]);
 
   useEffect(() => {
@@ -58,8 +57,8 @@ const Work = () => {
 
   const filterButtons = [
     { id: 'All', label: 'All', isRounded: true },
-    { id: 'Design', label: 'Design', count: 7 },
-    { id: 'Development', label: 'Development', count: 11 },
+    { id: 'Design', label: 'Design', count: 1 },
+    { id: 'Development', label: 'Development', count: 3 },
   ];
 
   const handleProjectClick = (slug) => {
@@ -71,7 +70,7 @@ const Work = () => {
 
   return (
       // Loại bỏ onMouseMove khỏi container cha nếu không muốn nó điều khiển cursor mặc định
-      <div className={styles.container} ref={container}>
+      <div className={styles.container} >
         <div className={styles.work_container}>
           <div className={styles.top}>
             <h1 className={styles.work_title}>
@@ -142,13 +141,14 @@ const Work = () => {
                           // Hoặc đơn giản là luôn gọi, GSAP và Framer sẽ xử lý việc hiển thị
                           moveItems(e.clientX, e.clientY);
                         }}
-                        onClick={() => handleProjectClick(project.slug)} // Nếu muốn click vào item để điều hướng
+                        onClick={() => handleProjectClick(project.slug)}
                     >
                       <div className={styles.project_image_container} style={{backgroundColor: project.color}}>
                         <img src={project.src} alt={project.title} width={600}/>
                       </div>
                       <div className={styles.project_info}>
                         <h2 className={styles.project_title}>{project.short}</h2>
+                        <hr/>
                         <div className={styles.project_meta}>
                           <span>{project.categoryName}</span>
                           <span className={styles.project_year}>{project.year}</span>
@@ -159,7 +159,6 @@ const Work = () => {
           </div>
         </div>
 
-        {/* Cursor và CursorLabel được điều khiển bởi state và các event trên project_item */}
         <motion.div
             ref={cursor}
             className={styles.cursor}
@@ -173,9 +172,6 @@ const Work = () => {
             variants={scaleAnimation}
             initial="initial" // Hoặc "closed"
             animate={cursorVariant}
-            // Nếu muốn click vào "View" để điều hướng, bạn cần logic phức tạp hơn
-            // để biết đang hover project nào và thêm onClick ở đây.
-            // Hiện tại, việc click vào project_item dễ quản lý hơn.
         >
           View
         </motion.div>

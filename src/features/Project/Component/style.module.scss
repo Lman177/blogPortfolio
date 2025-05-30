@@ -1,0 +1,92 @@
+// It's a good practice to have this globally, e.g., in your index.css or App.css
+// *, *::before, *::after {
+   //   box-sizing: border-box;
+   // }
+
+.project {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+// padding: 50px 100px; // Becomes responsive
+padding: clamp(1.5rem, 4vw, 3.125rem) clamp(1rem, 5vw, 6.25rem);
+// Vertical padding: min 24px (1.5rem), preferred 4% of viewport width, max 50px (3.125rem)
+// Horizontal padding: min 16px (1rem), preferred 5% of viewport width, max 100px (6.25rem)
+margin-top: clamp(0.5rem, 1vh, 0.625rem); // Responsive top margin (0.625rem ~ 10px)
+border-top: 1px solid rgb(201, 201, 201);
+  cursor: pointer;
+  transition: all 0.2s; // Keep opacity transition short
+
+h2 { // Target h2 specifically within .project
+// font-size: 60px; // Becomes responsive
+font-size: clamp(1.75rem, 5vw, 3.75rem); // Min 28px, preferred 5vw, max 60px
+margin: 0px;
+  font-weight: 400;
+  transition: transform 0.4s ease-out; // Apply transform transition here
+}
+
+  p {
+    font-size: clamp(0.875rem, 2.2vw, 1.125rem); // Min 14px, preferred 2.2vw, max 18px
+  transition: transform 0.4s ease-out; // Apply transform transition here
+  font-weight: 300;
+    text-align: right; // Assuming 'p' is the element on the right
+  // Adjust if 'p' can be on the left sometimes
+  }
+
+  &:last-of-type {
+    border-bottom: 1px solid rgb(201, 201, 201);
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &:hover h2 {
+    transform: translateX(-10px);
+  }
+
+  &:hover p {
+    transform: translateX(10px);
+  }
+}
+
+// Media Query for smaller screens (e.g., mobile)
+@media (max-width: 768px) {
+  .project {
+    flex-direction: column; // Stack elements vertically
+  align-items: flex-start; // Align to the start (left) when stacked
+  gap: 0.75rem; // Add some space between title and paragraph when stacked
+  padding: clamp(1.25rem, 3vh, 2rem) clamp(0.75rem, 4vw, 1.25rem); // Adjust padding for mobile
+
+  h2 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem); // Potentially larger relative font size on mobile
+  text-align: left;
+  }
+
+    p {
+      font-size: clamp(0.875rem, 2.5vw, 1rem);
+      text-align: left; // Align left when stacked
+    }
+
+  // Optionally, disable or reduce hover transforms on mobile if they feel awkward
+  &:hover h2,
+  &:hover p {
+    transform: none; // Example: disable transform on hover for mobile
+  }
+  }
+}
+
+@media (max-width: 480px) {
+  .project {
+    padding: 1rem 0.75rem; // Further reduce padding on very small screens
+  gap: 0.5rem;
+
+    h2 {
+      font-size: clamp(1.3rem, 5vw, 2rem);
+    }
+
+    p {
+      font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+    }
+  }
+}

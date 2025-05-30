@@ -6,40 +6,55 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import About from './features/About/About';
 import Work from './features/Work/Work';
 import Contact from './features/Contact/Contact';
-import {useEffect} from 'react';
-import {useRef} from "react";
+import ProjectDetail from "@features/Work/detail/ProjectDetail.jsx";
+import ScrollToTop from "@Common/ScrollToTop.jsx";
+import {motionValue, useSpring} from "framer-motion";
+import {createContext, useEffect, useState} from "react";
 import Lenis from 'lenis';
-import {AnimatePresence} from 'framer-motion';
-import {ScrollProvider} from '@context/ScrollProvider';
-import ProjectDetail from "@features/Work/detail/ProjectDetail.jsx";  // đảm bảo đường dẫn đúng
+
+export const LenisContext = createContext(null);
+
 function App() {
 
+    const scrollYProgress = motionValue(0);
+    const smoothScrollYProgress = useSpring(scrollYProgress, { stiffness: 400, damping: 90 });
+    const [lenis, setLenis] = useState(null);
+
     useEffect(() => {
-        const lenis = new Lenis()
+        const lenisInstance = new Lenis();
+        setLenis(lenisInstance);
+
+        const unsubscribe = lenisInstance.on('scroll', ({ progress }) => {
+            scrollYProgress.set(progress);
+        });
 
         function raf(time) {
-            lenis.raf(time)
-            requestAnimationFrame(raf)
+            lenisInstance.raf(time);
+            requestAnimationFrame(raf);
         }
+        requestAnimationFrame(raf);
 
-        requestAnimationFrame(raf)
-    }, [])
+        return () => {
+            unsubscribe();
+            lenisInstance.destroy();
+            setLenis(null);
+        };
+    }, []);
     return (
+        <LenisContext.Provider value={{ lenis, scrollYProgress: smoothScrollYProgress }}>
         <div lang="en">
-            <ScrollProvider>
-                <BrowserRouter>
+
+            <ScrollToTop />
                     <Header/>
                     <Routes>
                         <Route path="/" element={<Home/>}/>
                         <Route path="/about" element={<About/>}/>
                         <Route path="/work" element={<Work/>}/>
                         <Route path="/projectDetail/:slug" element={<ProjectDetail/>}/>
-
                     </Routes>
                     <Contact/>
-                </BrowserRouter>
-            </ScrollProvider>
         </div>
+        </LenisContext.Provider>
     );
 }
 

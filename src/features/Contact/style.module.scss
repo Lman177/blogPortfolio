@@ -1,4 +1,9 @@
-.contact{
+// Assume global box-sizing: border-box; is set in your main CSS file
+// *, *::before, *::after { box-sizing: border-box; }
+
+.contact {
+    padding-left: 100px;
+    padding-right: 100px;
     z-index: 0;
     color: white;
     display: flex;
@@ -6,238 +11,251 @@
     align-items: center;
     justify-content: center;
     background-color: #141516;
-    position: relative;
-    height: 100vh;
-    .body{
-        padding-top: 120px;
-        width: 100%;
-        max-width: 1800px;
-        background-color: #141516;
+    position: relative; // For scroll targeting and absolute children
+    height: 100vh; // Use min-height for flexibility
+    // The `motion.div style={{ y }}` will shift this whole container.
+    // The problematic negative margins in the original media queries are removed here.
+    // If the `y` transform is causing layout issues at different screen sizes,
+    // its range (e.g., `[-100, 0]`) should be made responsive in the JavaScript.
+    padding-block: clamp(2rem, 5vh, 4rem); // Base vertical padding for the section
 
-        .title{
+    .body {
+        padding-top: clamp(3rem, 10vh, 7.5rem); // (7.5rem ~ 120px)
+        max-width: 18000px;
+        // Centralize horizontal spacing for all direct children of .body
+        padding-inline: clamp(1rem, 5vw, 12.5rem); // (1rem ~ 16px, 12.5rem ~ 200px)
+
+        .title {
             border-bottom: 1px solid rgb(134, 134, 134);
-            padding-bottom: 100px;
-            margin-left: 200px;
-            margin-right: 200px;
+            padding-bottom: clamp(2.5rem, 8vh, 6.25rem); // (6.25rem ~ 100px)
             position: relative;
-            span{
+            // margin-left & margin-right are removed; handled by .body's padding-inline
+
+            span { // Container for image and "Let's work"
                 display: flex;
                 align-items: center;
-                .imageContainer{
-                    width: 100px;
-                    height: 100px;
+                gap: clamp(0.5em, 1.5vw, 1em); // Add a responsive gap
+
+                .imageContainer {
+                    width: clamp(60px, 10vw, 100px);
+                    height: clamp(60px, 10vw, 100px);
                     position: relative;
                     border-radius: 50%;
                     overflow: hidden;
+                    flex-shrink: 0; // Prevent image container from shrinking
 
-                    img{
+                    img {
                         object-fit: cover;
+                        width: 100%;
+                        height: 100%;
                     }
                 }
-                h2{
-                    margin-left: 0.3em;
+
+                h2 { // "Let's work"
+                    margin-left: 0; // Use gap on parent span instead
                 }
             }
-            h2{
-                font-size: 5vw;
-                margin: 0px;
+
+            h2 { // Both "Let's work" and "together"
+                font-size: clamp(2.25rem, 5vw, 4.5rem); // Responsive font size
+                margin-block: 0.1em; // Small vertical margin between lines if they wrap
                 font-weight: 300;
             }
-            .buttonContainer{
+
+            .buttonContainer {
                 position: absolute;
-                left: calc(100% - 400px); 
-                top: calc(100% - 75px);
+                bottom: clamp(10px, 3vh, 25px); // Responsive offset from bottom of parent. Adjust as needed.
+                left: 80%;                      // Desired horizontal anchor point (60% from the left of parent).
+                transform: translateX(-60%);    // Centers the container on the 60% anchor point.
+                // No width/height needed here if the button itself has dimensions.
+                // This container is purely for positioning the button element.
+                z-index: 5; // Ensure it's above other elements if overlapping occurs.
             }
-            .button{
-                width: 180px;
-                height: 180px;
-                background-color: #455CE9;
-                color: white;
-                border-radius: 50%;
-                position: absolute;
+
+            // Assuming .button is the class applied to your <Rounded> component
+            .button {
+                // position: absolute; // REMOVE THIS. It will now be positioned by .buttonContainer.
+                position: relative;   // Good for stacking context or if you need z-index on <p>
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                width: clamp(100px, 15vw, 150px);  // Min 100px, Preferred 18% of viewport width, Max 180px
+                height: clamp(100px, 15vw, 150px); // Keep it circular by matching width
+                background-color: #455CE9;         // This might be handled by your Rounded component
+                color: white;                      // This might be handled by your Rounded component
+                border-radius: 50%;                // This might be handled by your Rounded component
                 cursor: pointer;
-                p{
-                    margin: 0px;
-                    font-size: 16px;
+                transition: transform 0.3s ease;   // Smooth hover effect
+
+                &:hover {
+                    transform: scale(1.05); // Slight zoom on hover
+                }
+
+                p {
+                    margin: 0;
+                    font-size: clamp(0.8rem, 2.2vw, 1rem); // Responsive font size for text inside button
                     font-weight: 300;
-                    z-index: 2;
-                    position: relative;
+                    text-align: center;
+                    padding: 0.5em; // Add some padding to prevent text from touching button edges
+                     z-index: 3; // Usually not needed if <p> is a direct child and no complex overlaps inside button
                 }
             }
-            svg{
+
+            svg {
                 position: absolute;
-                top: 30%;
-                left: 100%;
+                top: clamp(25%, 6vh, 30%);
+                right: clamp(-40px, -5vw, -20px); // Position slightly off to the right
+                width: clamp(20px, 3vw, 30px);
+                height: auto;
+                // The `scale: 2` prop in JSX will double this size
             }
         }
-        .nav{
+
+        .nav {
             display: flex;
-            gap: 20px;
-            margin-top: 100px;
-            margin-left: 200px;
-            margin-right: 200px;
+            flex-wrap: wrap; // Allow buttons to wrap
+            justify-content: center; // Center the buttons when they wrap
+            gap: clamp(1rem, 2.5vw, 1.25rem); // (1.25rem ~ 20px)
+            margin-top: clamp(2.5rem, 8vh, 6.25rem); // (6.25rem ~ 100px)
+            // margin-left & margin-right removed
         }
-        .info{
+
+        .info {
             display: flex;
             justify-content: space-between;
-            margin-top: 100px;
-            padding: 20px;
-            div{
+            flex-wrap: wrap;
+            gap: clamp(1.5rem, 4vw, 2rem); // Gap between info columns
+            margin-top: clamp(2.5rem, 8vh, 6.25rem); // (6.25rem ~ 100px)
+            padding-block: clamp(1rem, 3vh, 1.25rem); // (1.25rem ~ 20px for vertical padding)
+
+            div { // Each info column
                 display: flex;
-                gap: 10px;
+                // Default to align-items: flex-end for wider screens
                 align-items: flex-end;
-                p, h3{
-                    margin: 0px;
-                    padding: 2.5px;
-                    cursor: pointer;
+                gap: clamp(0.5rem, 1vw, 0.625rem); // (0.625rem ~ 10px)
+                flex-basis: calc(50% - clamp(0.75rem, 2vw, 1rem)); // Try for two columns, adjust for gap
+                min-width: 200px; // Prevent columns from becoming too narrow
+                flex-grow: 1;
+
+                p, h3 {
+                    margin: 0;
+                    padding: 2.5px; // Small, likely fine
                 }
-                p{
-                    &::after{
-                        content: "";
-                        width: 0%;
-                        height: 1px;
-                        background-color: white;
-                        display: block;
-                        margin-top: 2px;
-                        position: relative;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        transition: width 0.2s linear;
-                    }
-                    &:hover{
-                        &::after{
-                            width: 100%;
-                        }
-                    }
+
+                p {
+                    cursor: pointer; // If it's interactive
+                    font-size: clamp(0.875rem, 1.8vw, 1rem);
+                    &::after { /* ... hover effect styles ... */ }
+                    &:hover::after { /* ... hover effect styles ... */ }
                 }
-                span{
+
+                span { // Container for version/time or social links list
                     display: flex;
                     flex-direction: column;
-                    gap: 15px;
-
-                    
+                    align-items: flex-start; // Align items left within the span
+                    gap: clamp(0.5rem, 2vh, 0.9375rem); // (0.9375rem ~ 15px)
                 }
-                h3{
+
+                h3 {
                     color: grey;
                     cursor: default;
                     font-weight: 300;
-                    font-size: 1em;
+                    font-size: clamp(0.875rem, 1.8vw, 1em);
                 }
-                a{
-                        text-decoration: none;
-                        color: white;
-                        
-                        font-weight: 300;
-                    }
+
+                a {
+                    text-decoration: none;
+                    color: white;
+                    font-weight: 300;
+                    font-size: clamp(0.875rem, 1.8vw, 1rem);
+                }
             }
-            
         }
     }
 
-     /* -------- Responsive -------- */
+    /* -------- Responsive Adjustments with Media Queries -------- */
+    // The `clamp()` functions handle a lot of fluidity.
+    // Media queries are now for more significant layout shifts.
+    // Removed the large negative margins.
+
     @media (max-width: 1000px) {
-        .contact{
-            margin-top: -700px;
-            height: 100vh;
-            .body {
-            padding-top: 200px;
+        .body {
+            padding-top: clamp(2rem, 8vh, 4rem); // Original: 200px
+            padding-inline: clamp(1rem, 4vw, 2.5rem); // Original margin-left/right: 40px (2.5rem)
+
             .title {
-                margin-left: 40px;
-                margin-right: 40px;
-                padding-bottom: 60px;
+                padding-bottom: clamp(2rem, 6vh, 3.75rem); // Original: 60px
                 .buttonContainer {
-                    left: calc(100% - 220px);
-                    top: calc(100% - 50px);
-                }
-                .button {
-                    width: 90px;
-                    height: 90px;
+                    // Adjust if the clamped absolute positioning isn't ideal
+                    right: clamp(-10px, 1vw, 10px);
+                    transform: translateY(50%) translateX(5%);
                 }
             }
             .nav {
-                margin-left: 40px;
-                margin-right: 40px;
-                margin-top: 60px;
+                margin-top: clamp(2rem, 6vh, 3.75rem); // Original: 60px
             }
             .info {
-                margin-top: 100px;
+                margin-top: clamp(2rem, 6vh, 3.75rem); // Original: 100px
                 flex-direction: column;
-                gap: 30px;
-                padding: 10px;
+                align-items: center; // Center columns when stacked
+                text-align: center;
                 div {
-                    align-items: flex-start;
+                    align-items: center; // Center content within each column
+                    flex-basis: auto;
+                    min-width: unset;
+                    span {
+                        align-items: center;
+                    }
                 }
             }
         }
-        }
-        
     }
 
     @media (max-width: 700px) {
-        margin-top: -300px;
-        height: 100vh;
-
         .body {
-            padding-top: 80px;
+            padding-top: clamp(1.5rem, 5vh, 3rem); // Original: 80px
+            padding-inline: clamp(0.75rem, 3vw, 1rem); // Further reduce side padding
+
             .title {
-                margin-left: 10px;
-                margin-right: 10px;
-                padding-bottom: 30px;
-                span {
+                padding-bottom: clamp(1.5rem, 4vh, 2rem); // Original: 30px
+                text-align: center;
+
+                span { // Container for image and "Let's work"
                     flex-direction: column;
-                    align-items: flex-start;
-                    .imageContainer {
-                        width: 60px;
-                        height: 60px;
-                    }
-                    h2 {
-                        margin-left: 0;
-                        font-size: 8vw;
+                    align-items: center; // Center when stacked
+                    gap: 1rem;
+                    h2 { // "Let's work"
+                        font-size: clamp(1.8rem, 7vw, 2.2rem); // Original: 8vw
                     }
                 }
-                h2 {
-                    font-size: 8vw;
+                h2 { // "together"
+                    font-size: clamp(1.8rem, 7vw, 2.2rem); // Original: 8vw
                 }
                 .buttonContainer {
-                    position: static;
-                    margin-top: 20px;
-                    left: unset;
-                    top: unset;
-                }
-                .button {
-                   
-                    width: 90px;
-                    height: 90px;
+                    position: static; // Crucial change: button flows in document
+                    margin-top: clamp(1.5rem, 3vh, 2rem); // Spacing from title text
+                    display: flex;
+                    justify-content: center;
                 }
                 svg {
-                    position: static;
-                    margin-top: 20px;
-                    left: unset;
-                    top: unset;
+                    position: static; // SVG also flows in document
+                    margin-top: clamp(1rem, 2vh, 1.5rem);
+                    display: block;
+                    margin-inline: auto; // Center the SVG
                 }
             }
+
             .nav {
                 flex-direction: column;
-                gap: 10px;
-                margin-left: 0;
-                margin-right: 0;
-                margin-top: 30px;
+                align-items: center;
+                gap: clamp(0.5rem, 1.5vh, 0.75rem); // Original: 10px
+                margin-top: clamp(1.5rem, 3vh, 2rem); // Original: 30px
             }
+
             .info {
-                
-                gap: 20px;
-                margin-top: 40px;
-                padding: 0 5px;
-                div {
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
+                margin-top: clamp(1.5rem, 4vh, 2.5rem); // Original: 40px
+                // flex-direction and align-items already handled by 1000px media query
             }
         }
     }
-
-    
 }

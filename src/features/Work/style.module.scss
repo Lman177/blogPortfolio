@@ -133,46 +133,62 @@
         overflow: hidden; /* Ensures image doesn't overflow if not perfectly sized */
         position: relative; /* Needed for the ::after pseudo-element */
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        &:hover {
-          // Style CHỈ cho item ĐANG ĐƯỢC HOVER
-          transform: translateY(-5px); // Ví dụ: nhấc item này lên
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); // Ví dụ: tăng bóng đổ cho item này
-          opacity: 0.6;
-          // background-color: #f0f0f0; // Ví dụ: thay đổi nhẹ màu nền của item này
+
+        img{
+          height: auto;
+          z-index: 2;
+          border-radius: 30px;
+          transition: transform 0.3s ease, box-shadow 0.3s ease; // Transition cho hiệu ứng mượt
+          &:hover {
+            // Style CHỈ cho item ĐANG ĐƯỢC HOVER
+            transform: translateY(-5px); // Ví dụ: nhấc item này lên
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); // Ví dụ: tăng bóng đổ cho item này
+
+            // background-color: #f0f0f0; // Ví dụ: thay đổi nhẹ màu nền của item này
+          }
         }
+
+
       }
 
 
-      .project_image {
-        height: auto;
-        z-index: 2;
-        transition: transform 0.3s ease; /* Move transition here for smoother effect */
-
-      }
 
 
 
 
 
       .project_info {
-        padding: 20px; /* Adjust padding as needed */
+         /* Adjust padding as needed */
         /* Text alignment in the image is left */
+        margin-top: 20px;
+        margin-bottom: 40px;
+
       }
 
       .project_title {
-        font-size: 1.4rem; /* Adjust font size */
-        font-weight: 600; /* Semi-bold, adjust as needed */
+
+        font-size: 40px; /* Adjust font size */
+        font-weight: 450; /* Semi-bold, adjust as needed */
         margin-top: 0;
         margin-bottom: 8px; /* Space below title */
         /* Conditional color based on project if needed, or a default */
         color: #333333; /* Default dark gray for titles */
+        text-transform: uppercase;
+      }
+      hr{
+        border: none;
+        border-top: 2px solid #dcdcdc;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 100%;
+
       }
 
       .project_meta {
+        font-size: 15px;
         display: flex;
         justify-content: space-between; /* Space between meta items */
-        font-size: 0.9rem; /* Smaller font for meta info */
-        color: #666666; /* Lighter gray for meta info */
+        color: black; /* Lighter gray for meta info */
         margin-top: 0;
         margin-bottom: 12px; /* Space below meta info */
       }
@@ -199,7 +215,7 @@
 
     .circle{
       height: 150%;
-      width: 120%;
+      width: 100%;
       left: -10%;
       border-radius: 0 0 50% 50%;
       background-color: white;

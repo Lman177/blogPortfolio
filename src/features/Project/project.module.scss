@@ -1,72 +1,106 @@
-.projects{
+// It's a good practice to have this globally, e.g., in your index.css or App.css
+// *, *::before, *::after {
+//   box-sizing: border-box;
+// }
+//* {
+//  outline: 1px solid red !important;
+//}
+.projects {
+  display: flex;
+  align-items: center;
+  // padding-left: 200px; // Becomes responsive
+  // padding-right: 200px; // Becomes responsive
+  padding-inline: clamp(1rem, 5vw, 12.5rem); // Responsive horizontal padding (1rem ~ 16px, 12.5rem ~ 200px)
+  flex-direction: column;
+  // top: 0; // This implies a position property (e.g., relative, absolute) is set.
+  // Ensure its context is appropriate. Usually, sections don't need `top:0` unless specifically positioned.
+  padding-block: clamp(2rem, 5vh, 4rem); // Add some responsive vertical padding to the section
+
+  .body {
+    max-width: 1400px; // Good, keeps content from getting too wide
+    width: 100%;       // Good, takes available width
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    // margin-bottom: 100px; // Becomes responsive
+    margin-bottom: clamp(3rem, 10vh, 6.25rem); // Responsive bottom margin
+  }
+
+  .modalContainer {
+    // Fixed dimensions need to be responsive
+    width: clamp(280px, 85vw, 400px);   // Min width, preferred (viewport based), max width
+    height: clamp(245px, 75vw, 350px); // Min height, preferred (viewport based), max height (maintaining roughly 400/350 aspect ratio)
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); // Add for proper centering with top/left 50%
+    background-color: white;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .modalSlider {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    transition: top 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .modal {
+    height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
-    padding-left: 200px;
-    padding-right: 200px;
-    flex-direction: column;
-   top: 0;
+    justify-content: center;
+    padding: 1rem; // Add some padding inside the modal
+  }
 
-    .body{
-        max-width: 1400px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 100px;
-    }
-    
-    .modalContainer{
-        height: 350px;
-        width: 400px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        background-color: white;
-        pointer-events: none;
-        overflow: hidden;
-        z-index: 3;
-    }
-    
-    .modalSlider{
-        height: 100%;
-        width: 100%;
-        position: relative;
-        transition: top 0.5s cubic-bezier(0.76, 0, 0.24, 1);
-    }
-    
-    .modal{
-        height: 100%;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .modal img{
-        height: auto;
-    }
-    
-    .cursor, .cursorLabel{
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background-color: #455CE9;
-        color: white;
-        position: fixed;
-        z-index:5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 300;
-      pointer-events: none;
-    }
+  .modal img {
+    max-width: 100%; // CRUCIAL: Prevents image from overflowing its container
+    height: auto;    // Good, maintains aspect ratio
+    display: block;  // Good practice for images to remove bottom space
+  }
 
-    
-    .cursorLabel{
-        background-color: transparent;
-    }
-    
-    
+  .cursor, .cursorLabel {
+    // Fixed dimensions need to be responsive
+    width: clamp(50px, 10vw, 80px);  // Min, preferred (viewport based), max
+    height: clamp(50px, 10vw, 80px); // Min, preferred (viewport based), max
+    border-radius: 50%;
+    background-color: #455CE9;
+    color: white;
+    position: fixed;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // font-size: 14px; // Becomes responsive
+    font-size: clamp(0.75rem, 2vw, 0.875rem); // 12px, preferred, 14px
+    font-weight: 300;
+    pointer-events: none;
+    // Add transform for potentially smoother positioning if moved by JS
+    // transform: translate(-50%, -50%); // If JS sets top/left to cursor position directly
+  }
+
+  .cursorLabel {
+    background-color: transparent;
+  }
 }
+
+// Optional: Media query for fine-tuning if clamp isn't enough for very specific small screen designs
+// @media (max-width: 480px) {
+//   .projects {
+//     .modalContainer {
+//       // Example: further reduce modal size if needed
+//       width: 90vw;
+//       height: auto;
+//       aspect-ratio: 400 / 300; // Maintain aspect ratio if height is auto
+//     }
+//     .cursor, .cursorLabel {
+//       width: 40px;
+//       height: 40px;
+//       font-size: 0.7rem;
+//     }
+//   }
+// }

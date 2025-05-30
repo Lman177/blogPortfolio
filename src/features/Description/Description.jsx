@@ -59,7 +59,7 @@ export default function Description({scrollYProgress}) {
                 </p>
                 <motion.p variants={opacity} animate={isInView ? "open" : "closed"}>The combination of my passion for design, code & interaction positions me in a unique place in the web design world.</motion.p>
                 <motion.div style={isMobile ? {} : { y: moveUpBtn }}>
-                    <Rounded className={styles.button}>
+                    <Rounded className={styles.button} onClick={() => window.location.href = '/about'}>
                         <p>About me</p>
                     </Rounded>
                 </motion.div>

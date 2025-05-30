@@ -1,18 +1,15 @@
 
-import React from 'react'
+import React, {useContext} from 'react'
 import style from './style.module.scss'
 import Image1 from '@assets/vt2.jpg'
-import Lenis from 'lenis';
-import { useEffect } from 'react';
 import {useTransform, motion } from 'framer-motion';
 import Experience from './Component/Experience';
-import { useScrollContext } from '@/context/ScrollProvider'; // import context
+import {LenisContext} from "@/App.jsx";
 
 const About = () => {
-
-  const { scrollYProgress } = useScrollContext(); // lấy từ context
+    const { scrollYProgress } = useContext(LenisContext) || {};
   const moveUp = useTransform(scrollYProgress, [0, 0.7], ["0px", "-100px"]);
-  const height = useTransform(scrollYProgress, [0, 0.9], [80, 0]);
+  const height = useTransform(scrollYProgress, [0, 0.9], [30, 0]);
 
 
   return (

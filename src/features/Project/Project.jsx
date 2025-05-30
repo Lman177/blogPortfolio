@@ -7,6 +7,7 @@ import gsap from 'gsap';
 // import Image from './public/images';
 import Rounded from '../../common/RoundedButton/RoundedButton';
 import {projectsItem} from "@Common/projects.js";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -17,7 +18,7 @@ const scaleAnimation = {
 }
 
 export default function Home() {
-
+  const navigate = useNavigate(); // <-- BƯỚC 1: Khởi tạo navigate
   const [modal, setModal] = useState({active: false, index: 0})
   const { active, index } = modal;
   const modalContainer = useRef(null);
@@ -55,28 +56,42 @@ export default function Home() {
     moveItems(x, y)
     setModal({active, index})
   }
+  const handleProjectClick = (slug) => {
+    // Dù active hay không, nếu đã click là điều hướng
+    navigate(`/projectDetail/${slug}`);
+  };
 
   return (
   <main onMouseMove={(e) => {moveItems(e.clientX, e.clientY)}} className={styles.projects}>
     <div className={styles.body}>
       {
-        projectsItem.map( (project, index) => {
-          return <Project index={index} title={project.short} manageModal={manageModal} key={index}/>
+        projectsItem.slice(0, 4).map( (project, index) => {
+          return <Project
+              index={index}
+              title={project.short}
+              manageModal={manageModal}
+              key={index}
+              onClick={() => handleProjectClick(project.slug)}
+          />
         })
       }
     </div>
-    <Rounded>
-      <p>More work</p>
+    <Rounded onClick={() => window.location.href = '/work'}>
+      <p> More work</p>
     </Rounded>
     <>
-        <motion.div ref={modalContainer} variants={scaleAnimation} initial="initial" animate={active ? "enter" : "closed"} 
-          className={styles.modalContainer}>
+      <motion.div ref={modalContainer}
+                  variants={scaleAnimation}
+                  initial="initial"
+                  animate={active ? "enter" : "closed"}
+                  onClick={handleProjectClick}
+                  className={styles.modalContainer}>
             <div style={{top: index * -100 + "%"}} className={styles.modalSlider}>
             {
               projectsItem.map( (project, index) => {
                 const { src, color } = project
                 return <div className={styles.modal} style={{backgroundColor: color}} key={`modal_${index}`}>
-                    <img 
+                    <img
                     src={src}
                     width={300}
                     height={400}
