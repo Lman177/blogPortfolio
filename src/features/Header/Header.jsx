@@ -13,7 +13,8 @@ export default function Header() {
   const [isActive, setIsActive] = useState(false);
   const location = useLocation(); // Dùng React Router để lấy đường dẫn hiện tại
   const button = useRef(null);
-  const isHome = location.pathname === '/';
+  const isHome = location.pathname === '/' || location.pathname === '/contact'; // Kiểm tra nếu đường dẫn là trang chủ
+    const isContact = location.pathname === '/contact'; // Kiểm tra nếu đường dẫn là trang liên hệ
 
   // Đóng menu khi đường dẫn thay đổi
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function Header() {
       <div ref={header} className={`${styles.header} ${isHome ? styles.header : styles.black}`}>
         <a className={styles.logo} href="/" >
           <p className={styles.copyright}>©</p>
-          <div className={styles.name}>
+          <div className={`${styles.name} ${isContact ? styles.name : styles.black}`} >
             <p className={styles.codeBy}>Code by</p>
             <p className={styles.nam}>Nam</p>
             <p className={styles.hoang}>Hoang</p>

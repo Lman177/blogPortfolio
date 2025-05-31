@@ -6,7 +6,7 @@ import Magnetic from '../../Common/Magnetic';
 import Image from '@assets/background.png';
 import { useState, useEffect } from 'react';
 
-export default function Contact() {
+export default function Footer() {
     const container = useRef(null);
     const { scrollYProgress } = useScroll({
         target: container,

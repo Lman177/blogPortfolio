@@ -16,12 +16,13 @@
     display: flex;
     cursor: pointer;
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .header .logo p {
     margin: 0px;
     transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    color: white;
 }
 
 .header .logo .name {
@@ -194,4 +195,12 @@
 .black .burger::before,
 .black .burger::after {
   background-color: black;
+}
+
+.black .logo .name {
+    color: black;
+}
+
+.black .logo .name p {
+    color: black;
 }

@@ -1,0 +1,321 @@
+/* GetInTouch.scss */
+
+$primary-color: #ffffff;
+$secondary-color: #444;
+$background-color: #141516;
+$accent-color: #1e90ff;
+$error-color: #ff4d4f;
+$input-border: #555;
+
+.cover {
+  position: relative;
+  width: 100%;
+  min-height: 100vh; // Use min-height to adapt to content
+  background-color: $background-color;
+}
+
+.get-in-touch-wrapper {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background-color: $background-color;
+  color: $primary-color;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  width: 100%;
+
+  .left-panel,
+  .right-panel {
+    padding: 100px;
+    box-sizing: border-box; // Ensures padding is included in the width
+  }
+
+  .left-panel {
+    width: 60%;
+
+    h1 {
+      font-size: 100px;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      padding-top: 30px;
+      .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+
+        label {
+          display: block;
+          font-weight: 500;
+          margin-bottom: 0.5rem;
+          font-size: 25px;
+        }
+
+        input,
+        textarea,
+        select {
+          width: 100%;
+          background: transparent;
+          border: none;
+          border-bottom: 1px solid $input-border;
+          padding: 0.5rem 0;
+          font-size: 18px;
+          color: $primary-color;
+          outline: none;
+          transition: border-color 0.2s ease;
+
+          &:focus {
+            border-bottom-color: $accent-color;
+          }
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 120px;
+        }
+
+        .error {
+          color: $error-color;
+          font-size: 0.85rem;
+          position: absolute;
+          bottom: -1.2rem;
+          left: 0;
+        }
+      }
+
+      .buttonContainer {
+        z-index: 2;
+      }
+
+      .button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: clamp(80px, 15vw, 180px);
+        height: clamp(80px, 15vw, 180px);
+        background-color: #455ce9;
+        color: white;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border: none;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+
+        p {
+          margin: 0;
+          z-index: 3;
+          font-size: clamp(0.9rem, 2vw, 1.1rem);
+          font-weight: 300;
+          text-align: center;
+        }
+      }
+
+      .success-message {
+        margin-top: 1rem;
+        color: lighten($accent-color, 20%);
+        font-weight: 500;
+      }
+
+      .error-message {
+        margin-top: 1rem;
+        color: $error-color;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .right-panel {
+    width: 40%; // Added width for the right panel
+    padding-top: 200px;
+    position: relative;
+    .profile {
+      margin-top: 5%;
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        position: relative;
+      }
+    }
+
+    .contact-info {
+      margin-top: 20%;
+      font-size: 20px;
+      line-height: 1.6;
+
+      .section {
+        margin-bottom: 2rem;
+
+        h3 {
+          font-size: 1.1rem;
+          margin-bottom: 0.5rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: lighten($primary-color, 30%);
+        }
+
+        p,
+        a {
+          margin: 0.3rem 0;
+          color: $primary-color;
+          text-decoration: none;
+        }
+
+        .socials {
+          display: flex;
+          flex-direction: column;
+
+          a {
+            margin: 0.2rem 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ------------------------- */
+/* --- Responsive Styles --- */
+/* ------------------------- */
+
+/* -- Tablet and Smaller Desktop -- */
+@media (max-width: 1200px) {
+  .get-in-touch-wrapper {
+    .left-panel,
+    .right-panel {
+      padding: 80px;
+    }
+
+    .left-panel {
+      h1 {
+        font-size: 80px;
+      }
+    }
+
+    .right-panel {
+      padding-top: 150px;
+    }
+  }
+}
+
+/* -- Tablet -- */
+@media (max-width: 1024px) {
+  .get-in-touch-wrapper {
+    flex-direction: column; // Stack panels vertically
+    min-height: auto; // Allow height to be determined by content
+
+    .left-panel,
+    .right-panel {
+      width: 100%; // Both panels take full width
+      padding: 60px;
+    }
+
+    .left-panel {
+      h1 {
+        font-size: 70px;
+      }
+    }
+
+    .right-panel {
+      padding-top: 0; // Reset top padding
+      .profile {
+        margin-top: 0;
+      }
+      .contact-info {
+        margin-top: 10%;
+      }
+    }
+  }
+}
+
+/* -- Mobile -- */
+@media (max-width: 768px) {
+  .get-in-touch-wrapper {
+    .left-panel,
+    .right-panel {
+      padding: 40px;
+    }
+
+    .left-panel {
+      h1 {
+        font-size: 50px;
+      }
+
+      form {
+        .form-group {
+          label {
+            font-size: 24px;
+          }
+
+          input,
+          textarea {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+    .right-panel {
+      .profile {
+        img {
+          width: 120px;
+          height: 120px;
+        }
+      }
+      .contact-info {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+/* -- Small Mobile -- */
+@media (max-width: 480px) {
+  .get-in-touch-wrapper {
+    .left-panel,
+    .right-panel {
+      padding: 20px;
+    }
+
+    .left-panel {
+      h1 {
+        font-size: 40px;
+        margin-bottom: 1.5rem;
+      }
+      form {
+        .form-group {
+          margin-bottom: 1rem;
+          label {
+            font-size: 20px;
+          }
+        }
+        .button {
+          width: clamp(70px, 20vw, 120px);
+          height: clamp(70px, 20vw, 120px);
+        }
+      }
+    }
+    .right-panel {
+      .profile {
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+      .contact-info {
+        font-size: 16px;
+      }
+    }
+  }
+}
