@@ -4,71 +4,80 @@
 // }
 
 .heading {
-    // Use clamp() for responsive font size: min, preferred (vw), max
     font-size: clamp(1.8rem, 4vw, 3.5rem);
     font-weight: 700;
     color: #000000;
     text-align: center;
-    // Use clamp() for responsive margins
     margin-top: clamp(60px, 10vw, 150px);
-    margin-bottom: clamp(40px, 6vw, 80px); // Added for better spacing
-    // height: 100%; // This is usually not needed for a heading and can cause issues
-    // Remove unless you have a very specific reason for it and its parent has a defined height.
+    margin-bottom: clamp(40px, 6vw, 80px);
 }
 
 .slidingImages {
     display: flex;
     flex-direction: column;
-    gap: 3vw; // This responsive gap is good
+    gap: 3vw;
     position: relative;
-     background-color: white; // Keep if needed, or remove if parent bg is sufficient
-    z-index: 2;
-    overflow-x: hidden; // CRUCIAL: Prevents horizontal scrollbars on the page
-    // due to the sliders moving left/right.
-    padding-block: 2vw; // Optional: add some vertical padding
+    background-color: white;
+    z-index: 1;
+    padding-block: 2vw;
+    // Thêm overflow-x: hidden để đảm bảo các slider không tạo thanh cuộn ngang
+    overflow-x: hidden;
 }
 
 .slider {
     display: flex;
-    position: relative; // Needed for absolute positioning of children if any, or for stacking context
-    gap: 3vw; // This responsive gap is good
+    position: relative;
+    gap: 3vw;
 
-    // The width: 100vw on the slider being transformed means the content within it
-    // (projects) will define its internal scrollable width.
-    // The motion.div slides this 100vw "window".
-    width: 100vw;
-
-    // If using 100vw, ensure the parent of .slidingImages handles full width correctly
-    // or that body has no unexpected margins/paddings that 100vw might overflow.
-    // A common alternative if 100vw causes issues is width: 100% and ensuring
-    // .slidingImages spans the desired width.
-    // For this particular animation (sliding a 100vw block), this is likely intentional.
+    // THAY ĐỔI: Làm cho slider rộng hơn để chứa các ảnh và tạo hiệu ứng trượt
+    // 4 ảnh * 25% + 3 khoảng trống * 3vw = 100% + 9vw
+    // Để đơn giản, ta có thể dùng giá trị lớn hơn một chút
+    width: 120%;
+    // Dịch chuyển slider đầu tiên sang trái để nó bắt đầu từ ngoài màn hình
+    &:nth-of-type(1){
+        left: -10%;
+    }
 }
 
 .project {
-    width: 25%; // Each project takes 25% of the .slider's width (so 25vw)
-    height: 20vw; // Responsive height based on viewport width
-    // Use clamp for height if you want min/max limits:
-    // height: clamp(150px, 20vw, 350px);
+    // 100% / 5 = 20% (cho 4 ảnh và 1 khoảng trống ảo)
+    // Hoặc giữ 25% nếu bạn muốn slider rộng hơn
+    width: 25%;
+    height: 20vw;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; // Prevent projects from shrinking if the flex container is somehow constrained
+    flex-shrink: 0;
 }
 
 .imageContainer {
     position: relative;
-    width: 100%; // Takes full width of .project
-    height: 80%; // Takes 80% height of .project
-    display: flex; // Added to help center the image if it's smaller
-    align-items: center; // Added
-    justify-content: center; // Added
+    // SỬA LỖI: width phải là 100% của thẻ cha (.project), không phải 100vw
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     img {
-        display: block; // Removes extra space below inline images
-        width: 100%;    // Image takes full width of its container
-        height: 100%;   // Image takes full height of its container
-        object-fit: cover; // Ensures image covers the area, might crop
-        // consider object-fit: contain; if you want to see the whole image without cropping
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain; // Đổi thành contain để thấy toàn bộ logo khách hàng
+    }
+}
+
+.circleContainer{
+    position: relative;
+    z-index: 1;
+
+    .circle{
+        height: 100%;
+        width: 100%;
+        border-radius: 0 0 50% 50%;
+        background-color: white;
+        z-index: 1;
+        position: absolute;
+        box-shadow: 0px 60px 50px rgba(0, 0, 0, 0.748);
     }
 }

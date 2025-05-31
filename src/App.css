@@ -3,7 +3,7 @@ body {
     margin: 0px;
     overflow: hidden; 
     font-family: 'Poppins', sans-serif;
-    height: 100vh;
+    height: 100%;
     /* cursor: wait; Add after Preloader */
 
 }

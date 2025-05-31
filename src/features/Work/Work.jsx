@@ -69,8 +69,9 @@ const Work = () => {
 
 
   return (
-      // Loại bỏ onMouseMove khỏi container cha nếu không muốn nó điều khiển cursor mặc định
-      <div className={styles.container} >
+      <>
+      {/*// Loại bỏ onMouseMove khỏi container cha nếu không muốn nó điều khiển cursor mặc định*/}
+      <div className={styles.container}>
         <div className={styles.work_container}>
           <div className={styles.top}>
             <h1 className={styles.work_title}>
@@ -144,7 +145,7 @@ const Work = () => {
                         onClick={() => handleProjectClick(project.slug)}
                     >
                       <div className={styles.project_image_container} style={{backgroundColor: project.color}}>
-                        <img src={project.src} alt={project.title} width={600}/>
+                        <img src={project.src} alt={project.title}/>
                       </div>
                       <div className={styles.project_info}>
                         <h2 className={styles.project_title}>{project.short}</h2>
@@ -175,11 +176,14 @@ const Work = () => {
         >
           View
         </motion.div>
-        <motion.div style={{height}} className={styles.circleContainer}>
-          <div className={styles.circle}></div>
-        </motion.div>
+
       </div>
-  );
+  <motion.div style={{height}} className={styles.circleContainer}>
+    <div className={styles.circle}></div>
+  </motion.div>
+  </>
+)
+  ;
 };
 
 export default Work;

@@ -108,7 +108,7 @@
     width: 100%;
   }
   .description .body .button {
-    top: 80%;
+    top: 100%;
     left: calc(100% - 150px);
     width: 90px;
     height: 90px;

@@ -1,128 +1,246 @@
-.experience{
-    background-color: white;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    
-    .divider_container {
-        
-        position: relative;
-        width: 80%;
-        pa
-        .divider_line {
-        border: none;
-        border-top: 1px solid #dcdcdc;
-        margin: 0;
-        }
-        
-    }
-    
-.heading {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 24px;
-  color: #333;
-}
-
-.timeline {
-  position: relative;
-  margin: 0 auto;
-  width: 80%;
-  padding: 2rem 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-}
-
-.timelineItem {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+/* --- Unified & Modern Base Styles (Desktop First) --- */
+.experience {
+  background-color: #f8f9fa; // Modern, light background for all screens
   width: 100%;
-}
-
-.left {
-  justify-content: flex-end;
-}
-
-.right {
-  justify-content: flex-start;
-}
-
-.content {
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 44%; // control size
-  position: relative;
-}
-
-.verticalLine {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 4px;
-  background-color: #ccc;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-.dot {
-  position: absolute;
-  top: 1.2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  background-color: black;
-  border-radius: 50%;
+  padding-block: 50px;
   z-index: 2;
-}
 
-
-}
-
-.cando {
-  margin-top: 100px;
-  width: 100%;
-  z-index: 2;
-  position: relative;
-  background-color: white;
-
-  .heading{
+  .heading {
     text-align: center;
-    margin-bottom: 2rem;
-    font-size: 40px;
-    
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .timeline {
+    position: relative;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 1000px;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .timelineItem {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .left {
+    justify-content: flex-end;
+  }
+
+  .right {
+    justify-content: flex-start;
+  }
+
+  // --- Synchronized Card Style ---
+  .content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px; // Slightly more rounded
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); // Softer shadow
+    border: 1px solid #dee2e6;
+    width: 35%; // Adjusted width for the new padding/border
+    position: relative;
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #666;
+    }
+
+    // --- Synchronized Date Style ---
+    .date {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background-color: #e9ecef;
+      color: #495057;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+  }
+
+  // --- Synchronized Timeline Line Style ---
+  .verticalLine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-color: #dee2e6;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  // --- Synchronized Dot Style ---
+  .dot {
+    position: absolute;
+    top: 1.8rem; // Aligns with the title
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 18px;
+    background-color: #212529;
+    border: 4px solid #f8f9fa; // Border matches the section background
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 0 3px #212529; // Outer ring for emphasis
+  }
+}
+
+// --- Unified "Cando" Section Style ---
+.cando {
+  margin-top: 0; // Remove margin-top as sections flow together
+  width: 100%;
+  z-index: 2;
+  position: relative;
+  background-color: #f8f9fa; // Match the experience section background
+  padding-block: 80px;
+
+  .heading {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.2rem;
+    font-weight: 600;
   }
   .box {
     width: 80%;
-    min-height: 200px; // hoặc height: 100%; nếu cha có height cố định
+    max-width: 1200px;
     display: flex;
-    background-color: white;
-    justify-content: space-between;
-    align-items: stretch; // Đảm bảo các item cao bằng nhau
-     // Khoảng cách giữa các item
-    gap: 20px;
-    margin: 0 auto; // Căn giữa
-    padding: 20px;
-    
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    margin: 0 auto;
+
     .box_item {
-      flex: 1; // Mỗi item chiếm đều không gian
-      
+      flex: 1;
+      display: flex;
       flex-direction: column;
-      align-items: center;
-      font-size: 22px;
+      align-items: flex-start;
       background: white;
+      border: 1px solid #dee2e6;
       border-radius: 12px;
-      min-height: 180px; // hoặc height: 100%; nếu muốn bằng nhau tuyệt đối
+      padding: 2rem;
       box-sizing: border-box;
-      gap: 20px;
+      gap: 15px;
       position: relative;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+
+      .divider_container {
+        position: relative;
+        width: 100%;
+        .divider_line {
+          border: none;
+          border-top: 1px solid #e9ecef;
+          margin: 0;
+        }
+      }
+
+      h3 {
+        margin-top: 10px;
+        font-size: 1.3rem;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #666;
+      }
     }
   }
+
+}
+.circleContainer{
+  position: relative;
+  margin-bottom: 20px;
+
+  .circle{
+    height: 150%;
+    width: 100%;
+    border-radius: 0 0 50% 50%;
+    background-color: white;
+    z-index:1;
+    position: absolute;
+  }
+
+}
+
+/* ---------------------------------- */
+/* --      Responsive Overrides    -- */
+/* ---------------------------------- */
+
+/* For Tablets */
+@media (max-width: 1024px) {
+  .cando .box {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 90%;
+    .box_item {
+      width: 100%;
+      max-width: 500px;
+    }
+  }
+}
+
+/* For Mobile */
+@media (max-width: 768px) {
+  .experience, .cando {
+
+    padding-block: 40px;
+  }
+
+
+  .experience {
+    .heading, .cando .heading {
+      font-size: 1.8rem;
+    }
+    .content{
+      width: 70%;
+    }
+    .timeline {
+      width: 90%;
+      gap: 2rem;
+    }
+
+    // --- Layout Overrides for Mobile Timeline ---
+    .verticalLine {
+      left: 10px;
+      transform: translateX(0);
+    }
+
+    .timelineItem,
+    .left,
+    .right {
+      justify-content: flex-start;
+      padding-left: 35px;
+    }
+
+    .dot {
+      left: 10px;
+      transform: translateX(-50%);
+    }
+
+
+  }
+
+  .cando .box {
+    width: 90%;
+  }
+
+
 }

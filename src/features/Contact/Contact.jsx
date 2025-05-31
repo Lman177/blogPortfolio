@@ -14,7 +14,6 @@ export default function Contact() {
     });
     const x = useTransform(scrollYProgress, [0, 0.3], [0, 30]);
     const y = useTransform(scrollYProgress, [0, 1], [-100, 0]);
-    const rotate = useTransform(scrollYProgress, [0, 1], [120, 90]);
 
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
 
@@ -34,7 +33,7 @@ export default function Contact() {
                             <img
                                 alt="image"
                                 src={Image}
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+
                             />
                         </div>
                         <h2>Let's work</h2>
@@ -56,7 +55,7 @@ export default function Contact() {
                     </Rounded>
                 </div>
                 <div className={styles.info}>
-                    <div>
+                    <div className={styles.infoItem1}>
                         <span>
                             <h3>Version</h3>
                             <p>2025 © Edition</p>
@@ -66,7 +65,7 @@ export default function Contact() {
                             <p>{currentTime}</p>
                         </span>
                     </div>
-                    <div>
+                    <div className={styles.infoItem2}>
                         <span>
                             <h3>socials</h3>
                         </span>

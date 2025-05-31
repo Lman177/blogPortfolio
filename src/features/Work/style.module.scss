@@ -10,10 +10,10 @@
     padding-right: 100px;
 
     .top {
-      padding-left: 10%;
+      padding-left: clamp(0px, 5vw, 10%);
 
       .work_title {
-        font-size: 70px;
+        font-size: clamp(2rem, 6vw, 70px);
         font-weight: lighter;
         color: #000;
         margin-bottom: 20px;
@@ -21,6 +21,7 @@
 
       .button_section {
         display: flex;
+        flex-wrap: wrap;
         justify-content: flex-start;
         gap: 15px;
       }
@@ -32,7 +33,7 @@
         justify-content: center;
         padding: 10px 25px;
         border-radius: 30px;
-        font-size: 16px;
+        font-size: clamp(14px, 2vw, 16px);
         text-align: center;
         cursor: pointer;
         transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease; // Thêm transform cho hiệu ứng nhấn nhẹ
@@ -100,100 +101,80 @@
     }
 
 
+
     .project_container {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); // Tạo 2 cột có chiều rộng bằng nhau
-      gap: 50px; // Khoảng cách giữa các project item (cả hàng và cột)
-      margin-top: 40px; // Thêm khoảng cách với phần button phía trên (tùy chỉnh)
-
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px;
+      margin-top: 40px;
 
       .project_item {
-        flex: 0 0 calc(50% - 15px); /* Two items per row, accounting for the gap. (gap/2) */
-        /* If you don't want them to grow or shrink: flex: none; width: calc(50% - 15px); */
-        box-sizing: border-box;
-        background-color: #ffffff; /* White background for each item card */
-        /* Consider adding a subtle shadow or border if desired, like in the example */
-        /* box-shadow: 0 2px 8px rgba(0,0,0,0.05); */
         display: flex;
         flex-direction: column;
-        position: relative; /* Added for the ::after pseudo-element positioning */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; // Transition cho hiệu ứng mượt
-
-        // Quan trọng: &:hover áp dụng CHỈ KHI con trỏ chuột nằm trên CHÍNH PHẦN TỬ .project_item này
-
+        cursor: pointer;
       }
 
+      // --- PHẦN CHỈNH SỬA QUAN TRỌNG ---
       .project_image_container {
-        height: 100%; /* Make this take available height or a fixed height */
         width: 100%;
-        padding:50px 10px 50px 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden; /* Ensures image doesn't overflow if not perfectly sized */
-        position: relative; /* Needed for the ::after pseudo-element */
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+        border-radius: 30px;
 
-        img{
-          height: auto;
-          z-index: 2;
-          border-radius: 30px;
-          transition: transform 0.3s ease, box-shadow 0.3s ease; // Transition cho hiệu ứng mượt
+        // THAY ĐỔI 1: Tạo một khung chứa có tỷ lệ cố định
+        position: relative;          /* MỚI: Bắt buộc để định vị ảnh con bên trong */
+        background-color: #f0f0f0;  /* MỚI: Thêm màu nền để thấy khung khi ảnh đang tải */
+        aspect-ratio: 16 / 9;       /* MỚI: QUAN TRỌNG NHẤT!
+                                   Ép khung luôn có tỷ lệ 16:9.
+                                   Bạn có thể đổi thành 4 / 3 hoặc 1 / 1 (vuông) tùy ý.
+                                */
+
+        img {
+          // THAY ĐỔI 2: Biến ảnh thành một lớp phủ bên trong khung
+          display: block;
+          width: 100%;
+          height: 100%;             /* MỚI: Cho ảnh lấp đầy 100% chiều cao của khung */
+          position: absolute;       /* MỚI: Đặt ảnh chồng lên khung */
+          top: 0;
+          left: 0;
+
+          // THAY ĐỔI 3: Giữ tỷ lệ ảnh mà không bị méo
+          object-fit: cover;        /* MỚI: Phóng to/thu nhỏ để lấp đầy khung,
+                                   giữ đúng tỷ lệ và cắt đi phần thừa.
+                                */
+          transition: transform 0.3s ease;
+
           &:hover {
-            // Style CHỈ cho item ĐANG ĐƯỢC HOVER
-            transform: translateY(-5px); // Ví dụ: nhấc item này lên
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); // Ví dụ: tăng bóng đổ cho item này
-
-            // background-color: #f0f0f0; // Ví dụ: thay đổi nhẹ màu nền của item này
+            transform: scale(1.05);
           }
         }
-
-
       }
 
-
-
-
-
-
-
       .project_info {
-         /* Adjust padding as needed */
-        /* Text alignment in the image is left */
         margin-top: 20px;
         margin-bottom: 40px;
-
       }
 
       .project_title {
-
-        font-size: 40px; /* Adjust font size */
-        font-weight: 450; /* Semi-bold, adjust as needed */
-        margin-top: 0;
-        margin-bottom: 8px; /* Space below title */
-        /* Conditional color based on project if needed, or a default */
-        color: #333333; /* Default dark gray for titles */
+        font-size: 40px;
+        font-weight: 450;
+        margin-bottom: 8px;
+        color: #333333;
         text-transform: uppercase;
       }
-      hr{
+      hr {
         border: none;
         border-top: 2px solid #dcdcdc;
         margin-top: 20px;
         margin-bottom: 20px;
         width: 100%;
-
       }
-
       .project_meta {
         font-size: 15px;
         display: flex;
-        justify-content: space-between; /* Space between meta items */
-        color: black; /* Lighter gray for meta info */
-        margin-top: 0;
-        margin-bottom: 12px; /* Space below meta info */
+        justify-content: space-between;
+        color: black;
       }
     }
-
   }
   .cursor, .cursorLabel{
     width: 80px;
@@ -210,18 +191,51 @@
     font-weight: 300;
     pointer-events: none;
   }
-  .circleContainer{
-    position: relative;
 
-    .circle{
-      height: 150%;
-      width: 100%;
-      left: -10%;
-      border-radius: 0 0 50% 50%;
-      background-color: white;
-      z-index: 1;
-      position: absolute;
-      box-shadow: 0px 60px 50px rgba(0, 0, 0, 0.748);
+}
+
+.circleContainer{
+  position: relative;
+  margin-bottom: 20px;
+
+  .circle{
+    height: 150%;
+    width: 100%;
+    border-radius: 0 0 50% 50%;
+    background-color: white;
+    z-index:1;
+    position: absolute;
+  }
+
+}
+
+/* --- Tablet --- */
+@media (max-width: 1024px) {
+  .container .work_container {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+/* --- Mobile --- */
+@media (max-width: 768px) {
+  .container .work_container {
+    padding-top: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .project_container {
+      // THAY ĐỔI QUAN TRỌNG: Chuyển grid về 1 cột
+      grid-template-columns: 1fr;
+      gap: 50px; // Tăng khoảng cách dọc giữa các project
     }
+    .project_title {
+      font-size: 32px;
+    }
+  }
+
+  // Ẩn custom cursor trên mobile
+  .cursor, .cursorLabel {
+    display: none !important;
   }
 }

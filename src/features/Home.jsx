@@ -16,7 +16,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { scrollYProgress } = useContext(LenisContext) || {};
-  const height = useTransform(scrollYProgress, [0, 1], [30, -2]);
 
 
 
@@ -41,9 +40,8 @@ export default function Home() {
         <Description scrollYProgress={scrollYProgress}/>
         <Project/>
         <SlidingImages/>
-        <motion.div style={{height}} className={styles.circleContainer}>
-          <div className={styles.circle}></div>
-        </motion.div>
+
+
       </main>
   );
 }

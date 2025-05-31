@@ -1,6 +1,8 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react'; // Bỏ useContext
 import { useScroll, useTransform, motion } from 'framer-motion';
 import styles from './style.module.scss';
+// Bỏ import LenisContext nếu không dùng ở đâu khác
+// import {LenisContext} from "@/App.jsx";
 
 const slider1 = [
     { color: "#e3e5e7", src: "c2.jpg" },
@@ -18,47 +20,53 @@ const slider2 = [
 
 export default function SlidingImg() {
     const container = useRef(null);
+
+    // THAY ĐỔI CHÍNH Ở ĐÂY
+    // Thay vì dùng useContext, hãy cấu hình useScroll như sau:
     const { scrollYProgress } = useScroll({
-        target: container,
-        offset: ["start end", "end start"]
+        target: container, // Theo dõi phần tử được gán ref={container}
+        offset: ["start end", "end start"] // Bắt đầu animation khi container đi vào, kết thúc khi nó đi ra
     });
 
+    // Các dòng useTransform này giờ sẽ hoạt động đúng
     const x1 = useTransform(scrollYProgress, [0, 1], [0, 150]);
     const x2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
-    const height = useTransform(scrollYProgress, [0, 0.9], [50, 0]);
+    const height = useTransform(scrollYProgress, [0, 0.8], [150, 0]);
 
     return (
         <>
             <h2 className={styles.heading}>Our Client</h2>
+            {/* Gán ref vào đây để useScroll biết cần theo dõi phần tử nào */}
             <div ref={container} className={styles.slidingImages}>
-                <motion.div style={{ x: x1 }} className={styles.slider}>
+                <motion.div style={{x: x1}} className={styles.slider}>
                     {slider1.map((project, index) => (
-                        <div key={index} className={styles.project} style={{ backgroundColor: project.color }}>
+                        <div key={index} className={styles.project} style={{backgroundColor: project.color}}>
                             <div className={styles.imageContainer}>
                                 <img
-                                alt="image"
-                                src={`/images/${project.src}`}
-
-                            />
+                                    alt="image"
+                                    src={`/images/${project.src}`}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </motion.div>
-            <motion.div style={{ x: x2 }} className={styles.slider}>
-                {slider2.map((project, index) => (
-                    <div key={index} className={styles.project} style={{ backgroundColor: project.color }}>
-                        <div className={styles.imageContainer}>
-                            <img
-                                alt="image"
-                                src={`/images/${project.src}`}
-
-                            />
+                    ))}
+                </motion.div>
+                <motion.div style={{x: x2}} className={styles.slider}>
+                    {slider2.map((project, index) => (
+                        <div key={index} className={styles.project} style={{backgroundColor: project.color}}>
+                            <div className={styles.imageContainer}>
+                                <img
+                                    alt="image"
+                                    src={`/images/${project.src}`}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </motion.div>
+                    ))}
+                </motion.div>
 
-        </div>
+            </div>
+            <motion.div style={{height}} className={styles.circleContainer}>
+                <div className={styles.circle}></div>
+            </motion.div>
         </>
     );
 }

@@ -1,261 +1,196 @@
-// Assume global box-sizing: border-box; is set in your main CSS file
-// *, *::before, *::after { box-sizing: border-box; }
+/* Global settings assumed: *, *::before, *::after { box-sizing: border-box; } */
 
 .contact {
-    padding-left: 100px;
-    padding-right: 100px;
-    z-index: 0;
     color: white;
+    background-color: #141516;
+    position: relative;
+
+    /* THAY ĐỔI: Dùng min-height và flexbox để căn giữa nội dung theo chiều dọc */
+    min-height: 100vh; // Đảm bảo container có thể lớn hơn 100vh nếu nội dung tràn ra
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #141516;
-    position: relative; // For scroll targeting and absolute children
-    height: 100vh; // Use min-height for flexibility
-    // The `motion.div style={{ y }}` will shift this whole container.
-    // The problematic negative margins in the original media queries are removed here.
-    // If the `y` transform is causing layout issues at different screen sizes,
-    // its range (e.g., `[-100, 0]`) should be made responsive in the JavaScript.
-    padding-block: clamp(2rem, 5vh, 4rem); // Base vertical padding for the section
 
-    .body {
-        padding-top: clamp(3rem, 10vh, 7.5rem); // (7.5rem ~ 120px)
-        max-width: 18000px;
-        // Centralize horizontal spacing for all direct children of .body
-        padding-inline: clamp(1rem, 5vw, 12.5rem); // (1rem ~ 16px, 12.5rem ~ 200px)
+    /* THAY ĐỔI: Dùng clamp cho padding để co giãn mượt mà */
+    padding-inline: clamp(1rem, 5vw, 100px); // Padding trái/phải linh hoạt
+}
 
-        .title {
-            border-bottom: 1px solid rgb(134, 134, 134);
-            padding-bottom: clamp(2.5rem, 8vh, 6.25rem); // (6.25rem ~ 100px)
-            position: relative;
-            // margin-left & margin-right are removed; handled by .body's padding-inline
+.body {
+    width: 100%;
+    max-width: 1200px; // Giới hạn chiều rộng tối đa để dễ đọc trên màn hình siêu rộng
+    display: flex;
+    flex-direction: column;
+}
 
-            span { // Container for image and "Let's work"
-                display: flex;
-                align-items: center;
-                gap: clamp(0.5em, 1.5vw, 1em); // Add a responsive gap
+.title {
+    border-bottom: 1px solid rgb(134, 134, 134);
+    padding-bottom: clamp(3rem, 8vh, 6rem);
+    position: relative;
+    width: 100%;
 
-                .imageContainer {
-                    width: clamp(60px, 10vw, 100px);
-                    height: clamp(60px, 10vw, 100px);
-                    position: relative;
-                    border-radius: 50%;
-                    overflow: hidden;
-                    flex-shrink: 0; // Prevent image container from shrinking
+    span {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.75rem, 2vw, 1.25rem);
+    }
 
-                    img {
-                        object-fit: cover;
-                        width: 100%;
-                        height: 100%;
-                    }
-                }
+    .imageContainer {
+        width: clamp(70px, 10vw, 100px);
+        height: clamp(70px, 10vw, 100px);
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
 
-                h2 { // "Let's work"
-                    margin-left: 0; // Use gap on parent span instead
-                }
-            }
-
-            h2 { // Both "Let's work" and "together"
-                font-size: clamp(2.25rem, 5vw, 4.5rem); // Responsive font size
-                margin-block: 0.1em; // Small vertical margin between lines if they wrap
-                font-weight: 300;
-            }
-
-            .buttonContainer {
-                position: absolute;
-                bottom: clamp(10px, 3vh, 25px); // Responsive offset from bottom of parent. Adjust as needed.
-                left: 80%;                      // Desired horizontal anchor point (60% from the left of parent).
-                transform: translateX(-60%);    // Centers the container on the 60% anchor point.
-                // No width/height needed here if the button itself has dimensions.
-                // This container is purely for positioning the button element.
-                z-index: 5; // Ensure it's above other elements if overlapping occurs.
-            }
-
-            // Assuming .button is the class applied to your <Rounded> component
-            .button {
-                // position: absolute; // REMOVE THIS. It will now be positioned by .buttonContainer.
-                position: relative;   // Good for stacking context or if you need z-index on <p>
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: clamp(100px, 15vw, 150px);  // Min 100px, Preferred 18% of viewport width, Max 180px
-                height: clamp(100px, 15vw, 150px); // Keep it circular by matching width
-                background-color: #455CE9;         // This might be handled by your Rounded component
-                color: white;                      // This might be handled by your Rounded component
-                border-radius: 50%;                // This might be handled by your Rounded component
-                cursor: pointer;
-                transition: transform 0.3s ease;   // Smooth hover effect
-
-                &:hover {
-                    transform: scale(1.05); // Slight zoom on hover
-                }
-
-                p {
-                    margin: 0;
-                    font-size: clamp(0.8rem, 2.2vw, 1rem); // Responsive font size for text inside button
-                    font-weight: 300;
-                    text-align: center;
-                    padding: 0.5em; // Add some padding to prevent text from touching button edges
-                     z-index: 3; // Usually not needed if <p> is a direct child and no complex overlaps inside button
-                }
-            }
-
-            svg {
-                position: absolute;
-                top: clamp(25%, 6vh, 30%);
-                right: clamp(-40px, -5vw, -20px); // Position slightly off to the right
-                width: clamp(20px, 3vw, 30px);
-                height: auto;
-                // The `scale: 2` prop in JSX will double this size
-            }
-        }
-
-        .nav {
-            display: flex;
-            flex-wrap: wrap; // Allow buttons to wrap
-            justify-content: center; // Center the buttons when they wrap
-            gap: clamp(1rem, 2.5vw, 1.25rem); // (1.25rem ~ 20px)
-            margin-top: clamp(2.5rem, 8vh, 6.25rem); // (6.25rem ~ 100px)
-            // margin-left & margin-right removed
-        }
-
-        .info {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: clamp(1.5rem, 4vw, 2rem); // Gap between info columns
-            margin-top: clamp(2.5rem, 8vh, 6.25rem); // (6.25rem ~ 100px)
-            padding-block: clamp(1rem, 3vh, 1.25rem); // (1.25rem ~ 20px for vertical padding)
-
-            div { // Each info column
-                display: flex;
-                // Default to align-items: flex-end for wider screens
-                align-items: flex-end;
-                gap: clamp(0.5rem, 1vw, 0.625rem); // (0.625rem ~ 10px)
-                flex-basis: calc(50% - clamp(0.75rem, 2vw, 1rem)); // Try for two columns, adjust for gap
-                min-width: 200px; // Prevent columns from becoming too narrow
-                flex-grow: 1;
-
-                p, h3 {
-                    margin: 0;
-                    padding: 2.5px; // Small, likely fine
-                }
-
-                p {
-                    cursor: pointer; // If it's interactive
-                    font-size: clamp(0.875rem, 1.8vw, 1rem);
-                    &::after { /* ... hover effect styles ... */ }
-                    &:hover::after { /* ... hover effect styles ... */ }
-                }
-
-                span { // Container for version/time or social links list
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start; // Align items left within the span
-                    gap: clamp(0.5rem, 2vh, 0.9375rem); // (0.9375rem ~ 15px)
-                }
-
-                h3 {
-                    color: grey;
-                    cursor: default;
-                    font-weight: 300;
-                    font-size: clamp(0.875rem, 1.8vw, 1em);
-                }
-
-                a {
-                    text-decoration: none;
-                    color: white;
-                    font-weight: 300;
-                    font-size: clamp(0.875rem, 1.8vw, 1rem);
-                }
-            }
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
         }
     }
 
-    /* -------- Responsive Adjustments with Media Queries -------- */
-    // The `clamp()` functions handle a lot of fluidity.
-    // Media queries are now for more significant layout shifts.
-    // Removed the large negative margins.
-
-    @media (max-width: 1000px) {
-        .body {
-            padding-top: clamp(2rem, 8vh, 4rem); // Original: 200px
-            padding-inline: clamp(1rem, 4vw, 2.5rem); // Original margin-left/right: 40px (2.5rem)
-
-            .title {
-                padding-bottom: clamp(2rem, 6vh, 3.75rem); // Original: 60px
-                .buttonContainer {
-                    // Adjust if the clamped absolute positioning isn't ideal
-                    right: clamp(-10px, 1vw, 10px);
-                    transform: translateY(50%) translateX(5%);
-                }
-            }
-            .nav {
-                margin-top: clamp(2rem, 6vh, 3.75rem); // Original: 60px
-            }
-            .info {
-                margin-top: clamp(2rem, 6vh, 3.75rem); // Original: 100px
-                flex-direction: column;
-                align-items: center; // Center columns when stacked
-                text-align: center;
-                div {
-                    align-items: center; // Center content within each column
-                    flex-basis: auto;
-                    min-width: unset;
-                    span {
-                        align-items: center;
-                    }
-                }
-            }
-        }
+    h2 {
+        font-size: clamp(3rem, 10vw, 7rem); // Tăng kích thước font chữ tối đa
+        margin: 0;
+        font-weight: 300;
+        line-height: 1.1;
     }
 
-    @media (max-width: 700px) {
-        .body {
-            padding-top: clamp(1.5rem, 5vh, 3rem); // Original: 80px
-            padding-inline: clamp(0.75rem, 3vw, 1rem); // Further reduce side padding
+    .buttonContainer {
+        position: absolute;
+        /* THAY ĐỔI: Định vị button từ góc dưới bên phải - ổn định hơn */
+        left: 50%;
+        bottom: 0;
+        transform: translate(0, 50%); // Đẩy 50% chiều cao của nó xuống dưới đường kẻ
+        z-index: 2;
 
-            .title {
-                padding-bottom: clamp(1.5rem, 4vh, 2rem); // Original: 30px
-                text-align: center;
+    }
 
-                span { // Container for image and "Let's work"
-                    flex-direction: column;
-                    align-items: center; // Center when stacked
-                    gap: 1rem;
-                    h2 { // "Let's work"
-                        font-size: clamp(1.8rem, 7vw, 2.2rem); // Original: 8vw
-                    }
-                }
-                h2 { // "together"
-                    font-size: clamp(1.8rem, 7vw, 2.2rem); // Original: 8vw
-                }
-                .buttonContainer {
-                    position: static; // Crucial change: button flows in document
-                    margin-top: clamp(1.5rem, 3vh, 2rem); // Spacing from title text
-                    display: flex;
-                    justify-content: center;
-                }
-                svg {
-                    position: static; // SVG also flows in document
-                    margin-top: clamp(1rem, 2vh, 1.5rem);
-                    display: block;
-                    margin-inline: auto; // Center the SVG
-                }
-            }
+    .button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: clamp(80px, 15vw, 180px);
+        height: clamp(80px, 15vw, 180px);
+        background-color: #455CE9;
 
-            .nav {
-                flex-direction: column;
-                align-items: center;
-                gap: clamp(0.5rem, 1.5vh, 0.75rem); // Original: 10px
-                margin-top: clamp(1.5rem, 3vh, 2rem); // Original: 30px
-            }
+        color: white;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border: none;
 
-            .info {
-                margin-top: clamp(1.5rem, 4vh, 2.5rem); // Original: 40px
-                // flex-direction and align-items already handled by 1000px media query
-            }
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        p {
+            margin: 0;
+            z-index: 3;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 300;
+            text-align: center;
+        }
+    }
+}
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: clamp(4rem, 10vh, 6rem); // Tăng khoảng cách so với title
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; // Cho phép các item xuống dòng trên màn hình vừa
+    gap: 2rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgb(134, 134, 134);
+    width: 100%;
+
+    // Style cho từng cột info trên màn hình lớn
+    .infoItem1, .infoItem2 {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .infoItem2 {
+        // Mặc định căn lề phải trên màn hình lớn
+        align-items: flex-end;
+    }
+
+    .socialLinks {
+        // Mặc định là cột trên màn hình lớn
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; // Căn phải các link
+        gap: 0.5rem;
+    }
+
+    h3 {
+        color: grey;
+        font-weight: 300;
+        font-size: 1rem;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    p, a {
+        margin: 0;
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        font-weight: 300;
+        text-decoration: none;
+        color: white;
+    }
+}
+
+
+/* =========================================== */
+/* ============= MEDIA QUERIES =============== */
+/* =========================================== */
+
+/* --- Dành cho Tablet và các màn hình nhỏ hơn --- */
+@media (max-width: 900px) {
+    .title {
+        h2 {
+            font-size: clamp(2.5rem, 12vw, 5rem);
+        }
+    }
+    .info {
+        // Căn lề lại cho cột thứ 2 khi không gian hẹp
+        div:last-child {
+            align-items: flex-start;
+        }
+    }
+}
+
+/* --- Dành cho Mobile --- */
+@media (max-width: 768px) { // Áp dụng cho tablet và mobile
+    .info {
+        /* THAY ĐỔI 1: Xếp chồng 2 khối info theo chiều dọc và căn giữa */
+        display: flex;
+        align-items: center;
+        text-align: center;
+        gap: 3rem; // Tăng khoảng cách giữa infoItem1 và infoItem2
+
+        .infoItem1, .infoItem2 {
+            /* Căn giữa nội dung bên trong mỗi item */
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .socialLinks {
+            /* THAY ĐỔI 2: Chuyển các link social thành HÀNG NGANG */
+            flex-direction: row;
+            gap: 1.5rem; // Khoảng cách giữa các link social
+            margin-top: 0.5rem; // Khoảng cách với chữ "socials"
         }
     }
 }
