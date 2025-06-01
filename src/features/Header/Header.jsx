@@ -69,6 +69,12 @@ export default function Header() {
               <div className={styles.indicator}></div>
             </div>
           </Magnetic>
+          <Magnetic>
+            <div className={styles.el}>
+              <a href="/blog">Blog</a>
+              <div className={styles.indicator}></div>
+            </div>
+          </Magnetic>
         </div>
       </div>
       <div ref={button} className={styles.headerButtonContainer}>

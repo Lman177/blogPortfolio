@@ -14,8 +14,14 @@ const Work = () => {
   const cursorLabel = useRef(null);
   const cursor = useRef(null);
   const navigate = useNavigate(); // <--- Call useNavigate at the top level
-  const { scrollYProgress } = useContext(LenisContext) || {};
+  const container = useRef(null);
 
+  // THAY ĐỔI CHÍNH Ở ĐÂY
+  // Thay vì dùng useContext, hãy cấu hình useScroll như sau:
+  const { scrollYProgress } = useScroll({
+    target: container, // Theo dõi phần tử được gán ref={container}
+    offset: ["start end", "end start"] // Bắt đầu animation khi container đi vào, kết thúc khi nó đi ra
+  });
   // State để điều khiển animation của cursor và cursorLabel
   const [cursorVariant, setCursorVariant] = useState("initial"); // "initial", "enter", "closed"
 
@@ -25,7 +31,8 @@ const Work = () => {
   const xMoveCursorLabel = useRef(null);
   const yMoveCursorLabel = useRef(null);
 
-  const height = useTransform(scrollYProgress, [0,1], [300, 0]);
+
+  const height = useTransform(scrollYProgress, [0, 1], [150, 0]);
 
   useEffect(() => {
     xMoveCursor.current = gsap.quickTo(cursor.current, "left", { duration: 0.5, ease: "power3" });
@@ -71,7 +78,7 @@ const Work = () => {
   return (
       <>
       {/*// Loại bỏ onMouseMove khỏi container cha nếu không muốn nó điều khiển cursor mặc định*/}
-      <div className={styles.container}>
+      <div className={styles.container} ref={container}>
         <div className={styles.work_container}>
           <div className={styles.top}>
             <h1 className={styles.work_title}>

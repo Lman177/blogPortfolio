@@ -43,9 +43,9 @@ const ProjectDetail = () => {
 
             switch (block.type) {
                 case "HEADING":
-                    const Tag = `h${block.level || 2}`; // Mặc định là h2 nếu không có level
+                    { const Tag = `h${block.level || 2}`; // Mặc định là h2 nếu không có level
                     elements.push(<Tag key={`block-${index}`} dangerouslySetInnerHTML={{ __html: block.content }}></Tag>);
-                    break;
+                    break; }
                 case "PARAGRAPH":
                     elements.push(<p key={`block-${index}`} dangerouslySetInnerHTML={{ __html: block.content }}></p>);
                     break;
@@ -76,7 +76,7 @@ const ProjectDetail = () => {
     };
 
     if (loading) {
-        return <div className={styles.loadingState}>Đang tải thông tin dự án...</div>; {/* Thêm class cho dễ style */}
+        return <div className={styles.loadingState}>Đang tải thông tin dự án...</div>;
     }
 
     if (!project) {
@@ -97,6 +97,15 @@ const ProjectDetail = () => {
                     {project.categoryName && project.year && (
                         <p className={styles.categoryAndYear}>
                             {project.categoryName} - {project.year}
+                        </p>
+
+                    )}
+                </div>
+
+                <div>
+                    {project.technologies && project.technologies.length > 0 && (
+                        <p className={styles.technologies}>
+                            <strong>Công nghệ sử dụng:</strong> {project.technologies.join(', ')}
                         </p>
                     )}
                 </div>
@@ -136,7 +145,7 @@ const ProjectDetail = () => {
                 )}
 
                 <div className={styles.navigation}>
-                    <Link to="/" className={styles.backButton}>← Quay lại danh sách</Link>
+                    <Link to="/work" className={styles.backButton}>← Quay lại danh sách</Link>
                 </div>
             </div>
             <motion.div style={{height}} className={styles.circleContainer}>

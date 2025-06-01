@@ -1,4 +1,4 @@
-// src/App.jsx
+// prj Portfolio
 import './App.css'; // giữ nguyên nếu là global css
 import Header from './features/Header/Header'
 import Home from '@features/HomePage/Home.jsx'; // đây là phần page chuyển từ `page.js`

@@ -5,6 +5,7 @@ import { useScroll, motion, useTransform } from 'framer-motion';
 import Magnetic from '../../Common/Magnetic';
 import Image from '@assets/background.png';
 import { useState, useEffect } from 'react';
+import {Link} from "react-router-dom";
 
 export default function Footer() {
     const container = useRef(null);
@@ -40,9 +41,11 @@ export default function Footer() {
                     </span>
                     <h2>together</h2>
                     <motion.div style={{ x }} className={styles.buttonContainer}>
-                        <Rounded backgroundColor={"#334BD3"} className={styles.button}>
-                            <p>Get in touch</p>
-                        </Rounded>
+                        <Link to="/contact">
+                            <Rounded backgroundColor={"#334BD3"} className={styles.button}>
+                                <p>Get in touch</p>
+                            </Rounded>
+                        </Link>
                     </motion.div>
 
                 </div>
