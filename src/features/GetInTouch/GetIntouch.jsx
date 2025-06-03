@@ -6,7 +6,8 @@ import styles from "@features/Description/description.module.css";
 import Rounded from "@Common/RoundedButton/RoundedButton.jsx";
 import {motion} from "framer-motion";
 import Magnetic from "@Common/Magnetic.jsx";
-import Img from '@assets/background.png'; // Replace with your own avatar image
+import Img from '@assets/background.png';
+import {Link} from "react-router-dom"; // Replace with your own avatar image
 const SERVICE_ID   = 'service_lgiz34k';      // e.g. 'service_xxx'
 const TEMPLATE_ID  = 'template_qm5dwbd';     // e.g. 'template_xxx'
 const USER_ID      = 'egjMm3GtXTdYX8e3d';         // e.g. 'user_xxx'
@@ -182,14 +183,9 @@ export default function GetInTouch() {
               {formErrors.message && <div className="error">{formErrors.message}</div>}
             </div>
             <motion.div className="buttonContainer">
-              <button
-                  className="button"
-                  type="submit"
-                  disabled={isSubmitting}
-                  style={{backgroundColor: "#334BD3"}}
-              >
-                <p>{isSubmitting ? 'Sending...' : 'Send Message'}</p>
-              </button>
+                <Rounded backgroundColor={"#334BD3"} className="button">
+                  <p>Get in touch</p>
+                </Rounded>
             </motion.div>
             {submitResult.success === true && (
                 <div className="success-message">{submitResult.message}</div>
@@ -211,7 +207,7 @@ export default function GetInTouch() {
           </div>
 
           <div className="contact-info">
-            <div className="section">
+          <div className="section">
               <h3>Contact Details</h3>
               <Magnetic>
                 <p> hoangnamnguyen1707@gmail.com</p>

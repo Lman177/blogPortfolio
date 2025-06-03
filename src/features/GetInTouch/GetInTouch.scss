@@ -12,6 +12,7 @@ $input-border: #555;
   width: 100%;
   min-height: 100vh; // Use min-height to adapt to content
   background-color: $background-color;
+  padding-top: clamp(50px, 20vw, 100px); // Responsive padding
 }
 
 .get-in-touch-wrapper {
@@ -31,6 +32,7 @@ $input-border: #555;
 
   .left-panel {
     width: 60%;
+    padding-left:150px;
 
     h1 {
       font-size: 100px;
@@ -87,6 +89,8 @@ $input-border: #555;
 
       .buttonContainer {
         z-index: 2;
+        left: 50%;
+
       }
 
       .button {
@@ -96,7 +100,8 @@ $input-border: #555;
         justify-content: center;
         width: clamp(80px, 15vw, 180px);
         height: clamp(80px, 15vw, 180px);
-        background-color: #455ce9;
+        background-color: #455CE9;
+
         color: white;
         border-radius: 50%;
         cursor: pointer;
@@ -116,6 +121,8 @@ $input-border: #555;
         }
       }
 
+
+
       .success-message {
         margin-top: 1rem;
         color: lighten($accent-color, 20%);
@@ -132,7 +139,7 @@ $input-border: #555;
 
   .right-panel {
     width: 40%; // Added width for the right panel
-    padding-top: 200px;
+    padding-top: 100px;
     position: relative;
     .profile {
       margin-top: 5%;
@@ -162,7 +169,7 @@ $input-border: #555;
           margin-bottom: 0.5rem;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          color: lighten($primary-color, 30%);
+          color: $primary-color;
         }
 
         p,

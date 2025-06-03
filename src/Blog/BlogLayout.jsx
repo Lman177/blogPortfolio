@@ -1,0 +1,40 @@
+
+import { Routes, Route, Outlet } from 'react-router-dom';
+import Navbar from "@/Blog/Component/navbar.component.jsx";
+import UserAuthForm from "@/Blog/pages/userAuthForm.page.jsx";
+import HomePage from "@/Blog/pages/home.page.jsx";
+import Editor from "@/Blog/pages/editor.pages.jsx";
+import './blog.styles.css';
+import {useEffect} from "react";
+import DetailBlog from "@/Blog/Component/detail-blog.component.jsx";
+
+
+const BlogLayout = () => {
+    useEffect(() => {
+        // Khi component được mount (bạn vào trang /blog/*)
+        // -> thêm class vào body
+        document.body.classList.add('allow-scroll');
+
+        // Hàm cleanup: sẽ được gọi khi component unmount (bạn rời khỏi trang /blog/*)
+        // -> xóa class khỏi body để quay về trạng thái overflow: hidden
+        return () => {
+            document.body.classList.remove('allow-scroll');
+        };
+    }, []);
+    return (
+        <div className="blog-section font-inter text-black">
+            <Routes>
+                <Route path="/editor" element={<Editor/>}/>
+                <Route path="/" element={<Navbar/>} >
+                    <Route index element={<HomePage/>}/>
+                    <Route path="signin" element={<UserAuthForm type="sign-in"/>}/>
+                    <Route path="signup" element={<UserAuthForm type="sign-up"/>}/>
+                    <Route path=":slug" element={<DetailBlog/>}/>
+                </Route>
+
+            </Routes>
+        </div>
+    );
+};
+
+export default BlogLayout;

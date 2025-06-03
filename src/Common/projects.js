@@ -113,7 +113,7 @@ export const projectsItem = [
                 content: "SecureVote hứa hẹn mang lại một giải pháp hiệu quả cho các cuộc bầu cử cấp quốc gia, bỏ phiếu trong tổ chức doanh nghiệp hoặc bất kỳ quy trình ra quyết định tập thể nào cần sự tin cậy cao."
             }
         ],
-        tagNames: ["blockchain", "bỏ phiếu điện tử", "an ninh mạng", "phi tập trung", "công nghệ tài chính", "hợp đồng thông minh"],
+        tagNames: ["blockchain", "bỏ phiếu điện tử", "an ninh mạng", "phi tập trung", "công nghệ tài chính", "hợp đồng thông minh","phát triển web"],
         categoryName: "Ứng dụng Blockchain & An ninh",
         technologies: ["Solidity", "Ethereum", "Smart Contracts", "JavaScript", "Node.js", "IPFS"]
     },
@@ -172,7 +172,7 @@ export const projectsItem = [
                 content: "LearnFlow hướng đến việc dân chủ hóa giáo dục chất lượng cao, giúp mọi người có thể tiếp cận kiến thức và phát triển kỹ năng một cách hiệu quả, phù hợp với nhu cầu cá nhân."
             }
         ],
-        tagNames: ["e-learning", "EdTech", "học máy", "cá nhân hóa", "giáo dục trực tuyến", "AI trong giáo dục"],
+        tagNames: ["e-learning", "EdTech", "học máy", "cá nhân hóa", "giáo dục trực tuyến", "AI trong giáo dục","phát triển web"],
         categoryName: "Công nghệ Giáo dục (EdTech)",
         technologies: ["Python", "JavaScript", "Machine Learning", "React", "Node.js", "Big Data"]
     },
