@@ -1,59 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {getPost, getRelatedPosts} from "@/Blog/Common2/apiFunction.js"; // Cần cài đặt react-router-dom
-
-// const MOCK_RELATED_POSTS = [
-//     {
-//         id: 6,
-//         title: "Kinh Nghiệm Du Lịch Hà Giang Tự Túc Chi Tiết Từ A-Z",
-//         slug: "kinh-nghiem-du-lich-ha-giang-tu-tuc",
-//         featuredImage: "https://images.unsplash.com/photo-1587911683339-3396924364d8?q=80&w=2070&auto=format&fit=crop", // Placeholder image
-//         category: "Du Lịch Việt Nam",
-//         publishedAt: [2025, 5, 20], // Năm, Tháng (1-12), Ngày
-//     },
-//     {
-//         id: 7,
-//         title: "Top 5 Homestay View Đẹp Ngất Ngây Tại Hà Giang",
-//         slug: "top-homestay-ha-giang",
-//         featuredImage: "https://images.unsplash.com/photo-1604726380750-59593704551a?q=80&w=1974&auto=format&fit=crop", // Placeholder image
-//         category: "Lưu Trú",
-//         publishedAt: [2025, 5, 15],
-//     },
-//     {
-//         id: 8,
-//         title: "Ẩm Thực Hà Giang: Những Món Ngon Không Thể Bỏ Lỡ",
-//         slug: "am-thuc-ha-giang",
-//         featuredImage: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop", // Placeholder image
-//         category: "Ẩm Thực",
-//         publishedAt: [2025, 5, 10],
-//     }
-// ];
+import {getPost, getRelatedPosts} from "@/Blog/Common2/apiFunction.js";
+import {formatDate} from "@/Blog/Common2/date.jsx"; // Cần cài đặt react-router-dom
 
 
-// --- KẾT THÚC GIẢ LẬP API ---
 
-
-// Helper để định dạng ngày tháng từ mảng của API
-const formatDate = (dateArray) => {
-    // Kiểm tra dateArray có hợp lệ và đủ phần tử không
-    if (!dateArray || !Array.isArray(dateArray) || dateArray.length < 3) {
-        // console.warn("formatDate: dateArray không hợp lệ hoặc không đủ phần tử.", dateArray);
-        return 'Ngày không xác định';
-    }
-    // Tạo đối tượng Date. Lưu ý: tháng trong JavaScript Date object là 0-indexed (0-11).
-    // API của bạn trả về tháng là 1-indexed (1-12), nên cần trừ 1.
-    const date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
-    // Kiểm tra xem date có phải là một ngày hợp lệ không
-    if (isNaN(date.getTime())) {
-        // console.warn("formatDate: dateArray tạo ra một ngày không hợp lệ.", dateArray);
-        return 'Ngày không hợp lệ';
-    }
-    return new Intl.DateTimeFormat('vi-VN', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    }).format(date);
-};
 
 // Helper để render các khối nội dung
 const ContentBlock = ({ block }) => {
@@ -267,7 +218,7 @@ const DetailBlog = () => {
                 onClick={() => navigate(-1)}
                 title="Quay lại trang trước"
                 aria-label="Quay lại trang trước"
-                className="fixed top-100 left-4 z-50 p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                className="btn-dark fixed top-1/5 left-4 "
             >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />

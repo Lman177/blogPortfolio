@@ -32,6 +32,9 @@
    BLOG SECTION STYLES (Chỉ áp dụng trong .blog-section)
    ================================================================= */
 @layer components {
+    .input-icon {
+        @apply absolute left-4 top-1/2 -translate-y-1/2;
+    }
     .blog-section {
         /* Tất cả các style cho blog-section sẽ được lồng vào đây */
 
@@ -60,12 +63,11 @@
         }
 
         .btn-dark {
-            @apply whitespace-nowrap bg-black text-white rounded-full py-3 px-6 text-xl capitalize hover:bg-opacity-80;
-        }
+            @apply flex items-center justify-center whitespace-nowrap bg-black text-white rounded-full py-3 px-6 text-xl capitalize hover:bg-opacity-80;        }
 
         /* FIX: Lồng .btn-light vào trong để nó trở thành .blog-section .btn-light */
         .btn-light {
-            @apply whitespace-nowrap bg-grey text-black rounded-full py-3 px-6 text-xl capitalize hover:bg-opacity-80;
+            @apply flex items-center justify-center whitespace-nowrap bg-grey text-black rounded-full py-3 px-6 text-xl capitalize hover:bg-opacity-80;
 
         }
 
@@ -78,9 +80,7 @@
         }
 
         /* FIX: Lồng .input-icon vào trong */
-        .input-icon {
-            @apply absolute left-4 top-1/2 -translate-y-1/2;
-        }
+
 
         .link {
             @apply text-dark-grey hover:text-black hover:bg-grey p-3 px-4 block opacity-75;
@@ -132,7 +132,7 @@
         }
 
         .tag {
-            @apply p-3 bg-grey rounded-full px-6 capitalize;
+            @apply p-3 rounded-full px-6 capitalize border-2 border-grey  transition-colors duration-200;
         }
 
         .blog-title {

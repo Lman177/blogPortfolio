@@ -1,107 +1,104 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'; // Added useRef
-import { fakeLatestBlogsData, fakeTrendingBlogsData, allFakeBlogsPool } from './fake-data';
+// src/pages/home.page.jsx
+
+import React, {useState, useEffect} from 'react';
 import AnimationWrapper from "@/Blog/Common2/page-animation.jsx";
-import InPageNavigation, {activeTabRef} from "@/Blog/Component/inpage-navigation.component.jsx";
+import InPageNavigation from "@/Blog/Component/inpage-navigation.component.jsx";
 import Loader from "@/Blog/Component/loader.component.jsx";
 import NoDataMessage from "@/Blog/Component/nodata.component.jsx";
-import MinimalBlogPost from "@/Blog/Component/nobanner-blog-post.component.jsx";
 import BlogPostCard from "@/Blog/Component/blog-post.component.jsx";
-import {useNavigate, useSearchParams} from "react-router-dom";
-import {UserContext} from "@/App.jsx";
-import {storeInSession} from "@/Blog/Common2/session.jsx";
-// If pasting directly, ensure the fake data generation code from above is here.
-// For this example, I'll assume the data generation code is directly above this component.
+import MinimalBlogPost from "@/Blog/Component/nobanner-blog-post.component.jsx";
+import {getAllCategories, getAllPosts, getPostsByCategory} from "@/Blog/Common2/apiFunction.js";
 
 const HomePage = () => {
-    let categories = ["programming", "anime", "finance", "Travel", "Social media", "Cooking", "Tech", "Bollywood"];
-
-    let [blogs, setBlogs] = useState(null);
-    let [trendingBlogs, setTrendingBlogs] = useState(null);
-    let [pageState, setPageState] = useState("home");
-
-    // Use activeTabRef from the import if it's correctly exported and managed by InPageNavigation
-    // If activeTabRef is local to InPageNavigation, you might need a different way to trigger the first tab
-    // For now, assuming activeTabRef is accessible and works as intended.
-    // If not, you might need to pass a ref to InPageNavigation or manage it internally.
-    // If activeTabRef from import is problematic, you can manage one locally:
-    // const localActiveTabRef = useRef();
-
-
-    const fetchLatestBlogs = () => {
-        console.log("Fetching latest blogs (fake)");
-        setTimeout(() => {
-            console.log("Received fake latest blogs:", fakeLatestBlogsData);
-            setBlogs(fakeLatestBlogsData);
-        }, 500); // Simulate network delay
+    const [blogs, setBlogs] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [pageState, setPageState] = useState("home");
+    const [trendingBlogs, setTrendingBlogs] = useState(null);
+    // Hàm tải các bài viết mới nhất (cho trang chủ)
+    const fetchLatestBlogs = async () => {
+        setBlogs(null); // Hiển thị loader trước khi gọi API
+        try {
+            const blogsData = await getAllPosts(0, 5);
+            setBlogs(blogsData.content);
+        } catch (error) {
+            console.error("Error fetching latest blogs:", error);
+            setBlogs([]);
+        }
+    };
+    const fetchLatestBlogs2 = async () => {
+        setTrendingBlogs(null); // Hiển thị loader trước khi gọi API
+        try {
+            const blogsData = await getAllPosts(0, 5, "publishedAt,desc");
+            setTrendingBlogs(blogsData.content);
+        } catch (error) {
+            console.error("Error fetching latest blogs:", error);
+            setBlogs([]);
+        }
     };
 
-    const fetchTrendingBlogs = () => {
-        console.log("Fetching trending blogs (fake)");
-        setTimeout(() => {
-            console.log("Received fake trending blogs:", fakeTrendingBlogsData);
-            setTrendingBlogs(fakeTrendingBlogsData);
-        }, 700); // Simulate network delay
+    // Hàm tải danh sách các category
+    const fetchCategories = async () => {
+        try {
+            const categoriesData = await getAllCategories();
+            const categoryNames = categoriesData.content.map(category => category.name);
+            setCategories(categoryNames);
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+            setCategories([]);
+        }
     };
 
-    const fetchBlogsByCategory = () => {
-        console.log(`Workspaceing blogs for category: ${pageState} (fake)`);
-        setTimeout(() => {
-            const filteredBlogs = allFakeBlogsPool.filter(blog =>
-                blog.tags.map(tag => tag.toLowerCase()).includes(pageState.toLowerCase())
-            );
-            console.log(`Received fake blogs for ${pageState}:`, filteredBlogs);
-            setBlogs(filteredBlogs);
-        }, 500); // Simulate network delay
-    };
-
-    const loadBlogByCategory = (e) => {
-        let category = e.target.innerText.toLowerCase();
-        setBlogs(null); // Show loader while "fetching"
-
-        if (pageState === category) {
-            setPageState('home'); // Go back to home if clicking current category
+    // Hàm tải bài viết theo category (được gọi khi click vào button)
+    const loadBlogByCategory = async (categoryName) => {
+        // Kiểm tra đầu vào hợp lệ
+        if (!categoryName || typeof categoryName !== 'string') {
+            console.error("Tên category không hợp lệ:", categoryName);
             return;
         }
+        const category = categoryName.toLowerCase();
+
+        // Nếu click vào category đang active, quay về trang chủ
+        if (pageState === category) {
+            setPageState('home');
+            fetchLatestBlogs(); // Tải lại dữ liệu cho trang chủ
+            return;
+        }
+
+        // Nếu click vào category mới
         setPageState(category);
+        setBlogs(null); // Hiển thị loader
+
+        try {
+            const postsData = await getPostsByCategory(category);
+            setBlogs(postsData.content);
+        } catch (error) {
+            console.error(`Không thể tải bài viết cho category: ${category}`, error);
+            setBlogs([]);
+        }
     };
 
+    // FIX: useEffect chỉ chạy một lần khi component được mount để tải dữ liệu ban đầu
     useEffect(() => {
-        // Ensure the InPageNavigation's active tab is clicked/set correctly.
-        // This depends on how activeTabRef is implemented and exported from InPageNavigation.
-        // If it's a ref to a button, .click() should work.
-        if (activeTabRef && activeTabRef.current && typeof activeTabRef.current.click === 'function') {
-            activeTabRef.current.click();
-        } else {
-            console.warn("activeTabRef.current.click is not available. InPageNavigation might not initialize correctly.");
-        }
-
-
-        if (pageState === "home") {
-            fetchLatestBlogs();
-        } else {
-            fetchBlogsByCategory();
-        }
-
-        if (!trendingBlogs) { // Fetch trending blogs only once
-            fetchTrendingBlogs();
-        }
-    }, [pageState]); // Removed trendingBlogs from dependency array to avoid re-fetching if it's already loaded
+        fetchCategories();
+        fetchLatestBlogs();
+        fetchLatestBlogs2();
+    }, []); // <-- Dependency rỗng đảm bảo nó chỉ chạy một lần
 
     return (
         <AnimationWrapper>
             <section className="h-cover flex justify-center gap-10">
                 {/* Main Content Area */}
                 <div className="w-full">
-                    {/* Pass the ref to InPageNavigation if it accepts one, e.g., ref={localActiveTabRef} */}
-                    <InPageNavigation routes={[pageState, 'trending blogs']} defaultHidden={['trending blogs']}>
-                        {/* Latest/Category Blogs Tab */}
+                    {/* routes[0] sẽ là pageState, ví dụ "home" hoặc "programming" */}
+                    <InPageNavigation routes={[pageState, 'latest blogs']} defaultHidden={['latest blogs']}>
+                        {/* Tab hiển thị bài viết theo category hoặc bài mới nhất */}
                         <>
                             {blogs === null ? (
                                 <Loader />
                             ) : blogs.length ? (
                                 blogs.map((blog, i) => (
                                     <AnimationWrapper key={blog.blog_id || i} transition={{ duration: 1, delay: i * 0.1 }}>
-                                        <BlogPostCard content={blog} author={blog.author.personal_info} />
+                                        <BlogPostCard content={blog} />
                                     </AnimationWrapper>
                                 ))
                             ) : (
@@ -109,12 +106,13 @@ const HomePage = () => {
                             )}
                         </>
 
-                        {/* Trending Blogs Tab */}
+                        {/* Tab Trending Blogs - Bạn có thể thêm logic fetch trending ở đây nếu cần */}
                         <>
-                            {trendingBlogs === null ? (
+                            {/* Phần này bạn có thể giữ nguyên hoặc thay đổi logic fetch cho trending blogs  */}
+                            {blogs === null ? (
                                 <Loader />
-                            ) : trendingBlogs.length ? (
-                                trendingBlogs.map((blog, i) => (
+                            ) : blogs.length ? (
+                                blogs.map((blog, i) => (
                                     <AnimationWrapper key={blog.blog_id || `trending-${i}`} transition={{ duration: 1, delay: i * 0.1 }}>
                                         <MinimalBlogPost blog={blog} index={i} />
                                     </AnimationWrapper>
@@ -134,10 +132,11 @@ const HomePage = () => {
                             <h1 className='font-medium text-xl mb-8'>Stories for all interests</h1>
                             <div className='flex-wrap gap-3 flex'>
                                 {categories.map((category, i) => (
+
                                     <button
-                                        onClick={loadBlogByCategory}
+                                        onClick={() => loadBlogByCategory(category)}
                                         className={'tag ' + (pageState === category.toLowerCase() ? "bg-black text-white" : " ")}
-                                        key={i}
+                                        key={category}
                                     >
                                         {category}
                                     </button>
@@ -148,19 +147,20 @@ const HomePage = () => {
                         {/* Trending Blogs in Sidebar */}
                         <div>
                             <h1 className='font-medium text-xl mb-8'>
-                                Trending Blogs
+                                Latest Blogs
                                 <i className='fi fi-rr-arrow-trend-up ml-2'></i>
                             </h1>
+                            {/* Phần này cũng sẽ hiển thị các bài viết từ state `blogs` */}
                             {trendingBlogs === null ? (
                                 <Loader />
                             ) : trendingBlogs.length ? (
-                                trendingBlogs.map((blog, i) => (
+                                trendingBlogs.slice(0, 5).map((blog, i) => ( // Dùng slice để giới hạn số lượng nếu cần
                                     <AnimationWrapper key={blog.blog_id || `side-trending-${i}`} transition={{ duration: 1, delay: i * 0.1 }}>
                                         <MinimalBlogPost blog={blog} index={i} />
                                     </AnimationWrapper>
                                 ))
                             ) : (
-                                <NoDataMessage message="No Trending Blogs found" />
+                                <NoDataMessage message="No Latest Blogs found" />
                             )}
                         </div>
                     </div>

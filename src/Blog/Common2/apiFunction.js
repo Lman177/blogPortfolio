@@ -1,4 +1,5 @@
 import axios from "axios"
+import error from "eslint-plugin-react/lib/util/error.js";
 
 export const api = axios.create({
     baseURL : "http://localhost:8080"
@@ -39,7 +40,7 @@ export const getAuthHeader = () => {
 
 
 /* ==========================================================================
-   AUTHENTICATION API FUNCTIONS (Dựa trên backend của bạn)
+   AUTHENTICATION API FUNCTIONS
    ========================================================================== */
 
 /**
@@ -93,7 +94,7 @@ export function googleLoginRedirect() {
 
 
 /* ==========================================================================
-   IMAGE API FUNCTIONS (Giữ nguyên từ file của bạn)
+   IMAGE API FUNCTIONS
    ========================================================================== */
 export async function uploadImage(imageFile) {
     if (!imageFile) {
@@ -105,7 +106,7 @@ export async function uploadImage(imageFile) {
     formData.append("file", imageFile); // "file" phải khớp với @RequestParam("file") ở backend
 
     const authHeader = getAuthHeader();
-    console.log("[uploadImage] Auth Header sẽ được sử dụng:", authHeader); // DEBUG
+    // console.log("[uploadImage] Auth Header sẽ được sử dụng:", authHeader); // DEBUG
 
     const headers = {
         ...authHeader, // Gửi kèm token nếu API yêu cầu xác thực
@@ -113,7 +114,7 @@ export async function uploadImage(imageFile) {
         // Tuy nhiên, nếu bạn gặp vấn đề, bạn có thể thử bỏ comment dòng dưới, nhưng thường là không cần thiết.
         // "Content-Type": "multipart/form-data",
     };
-    console.log("[uploadImage] Toàn bộ headers sẽ được gửi:", headers); // DEBUG
+    // console.log("[uploadImage] Toàn bộ headers sẽ được gửi:", headers); // DEBUG
 
 
     try {
@@ -122,15 +123,15 @@ export async function uploadImage(imageFile) {
         const response = await api.post("/api/images/upload", formData, {
             headers: headers,
         });
-        console.log("[uploadImage] Phản hồi thành công từ server:", response.data);
+        // console.log("[uploadImage] Phản hồi thành công từ server:", response.data);
         return response.data; // Backend thường trả về { url: "..." } hoặc cấu trúc mới như đã thảo luận
     } catch (error) {
         console.error("[uploadImage] Lỗi khi tải ảnh lên:", error);
         if (error.response) {
             // Request đã được gửi và server phản hồi với mã lỗi
-            console.error("[uploadImage] Data lỗi từ server:", error.response.data);
-            console.error("[uploadImage] Status lỗi từ server:", error.response.status);
-            console.error("[uploadImage] Headers lỗi từ server:", error.response.headers);
+            // console.error("[uploadImage] Data lỗi từ server:", error.response.data);
+            // console.error("[uploadImage] Status lỗi từ server:", error.response.status);
+            // console.error("[uploadImage] Headers lỗi từ server:", error.response.headers);
             // Nếu lỗi 401 hoặc 403, rất có thể là do token không hợp lệ hoặc thiếu quyền
             if (error.response.status === 401 || error.response.status === 403) {
                 throw new Error(`Lỗi xác thực (${error.response.status}): Token không hợp lệ hoặc bạn không có quyền thực hiện hành động này. Vui lòng đăng nhập lại.`);
@@ -138,43 +139,15 @@ export async function uploadImage(imageFile) {
             throw error.response.data || new Error(`Không thể tải ảnh lên. Lỗi server: ${error.response.status}`);
         } else if (error.request) {
             // Request đã được gửi nhưng không nhận được phản hồi
-            console.error("[uploadImage] Không nhận được phản hồi từ server:", error.request);
+            // console.error("[uploadImage] Không nhận được phản hồi từ server:", error.request);
             throw new Error("Không thể kết nối đến server để tải ảnh lên. Vui lòng kiểm tra kết nối mạng.");
         } else {
             // Có lỗi xảy ra khi thiết lập request
-            console.error("[uploadImage] Lỗi khi thiết lập request:", error.message);
+            // console.error("[uploadImage] Lỗi khi thiết lập request:", error.message);
             throw new Error(`Lỗi khi chuẩn bị tải ảnh: ${error.message}`);
         }
     }
 }
-
-
-/* ==========================================================================
-   IMAGE API FUNCTIONS
-   ========================================================================== */
-
-/**
- * Tải một file ảnh lên server.
- * @param {File} imageFile - File ảnh cần tải lên.
- * @returns {Promise<object>} - Promise trả về object chứa URL của ảnh đã tải lên (ví dụ: { url: "..." }).
- * @throws {Error} - Ném lỗi nếu upload thất bại.
- // export async function uploadImage(imageFile) {
- //     const formData = new FormData();
- //     formData.append("file", imageFile); // "file" phải khớp với @RequestParam("file") ở backend
-
- //     try {
- //         const response = await api.post("/api/images/upload", formData, {
- //             headers: {
- //                 ...getAuthHeader(), // Gửi kèm token nếu API yêu cầu xác thực
- //                 "Content-Type": "multipart/form-data", // Quan trọng cho việc upload file
- //             },
- //         });
- //         return response.data; // Backend trả về { url: "..." }
- //     } catch (error) {
- //         console.error("Lỗi khi tải ảnh lên:", error.response?.data || error.message);
- //         throw error.response?.data || new Error("Không thể tải ảnh lên.");
- //     }
- // }
 
 
  /* ==========================================================================
@@ -211,16 +184,16 @@ export async function createPost(postData) {
  * @returns {Promise<object>} - Promise trả về đối tượng Page chứa danh sách bài viết.
  * @throws {Error} - Ném lỗi nếu không lấy được danh sách.
  */
-export async function getAllPosts(page = 0, size = 10, sort = "publishedAt,desc") {
+export async function getAllPosts(page = 0, size = 5) {
     try {
-        const response = await api.get("/api/posts", {
+        const response = await api.get("/api/posts/get", {
             params: {
                 page,
                 size,
-                sort,
+                // sort,
             },
             headers: {
-                ...getAuthHeader(), // Có thể không cần token nếu API này public
+                // ...getAuthHeader(), // Có thể không cần token nếu API này public
             },
         });
         return response.data; // Dữ liệu dạng Page<PostResponse>
@@ -238,9 +211,12 @@ export async function getAllPosts(page = 0, size = 10, sort = "publishedAt,desc"
  */
 export async function getPost(idOrSlug) {
     try {
-        const response = await api.get(`/api/posts/${idOrSlug}`, {
+        const response = await api.get(`/api/posts`, {
+            params: {
+                idOrSlug // Gửi ID hoặc slug bài viết qua query parameter
+            },
             headers: {
-                ...getAuthHeader(), // Có thể không cần token nếu API này public
+                // ...getAuthHeader(), // Có thể không cần token nếu API này public
             },
         });
         return response.data;
@@ -259,7 +235,10 @@ export async function getPost(idOrSlug) {
  */
 export async function updatePost(postId, postData) {
     try {
-        const response = await api.put(`/api/posts/${postId}`, postData, {
+        const response = await api.put(`/api/posts/update`, postData, {
+            params: {
+                postId, // Gửi ID bài viết qua query parameter
+            },
             headers: {
                 ...getAuthHeader(),
                 "Content-Type": "application/json",
@@ -280,7 +259,10 @@ export async function updatePost(postId, postData) {
  */
 export async function deletePost(postId) {
     try {
-        const response = await api.delete(`/api/posts/${postId}`, {
+        const response = await api.delete(`/api/posts/delete`, {
+            params: {
+                postId, // Gửi ID bài viết qua query parameter
+            },
             headers: {
                 ...getAuthHeader(),
             },
@@ -317,7 +299,7 @@ export async function deletePost(postId) {
 export async function getRelatedPosts(postId, options = {}) {
     if (!postId) {
         // Nhất quán với việc throw Error object
-        const error = new Error('postId là bắt buộc để lấy bài viết liên quan.');
+        // const error = new Error('postId là bắt buộc để lấy bài viết liên quan.');
         console.error('Lỗi khi lấy bài viết liên quan:', error.message);
         throw error;
     }
@@ -328,6 +310,9 @@ export async function getRelatedPosts(postId, options = {}) {
     const queryParams = new URLSearchParams();
     queryParams.append('limit', limit.toString());
 
+    if (postId){
+        queryParams.append('postId', postId.toString());
+    }
     if (category) {
         queryParams.append('category', category);
     }
@@ -336,29 +321,20 @@ export async function getRelatedPosts(postId, options = {}) {
         tags.forEach(tag => queryParams.append('tags', tag));
     }
 
-    const endpoint = `/api/posts/${postId}/related?${queryParams.toString()}`;
+    const endpoint = `/api/posts/related?${queryParams.toString()}`;
     // Nếu bạn có BASE_URL và đối tượng `api` không tự động thêm nó:
     // const fullEndpoint = `${BASE_URL}/api/posts/${postId}/related?${queryParams.toString()}`;
 
-    console.log(`Đang gọi API lấy bài viết liên quan: ${endpoint}`);
+    // console.log(`Đang gọi API lấy bài viết liên quan: ${endpoint}`);
 
     try {
-        // Giả sử 'api.get' là phương thức từ một thư viện như Axios
-        // và getAuthHeader() trả về object headers cho xác thực (nếu cần)
+
         const response = await api.get(endpoint, { // Thay thế 'api.get' bằng cách gọi API của bạn
             headers: {
-                ...getAuthHeader(), // Có thể không cần token nếu API này public
+                // ...getAuthHeader(), // Có thể không cần token nếu API này public
                 'Content-Type': 'application/json', // Thường không cần cho GET request với Axios, nhưng để cho rõ ràng
             },
         });
-
-        // Với Axios, dữ liệu thường nằm trong response.data
-        // Nếu API trả về 204 No Content, response.data có thể là null hoặc undefined.
-        // Hàm này sẽ trả về những gì API trả về trong 'data'.
-        // Nếu bạn muốn luôn trả về mảng, kể cả khi 204, bạn có thể thêm logic:
-        // if (response.status === 204 || !response.data) {
-        //     return [];
-        // }
         return response.data;
 
     } catch (error) {
@@ -380,3 +356,52 @@ export async function getRelatedPosts(postId, options = {}) {
         }
     }
 }
+
+/**
+ * Lấy danh sách các bài viết theo category.
+ * @param {string} name - Slug của tag muốn lấy bài viết.
+ * @param {number} [page=0] - Số trang (bắt đầu từ 0).
+ * @param {number} [size=8] - Số lượng bài viết trên mỗi trang.
+ * @returns {Promise<object>} - Promise trả về đối tượng Page chứa danh sách bài viết.
+ * @throws {Error} - Ném lỗi nếu không lấy được danh sách.
+ */
+export async function getPostsByCategory(name, page = 0, size = 8) {
+    if (!name) {
+        console.error("Lỗi khi lấy bài viết theo category: 'name' là bắt buộc.");
+        throw new Error("'name' là bắt buộc để lấy bài viết theo category.");
+    }
+
+    try {
+        const response = await api.get(`/api/posts/category`, {
+            params: {
+                name,
+                page,
+                size,
+            },
+            headers: {
+                // ...getAuthHeader(), // Có thể không cần token nếu API này public
+            },
+        });
+        return response.data; // Dữ liệu dạng Page<PostResponse>
+    } catch (error) {
+        console.error(`Lỗi khi lấy bài viết theo category "${name}":`, error.response?.data || error.message);
+        throw error.response?.data || new Error(`Không thể lấy danh sách bài viết theo category "${name}".`);
+    }
+}
+
+
+
+ // Lấy danh sách Category
+export async function getAllCategories() {
+    try {
+        const response = await api.get("/api/categories", {
+            headers: {
+            },
+        });
+        return response.data; // Giả sử backend trả về danh sách category
+    } catch (error) {
+        console.error("Lỗi khi lấy danh sách category:", error.response?.data || error.message);
+        throw error.response?.data || new Error("Không thể lấy danh sách category.");
+    }
+}
+
