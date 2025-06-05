@@ -71,14 +71,16 @@ const UserAuthForm = ({ type }) => {
             console.log("Dữ liệu phản hồi để xử lý:", jwtResponseData);
 
             if (jwtResponseData && jwtResponseData.token) { // Kiểm tra jwtResponseData và token có hợp lệ
-                storeInSession("user", JSON.stringify(jwtResponseData));
+
                 const userDataForState = {
                     access_token: jwtResponseData.token, // Lấy JWT làm access_token
                     id: jwtResponseData.id,
                     email: jwtResponseData.email,
                     roles: jwtResponseData.roles,
-                    username: jwtResponseData.username || "", // Nếu không có username, để trống
+                    username: jwtResponseData.userName || "", // Nếu không có username, để trống
                 };
+                storeInSession("user", JSON.stringify(userDataForState));
+
                 setUserAuth(userDataForState);
 
                 // toast.success("Đăng nhập/Đăng ký thành công!"); // Có thể thêm thông báo

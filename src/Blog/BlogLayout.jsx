@@ -7,6 +7,7 @@ import Editor from "@/Blog/pages/editor.pages.jsx";
 import './blog.styles.css';
 import {useEffect} from "react";
 import DetailBlog from "@/Blog/Component/detail-blog.component.jsx";
+import OAuthCallbackPage from "@/Blog/pages/OAuthCallbackPage.jsx";
 
 
 const BlogLayout = () => {
@@ -25,11 +26,13 @@ const BlogLayout = () => {
         <div className="blog-section font-inter text-black">
             <Routes>
                 <Route path="/editor" element={<Editor/>}/>
-                <Route path="/" element={<Navbar/>} >
+                <Route  element={<Navbar/>} >
                     <Route index element={<HomePage/>}/>
                     <Route path="signin" element={<UserAuthForm type="sign-in"/>}/>
                     <Route path="signup" element={<UserAuthForm type="sign-up"/>}/>
                     <Route path=":slug" element={<DetailBlog/>}/>
+                    <Route path="/oauth-callback" element={<OAuthCallbackPage />} />
+
                 </Route>
 
             </Routes>

@@ -9,7 +9,7 @@ import {
     FaCss3Alt,
     FaFigma,
     FaGitAlt,
-    FaHtml5,
+    FaHtml5, FaJava,
     FaJsSquare,
     FaNodeJs,
     FaPython,
@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa";
 import {IoMdFootball} from "react-icons/io";
 import {MdSportsTennis} from "react-icons/md";
+import AnimationWrapper from "@/Blog/Common2/page-animation.jsx";
 
 // 2. CẬP NHẬT LẠI DỮ LIỆU SKILLS
 
@@ -35,7 +36,7 @@ const skillsData = [
     { name: 'React', icon: <FaReact /> },
     { name: 'Node.js', icon: <FaNodeJs /> },
     { name: 'Python', icon: <FaPython /> },
-    { name: 'Figma', icon: <FaFigma /> },
+    { name: 'Java', icon: <FaJava /> },
     { name: 'Git', icon: <FaGitAlt /> },
 ];
 
@@ -57,7 +58,9 @@ const About = () => {
     const height = useTransform(scrollYProgress, [0, 0.9], [150, 0]);
 
     return (
-        // Gán ref vào đây
+        <AnimationWrapper>
+
+
         <div ref={container} className={style.about}>
             <h1>Hi, I'm Nam aka Software Engineer</h1>
 
@@ -129,6 +132,7 @@ const About = () => {
                 <div className={style.circle}></div>
             </motion.div>
         </div>
+        </AnimationWrapper>
     )
 }
 

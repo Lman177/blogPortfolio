@@ -7,7 +7,8 @@ import Rounded from "@Common/RoundedButton/RoundedButton.jsx";
 import {motion} from "framer-motion";
 import Magnetic from "@Common/Magnetic.jsx";
 import Img from '@assets/background.png';
-import {Link} from "react-router-dom"; // Replace with your own avatar image
+import {Link} from "react-router-dom";
+import AnimationWrapper from "@/Blog/Common2/page-animation.jsx"; // Replace with your own avatar image
 const SERVICE_ID   = 'service_lgiz34k';      // e.g. 'service_xxx'
 const TEMPLATE_ID  = 'template_qm5dwbd';     // e.g. 'template_xxx'
 const USER_ID      = 'egjMm3GtXTdYX8e3d';         // e.g. 'user_xxx'
@@ -106,6 +107,7 @@ export default function GetInTouch() {
   };
 
   return (
+<AnimationWrapper>
       <div className='cover'>
 
 
@@ -113,7 +115,7 @@ export default function GetInTouch() {
         {/* LEFT PANEL: FORM */}
         <div className="left-panel">
           <h1>Let's start a project together</h1>
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={e => e.preventDefault()} noValidate>
             {/* 01. Name */}
             <div className="form-group">
               <label htmlFor="name">01. What's your name?</label>
@@ -183,8 +185,12 @@ export default function GetInTouch() {
               {formErrors.message && <div className="error">{formErrors.message}</div>}
             </div>
             <motion.div className="buttonContainer">
-                <Rounded backgroundColor={"#334BD3"} className="button">
-                  <p>Get in touch</p>
+                <Rounded 
+                      backgroundColor={"#334BD3"} 
+                      className="button" 
+                       onClick={handleSubmit} 
+                      disabled={isSubmitting}>
+                      <p>{isSubmitting ? "Sending..." : "Get in touch"}</p>
                 </Rounded>
             </motion.div>
             {submitResult.success === true && (
@@ -234,5 +240,6 @@ export default function GetInTouch() {
         </div>
       </div>
       </div>
+</AnimationWrapper>
   );
 }

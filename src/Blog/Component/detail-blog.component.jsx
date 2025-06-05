@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {getPost, getRelatedPosts} from "@/Blog/Common2/apiFunction.js";
-import {formatDate} from "@/Blog/Common2/date.jsx"; // Cần cài đặt react-router-dom
+import {formatDate} from "@/Blog/Common2/date.jsx";
+import AnimationWrapper from "@/Blog/Common2/page-animation.jsx"; // Cần cài đặt react-router-dom
 
 
 
@@ -212,6 +213,8 @@ const DetailBlog = () => {
 
 
     return (
+        <AnimationWrapper>
+
         <div className="bg-white text-gray-900 font-sans antialiased">
             {/* Nút trở về nổi ở góc trên bên trái */}
             <button
@@ -228,9 +231,9 @@ const DetailBlog = () => {
             <article className="max-w-3xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
                 <header className="mb-10">
                     {post.category && (
-                        <Link to={`/category/${post.category.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm font-semibold text-indigo-600 hover:text-indigo-800 uppercase tracking-wider transition-colors">
+                        <p  className="text-sm font-semibold text-indigo-600 hover:text-indigo-800 uppercase tracking-wider transition-colors">
                             {post.category}
-                        </Link>
+                        </p>
                     )}
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 my-3 leading-tight">
                         {post.title || "Tiêu đề bài viết không có"}
@@ -330,6 +333,8 @@ const DetailBlog = () => {
                 )}
             </article>
         </div>
+
+        </AnimationWrapper>
     );
 };
 

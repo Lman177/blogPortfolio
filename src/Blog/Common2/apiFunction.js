@@ -9,21 +9,21 @@ export const api = axios.create({
 
 export const getAuthHeader = () => {
     const userStr = sessionStorage.getItem("user");
-    console.log("[getAuthHeader] userStr từ sessionStorage:", userStr); // DEBUG
+    // console.log("[getAuthHeader] userStr từ sessionStorage:", userStr); // DEBUG
 
     if (!userStr) {
-        console.warn("[getAuthHeader] Không tìm thấy 'user' trong sessionStorage.");
+        // console.warn("[getAuthHeader] Không tìm thấy 'user' trong sessionStorage.");
         return {};
     }
 
     try {
         const user = JSON.parse(userStr);
-        console.log("[getAuthHeader] user sau khi JSON.parse:", user); // DEBUG
+        // console.log("[getAuthHeader] user sau khi JSON.parse:", user); // DEBUG
 
-        if (user && user.token) {
-            console.log("[getAuthHeader] Tìm thấy token:", user.token); // DEBUG
+        if (user && user.access_token) {
+            // console.log("[getAuthHeader] Tìm thấy token:", user.access_token); // DEBUG
             return {
-                Authorization: `Bearer ${user.token}`,
+                Authorization: `Bearer ${user.access_token}`,
             };
         } else {
             console.warn("[getAuthHeader] Object 'user' không hợp lệ hoặc không có 'token'.", user);
@@ -87,10 +87,11 @@ export async function loginUser(credentials) {
  * Chuyển hướng người dùng đến trang đăng nhập Google của backend.
  * Hàm này không phải là một API call trực tiếp bằng axios mà là điều hướng trình duyệt.
  */
-export function googleLoginRedirect() {
-    // Đảm bảo api.defaults.baseURL đã được thiết lập chính xác
-    window.location.href = `${api.defaults.baseURL}/auth/login/google`;
-}
+// export function handleGoogleAuth() {
+//     // Đảm bảo api.defaults.baseURL đã được thiết lập chính xác
+//     window.location.href = `${api.defaults.baseURL}/auth/login/google`;
+// }
+export const GoogleAuthUrl = `${api.defaults.baseURL}/auth/login/google`;
 
 
 /* ==========================================================================
@@ -184,13 +185,13 @@ export async function createPost(postData) {
  * @returns {Promise<object>} - Promise trả về đối tượng Page chứa danh sách bài viết.
  * @throws {Error} - Ném lỗi nếu không lấy được danh sách.
  */
-export async function getAllPosts(page = 0, size = 5) {
+export async function getAllPosts(page = 0, size = 5, sort = "") {
     try {
         const response = await api.get("/api/posts/get", {
             params: {
                 page,
                 size,
-                // sort,
+                sort,
             },
             headers: {
                 // ...getAuthHeader(), // Có thể không cần token nếu API này public

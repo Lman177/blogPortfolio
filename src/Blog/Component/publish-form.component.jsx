@@ -28,7 +28,6 @@ const PublishForm = () => {
     const tagLimit = 10;
     const navigate = useNavigate();
 
-    const { userAuth: { access_token } } = useContext(UserContext); // access_token might still be needed if API functions don't handle auth internally via getAuthHeader
     const {
         blog, // The whole blog object from context
         blog: {

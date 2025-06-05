@@ -11,15 +11,12 @@ import Description from '../Description/Description.jsx'
 import SlidingImages from '../SlidingImage/SlidingImg.jsx';
 import Contact from '../Contact/Footer.jsx';
 import {LenisContext} from "@/App.jsx";
+import AnimationWrapper from "@/Blog/Common2/page-animation.jsx";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { scrollYProgress } = useContext(LenisContext) || {};
-
-
-
-
 
 
   useEffect(() => {
@@ -33,7 +30,7 @@ export default function Home() {
   }, []);
 
   return (
-      <main className={styles.main}>
+      <AnimationWrapper>
 
 
         <Landing/>
@@ -42,6 +39,6 @@ export default function Home() {
         <SlidingImages/>
 
 
-      </main>
+      </AnimationWrapper>
   );
 }

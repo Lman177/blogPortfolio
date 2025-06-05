@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import logo from "../imgs/logo.png";
 import { useContext, useState } from "react";
 import UserNavigationPanel from "@/Blog/Component/user-navigation.component.jsx";
+import image from "@assets/background.png"
 import {UserContext} from "@/App.jsx";
 const Navbar =()  =>{
 
@@ -13,8 +14,8 @@ const Navbar =()  =>{
     // 2. Lấy token và profile_img từ userAuth một cách an toàn
     //    Sử dụng optional chaining (?.): nếu userAuth hoặc userAuth.token không tồn tại,
     //    thì token sẽ là undefined mà không gây lỗi.
-    const access_token = userAuth?.token;
-    const profile_img = userAuth?.profile_img;
+    const access_token = userAuth?.access_token;
+    const profile_img = userAuth?.picture;
     const handleUserNavPanel=()=>{
         setUserNavPanel(currentVal =>!currentVal);
     }
@@ -50,23 +51,26 @@ const Navbar =()  =>{
                 onClick={() => setSearchBoxVisibility(currentVal => !currentVal)}>
                     <i className="fi fi-rr-search  text-xl"></i>
                 </button>
+                {userAuth?.roles?.includes("ROLE_ADMIN") ? (
+                    <Link to="editor" className="hidden md:flex fap-2 link">
+                        <i className="fi fi-rr-file-edit"></i>
+                        <p>Write</p>
+                    </Link>
+                ) : null
+                }
 
-                <Link to="/blog/editor" className="hidden md:flex fap-2 link">
-                    <i className="fi fi-rr-file-edit"></i>
-                    <p>Write</p>
-                </Link>
                 {
                     access_token ?
                     <>
-                        <Link to="blog/dashboard/notifications">
-                            <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10">
+                        <Link to="dashboard/notifications">
+                            <button className=" w-12 h-12 mt-1 flex justify-center items-center rounded-full bg-grey relative hover:bg-black/10">
                                 <i className="fi fi-rr-bell text-2xl block mt-1"></i>
                             </button>
                         </Link>
 
                         <div className="realtive" onClick={handleUserNavPanel} onBlur={handleBlur}>
                             <button className="w-12 h-12 mt-1">
-                                <img src={profile_img} className="w-full h-full object-cover rounded-full" />
+                                <img src={profile_img ? profile_img : image } className="w-full h-full object-cover rounded-full" />
                             </button>
 
 
@@ -78,10 +82,10 @@ const Navbar =()  =>{
                     </>
                     :
                 <>
-                    <Link className="btn-dark py-2" to="/blog/signin">
+                    <Link className="btn-dark py-2" to="signin">
                         Sign In
                     </Link>
-                    <Link className="btn-light hidden py-2 md:block" to="/blog/signup">
+                    <Link className="btn-light hidden py-2 md:block" to="signup">
                         Sign Up
                     </Link>
                 </>

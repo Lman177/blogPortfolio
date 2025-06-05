@@ -4,7 +4,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { projectsItem } from '@Common/projects.js'; // Đường dẫn đến file projects.js của bạn
 import styles from './style.module.scss';
-import {motion, useScroll, useTransform} from "framer-motion"; // Sử dụng file style hiện tại của bạn
+import {motion, useScroll, useTransform} from "framer-motion";
+import AnimationWrapper from "@/Blog/Common2/page-animation.jsx"; // Sử dụng file style hiện tại của bạn
 
 const ProjectDetail = () => {
     const { slug } = useParams();
@@ -90,6 +91,7 @@ const ProjectDetail = () => {
     }
 
     return (
+        <AnimationWrapper>
         <div className={styles.container} ref={container}>
             <div className={styles.detail_container}>
                 <div className={styles.header}>
@@ -152,6 +154,7 @@ const ProjectDetail = () => {
                 <div className={styles.circle}></div>
             </motion.div>
         </div>
+        </AnimationWrapper>
     );
 };
 

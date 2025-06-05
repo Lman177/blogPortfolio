@@ -130,16 +130,16 @@ export const tools = {
             defaultStyle: 'unordered' // 'ordered' (có số) hoặc 'unordered' (dấu chấm)
         }
     },
-    quote: {
-        class: Quote,
-        inlineToolbar: true,
-        config: {
-            quotePlaceholder: 'Nhập trích dẫn',
-            captionPlaceholder: 'Tác giả trích dẫn',
-        },
-    },
-    embed: Embed, // Cho phép nhúng video YouTube, Vimeo, etc.
-    delimiter: Delimiter, // Thêm một đường kẻ ngang phân cách
+    // quote: {
+    //     class: Quote,
+    //     inlineToolbar: true,
+    //     config: {
+    //         quotePlaceholder: 'Nhập trích dẫn',
+    //         captionPlaceholder: 'Tác giả trích dẫn',
+    //     },
+    // },
+    // embed: Embed, // Cho phép nhúng video YouTube, Vimeo, etc.
+    // delimiter: Delimiter, // Thêm một đường kẻ ngang phân cách
     // Bạn có thể thêm các tools khác tại đây
     // Ví dụ: Table, Code, Checklist, Raw HTML, etc.
 };

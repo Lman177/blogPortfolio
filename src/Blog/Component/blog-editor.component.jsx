@@ -60,13 +60,7 @@ const transformEditorDataToContentBlocks = (editorBlocks) => {
                     });
                 });
                 break;
-            case 'quote':
-                contentBlocksResult.push({
-                    type: 'QUOTE',
-                    content: block.data.text,
-                    caption: block.data.caption || ''
-                });
-                break;
+
             case 'embed':
                 contentBlocksResult.push({
                     type: 'EMBED',
@@ -77,9 +71,6 @@ const transformEditorDataToContentBlocks = (editorBlocks) => {
                     height: block.data.height,
                     caption: block.data.caption || ''
                 });
-                break;
-            case 'delimiter':
-                contentBlocksResult.push({ type: 'DELIMITER' });
                 break;
             default:
                 console.warn("Block type không được hỗ trợ hoặc chưa được ánh xạ:", block.type, block.data);
@@ -137,7 +128,7 @@ const BlogEditor = () => {
                 holder: "textEditor",
                 data: { blocks: initialContentBlocks || [] },
                 tools: tools,
-                placeholder: "Hãy bắt đầu viết câu chuyện tuyệt vời của bạn...",
+                placeholder: "Let's write an awesome story!",
                 onReady: () => {
                     console.log("EditorJS đã sẵn sàng.");
                 }
@@ -171,21 +162,21 @@ const BlogEditor = () => {
     const handleBannerUpload = (e) => {
         let imgFile = e.target.files[0];
         if (imgFile) {
-            let loadingToast = toast.loading("Đang tải lên banner...");
+            let loadingToast = toast.loading("Uploading banner image...");
             uploadImage(imgFile, access_token) // uploadImage nên trả về { url: "..." }
                 .then((response) => {
                     if (response && typeof response.url === 'string' && response.url.trim() !== '') {
                         toast.dismiss(loadingToast);
-                        toast.success("Banner đã được tải lên!");
+                        toast.success("Banner has been uploaded successfully!");
                         setBlog(prevBlog => ({ ...prevBlog, src: response.url })); // src là featuredImage
                     } else {
                         toast.dismiss(loadingToast);
-                        toast.error("Không nhận được URL hợp lệ cho banner.");
+                        toast.error("Cannot upload banner image.");
                     }
                 })
                 .catch (err => {
                     toast.dismiss(loadingToast);
-                    return toast.error(err.message || "Lỗi khi tải lên banner.");
+                    return toast.error(err.message || "Error uploading banner image.");
                 });
         }
     }
@@ -197,8 +188,8 @@ const BlogEditor = () => {
 
     // Xử lý khi nhấn nút "Xuất bản"
     const handlePublishEvent = () => {
-        if (!src || !src.length) return toast.error("Vui lòng tải lên ảnh bìa (featuredImage).");
-        if (!title || !title.length) return toast.error("Vui lòng nhập tiêu đề.");
+        if (!src || !src.length) return toast.error("Please upload a cover image.");
+        if (!title || !title.length) return toast.error("Please enter a title.");
 
         if (textEditor && typeof textEditor.save === 'function') {
             textEditor.save()
@@ -215,19 +206,19 @@ const BlogEditor = () => {
                         }));
                         setEditorState("publish"); // Chuyển sang PublishForm
                     } else {
-                        return toast.error("Vui lòng viết nội dung cho bài viết.");
+                        return toast.error("Please write some content before publishing.");
                     }
                 })
-                .catch(err => toast.error("Không thể lưu nội dung từ trình soạn thảo."));
+                .catch(err => toast.error("Cannot get content to publish."));
         } else {
-            toast.error("Trình soạn thảo chưa sẵn sàng.");
+            toast.error("Editor is not ready yet.");
         }
     }
 
     // Xử lý khi nhấn nút "Lưu nháp"
     const handleSaveDraft = (e) => {
-        if (e.target.className.includes("disable")) return;
-        if (!title || !title.length) return toast.error("Vui lòng nhập tiêu đề để lưu nháp.");
+        if (!src || !src.length) return toast.error("Please upload a cover image.");
+        if (!title || !title.length) return toast.error("Please enter a title.");
 
         let loadingToast = toast.loading("Đang lưu nháp...");
         e.target.classList.add('disable');
@@ -310,8 +301,8 @@ const BlogEditor = () => {
                     {title && title.length ? title : "Bài viết mới"}
                 </p>
                 <div className="flex gap-4 ml-auto">
-                    <button className="btn-dark py-2" onClick={handlePublishEvent}>Xuất bản</button>
-                    <button className="btn-light py-2" onClick={handleSaveDraft}>Lưu nháp</button>
+                    <button className="btn-dark py-2" onClick={handlePublishEvent}>Publish</button>
+                    {/*<button className="btn-light py-2" onClick={handleSaveDraft}>Lưu nháp</button>*/}
                 </div>
             </nav>
             <AnimationWrapper>
@@ -331,7 +322,7 @@ const BlogEditor = () => {
                         </div>
                         <textarea
                             value={title || ""}
-                            placeholder="Tiêu đề bài viết..."
+                            placeholder="Title..."
                             className="text-4xl font-medium w-full h-auto min-h-[80px] outline-none resize-none mt-10 leading-tight placeholder:opacity-60"
                             onKeyDown={handleTitleKeyDown}
                             onChange={handleTitleChange}

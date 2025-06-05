@@ -6,6 +6,7 @@ import {motion, useScroll, useTransform} from "framer-motion";
 import gsap from "gsap";
 import {useNavigate} from "react-router-dom";
 import {LenisContext} from "@/App.jsx";
+import AnimationWrapper from "@/Blog/Common2/page-animation.jsx";
 
 
 
@@ -76,7 +77,7 @@ const Work = () => {
 
 
   return (
-      <>
+      <AnimationWrapper>
       {/*// Loại bỏ onMouseMove khỏi container cha nếu không muốn nó điều khiển cursor mặc định*/}
       <div className={styles.container} ref={container}>
         <div className={styles.work_container}>
@@ -188,7 +189,7 @@ const Work = () => {
   <motion.div style={{height}} className={styles.circleContainer}>
     <div className={styles.circle}></div>
   </motion.div>
-  </>
+  </AnimationWrapper>
 )
   ;
 };
