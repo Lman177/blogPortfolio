@@ -19,22 +19,22 @@ const UserNavigationPanel =()=>{
 
             <div className="bg-white absolute right-0 border
              border-grey w-60 overflow-hidden duration-200">
-                {userAuth.roles.includes("ROLE_ADMIN")  ? (
+
 
 
                     <Link to={`/blog/user/${email}`} className="link pl-8 py-4">
                         Profile
                     </Link>
 
-            //         <Link to={`/dashboard/blogs`} className="link pl-8 py-4">
-            //     Dashboard
-            //         </Link>
-            //
-            // <Link to={`/settings/edit-profile`} className="link pl-8 py-4">
-            //     Settings
-            // </Link>
+             {/*        <Link to={`/dashboard/blogs`} className="link pl-8 py-4">*/}
+             {/*    Dashboard*/}
+             {/*        </Link>*/}
 
-                ) : <></> }
+             {/*<Link to={`/settings/edit-profile`} className="link pl-8 py-4">*/}
+             {/*    Settings*/}
+             {/*</Link>*/}
+
+
 
 
                 <span className="absolute border-t border-grey  w-[100%]"></span>

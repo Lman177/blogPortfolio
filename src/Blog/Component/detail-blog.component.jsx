@@ -189,7 +189,7 @@ const DetailBlog = () => {
         );
     }
     const handleDeletePost = () => {
-        if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này không? Hành động này không thể hoàn tác.")) {
+        if (window.confirm("Would you like to delete this post forever")) {
             const loadingToast = toast.loading("Đang xóa bài viết...");
             deletePost(post.id)
                 .then(() => {
@@ -247,7 +247,7 @@ const DetailBlog = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                               d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
-                    <span>Quay lại</span>
+                    <span>Back</span>
                 </button>
             {isAuthor && (
                 <div className="absolute top-100 right-0 flex gap-2">
@@ -255,13 +255,13 @@ const DetailBlog = () => {
                         to={`/blog/edit-blog/${post.id}`} // Dùng ID để đảm bảo tính duy nhất
                         className="px-3 py-1.5 bg-gray-200 text-gray-800 text-xs font-semibold rounded-md hover:bg-gray-300 transition-colors"
                     >
-                        Chỉnh sửa
+                        Edit
                     </Link>
                     <button
                         onClick={handleDeletePost}
                         className="px-3 py-1.5 bg-red-100 text-red-700 text-xs font-semibold rounded-md hover:bg-red-200 transition-colors"
                     >
-                        Xóa
+                        Delete
                     </button>
                 </div>
             )}
@@ -277,7 +277,7 @@ const DetailBlog = () => {
                         {post.title || "Tiêu đề bài viết không có"}
                     </h1>
                     <div className="flex flex-wrap items-center text-sm text-gray-600 gap-x-4 gap-y-1 mt-3">
-                        <span>Bởi <span
+                        <span>By <span
                             className="font-semibold text-gray-800">{post.author?.username || 'Tác giả ẩn danh'}</span></span>
                         <span className="hidden sm:inline text-gray-400">•</span>
                         <time dateTime={post.publishedAt ? new Date(post.publishedAt[0], post.publishedAt[1]-1, post.publishedAt[2]).toISOString() : undefined}>
@@ -286,7 +286,7 @@ const DetailBlog = () => {
                         {post.status === "PUBLISHED" && (
                             <>
                                 <span className="hidden sm:inline text-gray-400">•</span>
-                                <span className="px-2.5 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Đã xuất bản</span>
+                                <span className="px-2.5 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Published</span>
                             </>
                         )}
                     </div>
@@ -338,7 +338,7 @@ const DetailBlog = () => {
 
                 {/* Nút chia sẻ */}
                 <div className="mt-10 pt-6 border-t border-gray-200">
-                    <h3 className="font-semibold text-gray-800 mb-3 text-base">Chia sẻ bài viết này:</h3>
+                    <h3 className="font-semibold text-gray-800 mb-3 text-base">Share this blog:</h3>
                     <div className="flex items-center space-x-3">
                         <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer" title="Chia sẻ lên Facebook" className="p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-blue-600">
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" /></svg>
@@ -352,7 +352,7 @@ const DetailBlog = () => {
                             </svg>
                             {showCopiedMessage && (
                                 <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded-md shadow-lg whitespace-nowrap">
-                                    Đã sao chép!
+                                    Copied
                                 </span>
                             )}
                         </button>
@@ -362,7 +362,7 @@ const DetailBlog = () => {
                 {/* Bài viết liên quan */}
                 {relatedPosts && Array.isArray(relatedPosts) && relatedPosts.length > 0 && (
                     <section className="mt-16 pt-10 border-t border-gray-200">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Có thể bạn cũng thích</h2>
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Some Blogs you may like</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
                             {relatedPosts.map(relatedPost => (
                                 <RelatedPostCard key={relatedPost.id || relatedPost.slug} post={relatedPost} />

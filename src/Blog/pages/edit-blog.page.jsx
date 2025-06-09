@@ -8,7 +8,6 @@ import defaultBanner from "../imgs/blog banner.png";
 import {getPost, updatePost, uploadImage} from "@/Blog/Common2/apiFunction.js";
 import {tools} from "@/Blog/Component/tools.component.jsx";
 
-// Hàm này chuyển dữ liệu từ Database của bạn sang định dạng Editor.js có thể đọc
 const transformDbBlocksToEditorJsData = (dbBlocks) => {
     if (!dbBlocks || !Array.isArray(dbBlocks)) return [];
 
@@ -184,9 +183,10 @@ const BlogEditor = () => {
                         content: editorReadyData, // Dữ liệu đã sẵn sàng cho EditorJS
                         slug: postData.slug,
                         status: postData.status,
-                        tagNames: postData.tagNames || [],
+                        tagNames: postData.tags,
                         categoryNames: postData.categoryNames || [],
                     });
+
                 })
                 .catch(err => {
                     toast.dismiss();
@@ -199,7 +199,13 @@ const BlogEditor = () => {
                 });
         }
     }, [blogId]); // Chỉ chạy khi có blogId
-
+    useEffect(() => {
+        // useEffect này sẽ chỉ chạy KHI VÀ CHỈ KHI state `blog` đã thay đổi và component đã re-render xong.
+        // Đây là cách chính xác để xem giá trị state mới nhất.
+        if (blog && blog.id) { // Chỉ log khi blog đã có dữ liệu
+            console.log("Blog state đã được cập nhật:", blog);
+        }
+    }, [blog]); // <-- Dependency là `blog`
     // Khởi tạo EditorJS
     useEffect(() => {
         // Chỉ khởi tạo khi chưa có instance và đã có dữ liệu (cho edit mode) hoặc là trang tạo mới
@@ -273,19 +279,19 @@ const BlogEditor = () => {
                         // Nếu bạn cần thêm các trường khác, hãy thêm vào đây
 
                     };
-
+                    // console.log("Post Payload:", postPayload);
                     // const apiMethod = blogId ? 'put' : 'post';
                     // const apiUrl = blogId ? `/api/posts/${blogId}` : '/api/posts';
                     //
                     const loadingToast = toast.loading(blogId ? "Đang cập nhật..." : "Đang xuất bản...");
                     // console.log(blogId, postPayload);
                     updatePost(blogId, postPayload)
-                        .then(({ data }) => {
+                        .then(() => {
                             toast.dismiss(loadingToast);
                             toast.success(blogId ? "Cập nhật thành công!" : "Xuất bản thành công!");
 
                             setTimeout(() => {
-                                navigate(`/blog/${data.slug}`); // Điều hướng đến trang xem bài viết
+                                navigate(`/blog/${blogId}`); // Điều hướng đến trang xem bài viết
                             }, 1000);
                         })
                         .catch(({ response }) => {

@@ -23,8 +23,8 @@ const OAuthCallbackPage = () => {
             const userData = {
                 access_token: token,
                 id: id || '', // Có thể là null nếu không được gửi hoặc không có trong User entity
-                email: decodeURIComponent(email), // Giải mã nếu cần (thường trình duyệt tự làm)
-                username: username ? decodeURIComponent(username) : 'User', // Cung cấp giá trị mặc định
+                username: decodeURIComponent(email), // Giải mã nếu cần (thường trình duyệt tự làm)
+                email: username ? decodeURIComponent(username) : 'User', // Cung cấp giá trị mặc định
                 picture: picture ? decodeURIComponent(picture) : '', // URL ảnh
                 role: role ? decodeURIComponent(role) : ''
             };
