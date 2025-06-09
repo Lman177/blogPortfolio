@@ -191,6 +191,68 @@
     font-weight: 300;
     pointer-events: none;
   }
+  /* --- CSS CHO NÚT VIEW MORE --- */
+  .view_more_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0; // Tạo khoảng cách với project grid và phần tử bên dưới
+  }
+
+  .view_more_button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    border-radius: 30px;
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease; // Thêm transform cho hiệu ứng nhấn nhẹ
+    box-sizing: border-box;
+    line-height: 1.3;
+    border: 1px solid #d0d0d0; // Viền xám nhạt mặc định
+
+    background-color: #fff; // Nền trắng
+    color: #333;           // Chữ tối
+    font-weight: 400;
+
+    p {
+      z-index: 1;
+    }
+
+    sup {
+      font-size: 0.65em;
+      margin-left: 3px;
+      position: relative;
+      top: -0.5em;
+      font-weight: 400; // Giữ font-weight như chữ thường của button
+    }
+
+    &:hover {
+      background-color: #f0f0f0; // Nền hơi xám hơn
+      border-color: #a0a0a0;   // Viền đậm hơn chút
+      color: #000;             // Chữ có thể đậm hơn
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+
+    //&:hover {
+    //  background-color: #000;
+    //  color: #fff;
+    //  border-color: #000;
+    //}
+    //
+    //&:active {
+    //  transform: scale(0.97);
+    //}
+
+
 
 }
 
@@ -199,7 +261,7 @@
   z-index: 1;
 
   .circle{
-    height: 200%;
+    height: 100%;
     width: 100%;
     border-radius: 0 0 50% 50%;
     background-color: white;
@@ -237,5 +299,9 @@
   // Ẩn custom cursor trên mobile
   .cursor, .cursorLabel {
     display: none !important;
+  }
+  .view_more_button {
+    padding: 15px 30px;
+    font-size: 15px;
   }
 }

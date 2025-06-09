@@ -217,21 +217,24 @@ const DetailBlog = () => {
 
         <div className="bg-white text-gray-900 font-sans antialiased">
             {/* Nút trở về nổi ở góc trên bên trái */}
-            <button
-                onClick={() => navigate(-1)}
-                title="Quay lại trang trước"
-                aria-label="Quay lại trang trước"
-                className="btn-dark fixed top-1/5 left-4 "
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-            </button>
+
+                <button
+                    onClick={() => navigate(-1)}
+                    className="fixed flex items-center space-x-2 px-4 py-2 bg-neutral-700 text-neutral-200 rounded-md hover:bg-neutral-600 transition-colors duration-200 text-sm font-medium"
+                >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                              d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span>Quay lại</span>
+                </button>
+
 
             <article className="max-w-3xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
                 <header className="mb-10">
                     {post.category && (
-                        <p  className="text-sm font-semibold text-indigo-600 hover:text-indigo-800 uppercase tracking-wider transition-colors">
+                        <p className="text-sm font-semibold text-indigo-600 hover:text-indigo-800 uppercase tracking-wider transition-colors">
                             {post.category}
                         </p>
                     )}
@@ -239,7 +242,8 @@ const DetailBlog = () => {
                         {post.title || "Tiêu đề bài viết không có"}
                     </h1>
                     <div className="flex flex-wrap items-center text-sm text-gray-600 gap-x-4 gap-y-1 mt-3">
-                        <span>Bởi <span className="font-semibold text-gray-800">{post.author?.username || 'Tác giả ẩn danh'}</span></span>
+                        <span>Bởi <span
+                            className="font-semibold text-gray-800">{post.author?.username || 'Tác giả ẩn danh'}</span></span>
                         <span className="hidden sm:inline text-gray-400">•</span>
                         <time dateTime={post.publishedAt ? new Date(post.publishedAt[0], post.publishedAt[1]-1, post.publishedAt[2]).toISOString() : undefined}>
                             {formatDate(post.publishedAt)}

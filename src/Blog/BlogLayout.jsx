@@ -8,6 +8,8 @@ import './blog.styles.css';
 import {useEffect} from "react";
 import DetailBlog from "@/Blog/Component/detail-blog.component.jsx";
 import OAuthCallbackPage from "@/Blog/pages/OAuthCallbackPage.jsx";
+import ProfileComponent from "@/Blog/Component/profile.component.jsx";
+// import EditBlogPage from "@/Blog/pages/edit-blog.page.jsx";
 
 
 const BlogLayout = () => {
@@ -32,9 +34,9 @@ const BlogLayout = () => {
                     <Route path="signup" element={<UserAuthForm type="sign-up"/>}/>
                     <Route path=":slug" element={<DetailBlog/>}/>
                     <Route path="/oauth-callback" element={<OAuthCallbackPage />} />
-
                 </Route>
-
+                <Route path="user/:email" element={<ProfileComponent/> } />
+                {/*<Route path="edit-blog/:id" element={<EditBlogPage/>} />*/}
             </Routes>
         </div>
     );

@@ -1,4 +1,3 @@
-// src/components/tools.component.jsx (Hoặc đường dẫn tương tự của bạn)
 
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';

@@ -2,8 +2,8 @@ import axios from "axios"
 import error from "eslint-plugin-react/lib/util/error.js";
 
 export const api = axios.create({
-    baseURL : "http://localhost:8080"
-    // baseURL : "http://34.41.181.239:8080"
+    baseURL : "http://localhost:8080/api"
+    // baseURL : "http://34.71.194.110:8080"
 })
 
 
@@ -91,7 +91,7 @@ export async function loginUser(credentials) {
 //     // Đảm bảo api.defaults.baseURL đã được thiết lập chính xác
 //     window.location.href = `${api.defaults.baseURL}/auth/login/google`;
 // }
-export const GoogleAuthUrl = `${api.defaults.baseURL}/auth/login/google`;
+export const handleGoogleAuth = `${api.defaults.baseURL}/auth/login/google`;
 
 
 /* ==========================================================================
@@ -121,7 +121,7 @@ export async function uploadImage(imageFile) {
     try {
         // Giả sử 'api' là một instance của Axios đã được cấu hình
         // import api from './axiosConfig'; // Ví dụ
-        const response = await api.post("/api/images/upload", formData, {
+        const response = await api.post("/images/upload", formData, {
             headers: headers,
         });
         // console.log("[uploadImage] Phản hồi thành công từ server:", response.data);
@@ -164,7 +164,7 @@ export async function uploadImage(imageFile) {
  */
 export async function createPost(postData) {
     try {
-        const response = await api.post("/api/posts", postData, {
+        const response = await api.post("/posts", postData, {
             headers: {
                 ...getAuthHeader(),
                 "Content-Type": "application/json",
@@ -187,7 +187,7 @@ export async function createPost(postData) {
  */
 export async function getAllPosts(page = 0, size = 5, sort = "") {
     try {
-        const response = await api.get("/api/posts/get", {
+        const response = await api.get("/posts/get", {
             params: {
                 page,
                 size,
@@ -212,7 +212,7 @@ export async function getAllPosts(page = 0, size = 5, sort = "") {
  */
 export async function getPost(idOrSlug) {
     try {
-        const response = await api.get(`/api/posts`, {
+        const response = await api.get(`/posts`, {
             params: {
                 idOrSlug // Gửi ID hoặc slug bài viết qua query parameter
             },
@@ -236,7 +236,7 @@ export async function getPost(idOrSlug) {
  */
 export async function updatePost(postId, postData) {
     try {
-        const response = await api.put(`/api/posts/update`, postData, {
+        const response = await api.put(`/posts/update`, postData, {
             params: {
                 postId, // Gửi ID bài viết qua query parameter
             },
@@ -260,7 +260,7 @@ export async function updatePost(postId, postData) {
  */
 export async function deletePost(postId) {
     try {
-        const response = await api.delete(`/api/posts/delete`, {
+        const response = await api.delete(`/posts/delete`, {
             params: {
                 postId, // Gửi ID bài viết qua query parameter
             },
@@ -322,7 +322,7 @@ export async function getRelatedPosts(postId, options = {}) {
         tags.forEach(tag => queryParams.append('tags', tag));
     }
 
-    const endpoint = `/api/posts/related?${queryParams.toString()}`;
+    const endpoint = `/posts/related?${queryParams.toString()}`;
     // Nếu bạn có BASE_URL và đối tượng `api` không tự động thêm nó:
     // const fullEndpoint = `${BASE_URL}/api/posts/${postId}/related?${queryParams.toString()}`;
 
@@ -373,7 +373,7 @@ export async function getPostsByCategory(name, page = 0, size = 8) {
     }
 
     try {
-        const response = await api.get(`/api/posts/category`, {
+        const response = await api.get(`/posts/category`, {
             params: {
                 name,
                 page,
@@ -395,7 +395,7 @@ export async function getPostsByCategory(name, page = 0, size = 8) {
  // Lấy danh sách Category
 export async function getAllCategories() {
     try {
-        const response = await api.get("/api/categories", {
+        const response = await api.get("/categories", {
             headers: {
             },
         });

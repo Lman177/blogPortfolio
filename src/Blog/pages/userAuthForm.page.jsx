@@ -1,9 +1,9 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import googleicon from "../imgs/google.png";
-import { useContext } from "react"; // Removed useRef as authForm ref wasn't used
+import { useContext } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {storeInSession} from "@/Blog/Common2/session.jsx";
-import {loginUser, registerUser} from "@/Blog/Common2/apiFunction.js";
+import {handleGoogleAuth, loginUser, registerUser} from "@/Blog/Common2/apiFunction.js";
 import AnimationWrapper from "@/Blog/Common2/page-animation.jsx";
 import InputBox from "@Common/input.component.jsx";
 import {UserContext} from "@/App.jsx";
@@ -127,7 +127,6 @@ const UserAuthForm = ({ type }) => {
         }
     };
 
-    const handleGoogleAuth = (import.meta.env.VITE_SERVER_DOMAIN || "http://localhost:8080") + "/auth/login/google";
 
     // If user is already logged in (access_token exists), navigate to home.
     if (access_token) {

@@ -1,13 +1,11 @@
-// src/pages/home.page.jsx
-
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AnimationWrapper from "@/Blog/Common2/page-animation.jsx";
 import InPageNavigation from "@/Blog/Component/inpage-navigation.component.jsx";
 import Loader from "@/Blog/Component/loader.component.jsx";
 import NoDataMessage from "@/Blog/Component/nodata.component.jsx";
 import BlogPostCard from "@/Blog/Component/blog-post.component.jsx";
 import MinimalBlogPost from "@/Blog/Component/nobanner-blog-post.component.jsx";
-import {getAllCategories, getAllPosts, getPostsByCategory} from "@/Blog/Common2/apiFunction.js";
+import { getAllCategories, getAllPosts, getPostsByCategory } from "@/Blog/Common2/apiFunction.js";
 
 const PAGE_SIZE = 5;
 
@@ -15,26 +13,31 @@ const HomePage = () => {
     const [blogs, setBlogs] = useState(null);
     const [trendingBlogs, setTrendingBlogs] = useState(null);
     const [categories, setCategories] = useState([]);
-    const [pageState, setPageState] = useState("home");
+    const [pageState, setPageState] = useState("home"); // "home" hoặc tên category
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
+    const updateBlogState = useCallback((data) => {
+        setBlogs(data.content);
+        setTotalPages(data.totalPages);
+        setCurrentPage(data.number);
+    }, []);
+
     const fetchLatestBlogs = useCallback(async (pageToFetch = 0) => {
-        setBlogs(null);
+        setBlogs(null); // Show loader
         try {
             const blogsData = await getAllPosts(pageToFetch, PAGE_SIZE);
-            setBlogs(blogsData.content);
-            setTotalPages(blogsData.totalPages);
-            setCurrentPage(blogsData.number);
+            updateBlogState(blogsData);
         } catch (error) {
             console.error("Error fetching latest blogs:", error);
             setBlogs([]);
             setTotalPages(0);
+            setCurrentPage(0);
         }
-    }, []);
+    }, [updateBlogState]);
 
-    const fetchTrendingSidebarBlogs = async () => {
-        setTrendingBlogs(null);
+    const fetchTrendingSidebarBlogs = useCallback(async () => {
+        setTrendingBlogs(null); // Show loader
         try {
             const blogsData = await getAllPosts(0, 5, "publishedAt,desc");
             setTrendingBlogs(blogsData.content);
@@ -42,9 +45,9 @@ const HomePage = () => {
             console.error("Error fetching trending/sidebar blogs:", error);
             setTrendingBlogs([]);
         }
-    };
+    }, []);
 
-    const fetchCategories = async () => {
+    const fetchCategories = useCallback(async () => {
         try {
             const categoriesData = await getAllCategories();
             const categoryNames = categoriesData.content.map(category => category.name);
@@ -53,73 +56,77 @@ const HomePage = () => {
             console.error("Error fetching categories:", error);
             setCategories([]);
         }
-    };
+    }, []);
 
-    const loadBlogByCategory = useCallback(async (categoryName, pageToFetch = 0) => {
-        if (!categoryName || typeof categoryName !== 'string') {
-            console.error("Tên category không hợp lệ:", categoryName);
-            return;
+    // HÀM TẢI DỮ LIỆU CHÍNH DỰA TRÊN pageState VÀ pageToFetch
+    const loadContentBasedOnPageState = useCallback(async (currentState, pageToFetch) => {
+        setBlogs(null); // Luôn hiển thị loader khi tải nội dung mới
+
+        if (currentState === "home") {
+            await fetchLatestBlogs(pageToFetch);
+        } else {
+            // Đảm bảo category hợp lệ trước khi gọi API
+            if (!currentState || typeof currentState !== 'string') {
+                console.error("Invalid category name in pageState:", currentState);
+                setBlogs([]);
+                setTotalPages(0);
+                setCurrentPage(0);
+                return;
+            }
+            try {
+                const postsData = await getPostsByCategory(currentState, pageToFetch, PAGE_SIZE);
+                updateBlogState(postsData);
+            } catch (error) {
+                console.error(`Failed to load posts for category: "${currentState}" on page ${pageToFetch}`, error);
+                setBlogs([]);
+                setTotalPages(0);
+                setCurrentPage(0);
+            }
         }
-        const category = categoryName.toLowerCase();
-        if (pageState === category && pageToFetch === 0) {
+    }, [fetchLatestBlogs, updateBlogState]); // Dependencies
+
+    // HÀM XỬ LÝ KHI CLICK VÀO BUTTON CATEGORY
+    const handleCategoryClick = useCallback((categoryName) => {
+        const normalizedCategory = categoryName.toLowerCase();
+        // Nếu click vào category đang active, hoặc nếu đã ở category đó và click lại trang 0,
+        // thì chuyển về home. Ngược lại, set pageState là category mới.
+        if (pageState === normalizedCategory) {
             setPageState('home');
-            return;
+        } else {
+            setPageState(normalizedCategory);
         }
-        setPageState(category);
-        setBlogs(null);
-        try {
-            const postsData = await getPostsByCategory(category, pageToFetch, PAGE_SIZE);
-            setBlogs(postsData.content);
-            setTotalPages(postsData.totalPages);
-            setCurrentPage(postsData.number);
-        } catch (error) {
-            console.error(`Không thể tải bài viết cho category: ${category} on page ${pageToFetch}`, error);
-            setBlogs([]);
-            setTotalPages(0);
-        }
-    }, [pageState]);
+        setCurrentPage(0); // Luôn reset về trang đầu khi đổi category hoặc về home
+    }, [pageState]); // Dependency on pageState
 
     // Hàm xử lý khi nhấn nút "Previous Page"
-    const handlePreviousPage = () => {
+    const handlePreviousPage = useCallback(() => {
         if (currentPage > 0) {
-            const prevPageToFetch = currentPage - 1;
-            if (pageState === 'home') {
-                fetchLatestBlogs(prevPageToFetch);
-            } else {
-                loadBlogByCategory(pageState, prevPageToFetch);
-            }
+            loadContentBasedOnPageState(pageState, currentPage - 1);
         }
-    };
+    }, [currentPage, pageState, loadContentBasedOnPageState]);
 
-    const handleNextPage = () => {
+    const handleNextPage = useCallback(() => {
         if (currentPage + 1 < totalPages) {
-            const nextPageToFetch = currentPage + 1;
-            if (pageState === 'home') {
-                fetchLatestBlogs(nextPageToFetch);
-            } else {
-                loadBlogByCategory(pageState, nextPageToFetch);
-            }
+            loadContentBasedOnPageState(pageState, currentPage + 1);
         }
-    };
+    }, [currentPage, totalPages, pageState, loadContentBasedOnPageState]);
 
+    // Effect chính để tải dữ liệu khi pageState hoặc currentPage thay đổi
     useEffect(() => {
-        if (pageState === "home") {
-            fetchLatestBlogs(0);
-        } else {
-            loadBlogByCategory(pageState, 0);
-        }
-    }, [pageState, fetchLatestBlogs, loadBlogByCategory]);
+        // Khi pageState thay đổi hoặc khi chuyển trang, tải nội dung tương ứng
+        loadContentBasedOnPageState(pageState, currentPage);
+    }, [pageState, currentPage, loadContentBasedOnPageState]); // Dependencies
 
+    // Effect để fetch categories và trending blogs một lần khi component được mount
     useEffect(() => {
         fetchCategories();
         fetchTrendingSidebarBlogs();
-    }, []);
+    }, [fetchCategories, fetchTrendingSidebarBlogs]);
 
     // Tailwind CSS classes for pagination buttons
     const paginationButtonCommonStyle = "px-4 py-2 rounded transition-colors text-sm sm:text-base";
     const paginationButtonActiveStyle = "bg-black text-white hover:bg-opacity-90";
     const paginationButtonDisabledStyle = "bg-gray-200 text-gray-500 cursor-not-allowed";
-
 
     return (
         <AnimationWrapper>
@@ -197,7 +204,7 @@ const HomePage = () => {
                             <div className='flex-wrap gap-3 flex'>
                                 {categories.map((category) => (
                                     <button
-                                        onClick={() => loadBlogByCategory(category)}
+                                        onClick={() => handleCategoryClick(category)} // Dùng hàm mới handleCategoryClick
                                         className={'tag ' + (pageState === category.toLowerCase() ? "bg-black text-white" : " ")}
                                         key={category}
                                     >

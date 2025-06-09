@@ -22,7 +22,7 @@ const UserNavigationPanel =()=>{
                 {userAuth.roles.includes("ROLE_ADMIN")  ? (
 
 
-                    <Link to={`/user/${email}`} className="link pl-8 py-4">
+                    <Link to={`/blog/user/${email}`} className="link pl-8 py-4">
                         Profile
                     </Link>
 

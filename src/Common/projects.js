@@ -238,6 +238,127 @@ export const projectsItem = [
         tagNames: ["e-commerce", "thương mại điện tử", "thiết kế", "SaaS", "doanh nghiệp nhỏ", "bán hàng trực tuyến", "phần mềm quản lý"],
         categoryName: "Giải pháp Thương mại Điện tử",
         technologies: ["JavaScript", "Node.js", "React", "Docker", "Kubernetes", "AWS"]
-    }
-
+    },
+    {
+        title: "ShopSwift: Nền Tảng Thương Mại Điện Tử Cloud-Native Cho Doanh Nghiệp Lớn",
+        short: "ShopSwift",
+        slug: "shopswift-e-commerce-cloud",
+        status: "PUBLISHED",
+        year: 2022,
+        color: "#706D63", // Orange, often associated with energy and commerce
+        excerpt: "ShopSwift là một giải pháp thương mại điện tử toàn diện được xây dựng trên kiến trúc cloud-native, cung cấp cho các doanh nghiệp vừa và nhỏ (SMBs) công cụ mạnh mẽ để xây dựng, quản lý và phát triển cửa hàng trực tuyến một cách dễ dàng và hiệu quả...",
+        src: "https://www.vib.com.vn/wps/wcm/connect/e40ff60a-fc38-4c42-b327-29a61e2adc68/E-commerce-va-E-business+%285%29.jpg.webp?MOD=AJPERES&CACHEID=ROOTWORKSPACE-e40ff60a-fc38-4c42-b327-29a61e2adc68-oKoX9MZ", // cloud-native e-commerce platform architecture
+        contentBlocks: [
+            {
+                type: "HEADING",
+                content: "ShopSwift: Giải Pháp E-commerce Linh Hoạt và Mạnh Mẽ",
+                level: 2
+            },
+            {
+                type: "PARAGRAPH",
+                content: "Với sự bùng nổ của mua sắm trực tuyến, ShopSwift mang đến một nền tảng e-commerce hiện đại, giúp các SMBs nhanh chóng thiết lập gian hàng, quản lý sản phẩm, đơn hàng, khách hàng và tích hợp các cổng thanh toán, vận chuyển một cách liền mạch. Kiến trúc cloud-native đảm bảo khả năng mở rộng linh hoạt, độ tin cậy cao và chi phí vận hành tối ưu."
+            },
+            {
+                type: "IMAGE",
+                content: "https://vinuni.edu.vn/wp-content/uploads/2024/05/ecommerce-marketing-hinh-1.jpg", // small business owner using e-commerce dashboard
+                altText: "Chủ doanh nghiệp quản lý cửa hàng trực tuyến trên ShopSwift",
+                caption: "Bảng điều khiển của ShopSwift cung cấp cái nhìn tổng quan và các công cụ quản lý mạnh mẽ."
+            },
+            {
+                type: "HEADING",
+                content: "Kiến Trúc và Tính Năng Nổi Bật",
+                level: 3
+            },
+            {
+                type: "PARAGRAPH",
+                content: "ShopSwift được phát triển dựa trên các microservices, containers và các công nghệ đám mây hàng đầu, cho phép cập nhật tính năng nhanh chóng và khả năng tùy biến cao. Nền tảng cung cấp nhiều mẫu giao diện chuyên nghiệp, công cụ SEO tích hợp, phân tích dữ liệu bán hàng và các tính năng marketing automation."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Dễ dàng tạo và tùy chỉnh cửa hàng trực tuyến mà không cần kiến thức kỹ thuật."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Quản lý sản phẩm, tồn kho, đơn hàng và khách hàng tập trung."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Tích hợp đa dạng cổng thanh toán và đơn vị vận chuyển."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Khả năng mở rộng không giới hạn theo sự phát triển của doanh nghiệp."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Bảo mật cao và tuân thủ các tiêu chuẩn PCI DSS."
+            },
+            {
+                type: "PARAGRAPH",
+                content: "ShopSwift là đối tác đồng hành đáng tin cậy, giúp các doanh nghiệp vừa và nhỏ tự tin cạnh tranh và thành công trong thị trường thương mại điện tử năng động."
+            }
+        ],
+        tagNames: ["e-commerce", "thương mại điện tử", "thiết kế", "SaaS", "doanh nghiệp nhỏ", "bán hàng trực tuyến", "phần mềm quản lý"],
+        categoryName: "Giải pháp Thương mại Điện tử",
+        technologies: ["JavaScript", "Node.js", "React", "Docker", "Kubernetes", "AWS"]
+    },
+    {
+        title: "LearnFlow: Nền Tảng E-learning Doanh Nghiệp Hóa Với Lộ Trình Học Tập Thích Nghi",
+        short: "LearnFlow",
+        slug: "learnflow-e-learning-doanh-nghiep",
+        status: "PUBLISHED",
+        year: 2023,
+        color: "#EFE8D3", // Green, often associated with learning and growth
+        excerpt: "LearnFlow là một nền tảng giáo dục trực tuyến thông minh, sử dụng thuật toán học máy để tạo ra lộ trình học tập cá nhân hóa cho từng học viên, tối ưu hóa trải nghiệm và kết quả học tập...",
+        src: "https://www.iworld.com.vn/wp-content/uploads/2021/08/2250x1500_czy-warto-korzystac-ze-szkolen-online-ollh.jpg", // personalized e-learning platform dashboard
+        contentBlocks: [
+            {
+                type: "HEADING",
+                content: "LearnFlow: Học Tập Theo Cách Của Bạn",
+                level: 2
+            },
+            {
+                type: "PARAGRAPH",
+                content: "Mỗi cá nhân có một tốc độ và phong cách học tập riêng. LearnFlow thấu hiểu điều đó và ứng dụng công nghệ AI để phân tích năng lực, sở thích và mục tiêu của người học. Từ đó, hệ thống tự động đề xuất các bài giảng, bài tập và tài liệu phù hợp, xây dựng một lộ trình học tập linh hoạt và hiệu quả nhất."
+            },
+            {
+                type: "IMAGE",
+                content: "https://www.21kschool.com/vn/wp-content/uploads/sites/5/2024/04/ELearning-Evolution-Tracing-the-History-of-Online-Learning.png", // student using adaptive learning software
+                altText: "Học viên tương tác với lộ trình học tập thích nghi trên LearnFlow",
+                caption: "Giao diện trực quan của LearnFlow giúp theo dõi tiến độ và khám phá kiến thức mới."
+            },
+            {
+                type: "HEADING",
+                content: "Công Nghệ Đằng Sau Sự Cá Nhân Hóa",
+                level: 3
+            },
+            {
+                type: "PARAGRAPH",
+                content: "LearnFlow sử dụng kết hợp các mô hình học máy, bao gồm hệ thống gợi ý (recommendation systems) và phân tích dữ liệu lớn (big data analytics) để liên tục cải thiện và điều chỉnh lộ trình học tập. Nền tảng cũng tích hợp các công cụ tương tác như diễn đàn, lớp học ảo và hệ thống đánh giá năng lực thường xuyên."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Lộ trình học tập được cá nhân hóa và tự động điều chỉnh."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Nội dung học liệu đa dạng: video, bài đọc, bài kiểm tra tương tác, dự án thực tế."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Theo dõi tiến độ chi tiết và báo cáo phân tích học tập."
+            },
+            {
+                type: "LIST_ITEM",
+                content: "Cộng đồng người học và giảng viên hỗ trợ."
+            },
+            {
+                type: "PARAGRAPH",
+                content: "LearnFlow hướng đến việc dân chủ hóa giáo dục chất lượng cao, giúp mọi người có thể tiếp cận kiến thức và phát triển kỹ năng một cách hiệu quả, phù hợp với nhu cầu cá nhân."
+            }
+        ],
+        tagNames: ["e-learning", "EdTech", "học máy", "cá nhân hóa", "giáo dục trực tuyến", "AI trong giáo dục","phát triển web"],
+        categoryName: "Công nghệ Giáo dục (EdTech)",
+        technologies: ["Python", "JavaScript", "Machine Learning", "React", "Node.js", "Big Data"]
+    },
 ]

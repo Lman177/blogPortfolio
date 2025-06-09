@@ -47,10 +47,10 @@ const Navbar =()  =>{
 
 
             <div className="flex items-centre gap-3 md:gap-6 ml-auto">
-                <button className="md:hidden bg-grey w-12 h-12 rounded-full flex items-center justify-center"
-                onClick={() => setSearchBoxVisibility(currentVal => !currentVal)}>
-                    <i className="fi fi-rr-search  text-xl"></i>
-                </button>
+                {/*<button className=" bg-grey w-12 h-12 rounded-full flex items-center justify-center"*/}
+                {/*onClick={() => setSearchBoxVisibility(currentVal => !currentVal)}>*/}
+                {/*    <i className="fi fi-rr-search  text-xl"></i>*/}
+                {/*</button>*/}
                 {userAuth?.roles?.includes("ROLE_ADMIN") ? (
                     <Link to="editor" className="hidden md:flex fap-2 link">
                         <i className="fi fi-rr-file-edit"></i>
@@ -62,11 +62,11 @@ const Navbar =()  =>{
                 {
                     access_token ?
                     <>
-                        <Link to="dashboard/notifications">
-                            <button className=" w-12 h-12 mt-1 flex justify-center items-center rounded-full bg-grey relative hover:bg-black/10">
-                                <i className="fi fi-rr-bell text-2xl block mt-1"></i>
-                            </button>
-                        </Link>
+                        {/*<Link to="dashboard/notifications">*/}
+                        {/*    <button className=" w-12 h-12 mt-1 flex justify-center items-center rounded-full bg-grey relative hover:bg-black/10">*/}
+                        {/*        <i className="fi fi-rr-bell text-2xl block mt-1"></i>*/}
+                        {/*    </button>*/}
+                        {/*</Link>*/}
 
                         <div className="realtive" onClick={handleUserNavPanel} onBlur={handleBlur}>
                             <button className="w-12 h-12 mt-1">
@@ -82,10 +82,10 @@ const Navbar =()  =>{
                     </>
                     :
                 <>
-                    <Link className="btn-dark py-2" to="signin">
+                    <Link className="btn-dark py-2" to="/blog/signin">
                         Sign In
                     </Link>
-                    <Link className="btn-light hidden py-2 md:block" to="signup">
+                    <Link className="btn-light hidden py-2 md:block" to="/blog/signup">
                         Sign Up
                     </Link>
                 </>
