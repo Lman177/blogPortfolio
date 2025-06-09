@@ -184,7 +184,7 @@ const BlogEditor = () => {
                         slug: postData.slug,
                         status: postData.status,
                         tagNames: postData.tags,
-                        categoryNames: postData.categoryNames || [],
+                        categoryName: postData.category,
                     });
 
                 })
@@ -275,11 +275,11 @@ const BlogEditor = () => {
                         slug: blog.slug || blog.title.toLowerCase().replace(/\s+/g, '-'), // Tạo slug từ tiêu đề nếu không có
                         status: blog.status || 'DRAFT', // Mặc định là DRAFT nếu không có
                         tagNames: blog.tagNames || [], // Mảng rỗng nếu không có
-                        categoryNames: blog.categoryNames || [], // Mảng rỗng nếu không có
+                        categoryName: blog.categoryName, // Mảng rỗng nếu không có
                         // Nếu bạn cần thêm các trường khác, hãy thêm vào đây
 
                     };
-                    // console.log("Post Payload:", postPayload);
+                    console.log("Post Payload:", postPayload);
                     // const apiMethod = blogId ? 'put' : 'post';
                     // const apiUrl = blogId ? `/api/posts/${blogId}` : '/api/posts';
                     //
