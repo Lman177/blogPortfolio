@@ -34,7 +34,8 @@ const ProfileComponent = () => {
 
     const handleBlogClick = (blogId) => {
         // Chuyển hướng đến trang chỉnh sửa blog với ID của blog
-        navigate(`/blog/edit-blog/${blogId}`);
+        navigate(`/blog/${blogId}`);
+
     };
 
     return (

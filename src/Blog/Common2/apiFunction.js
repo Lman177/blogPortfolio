@@ -229,16 +229,16 @@ export async function getPost(idOrSlug) {
 
 /**
  * Cập nhật một bài viết đã có.
- * @param {number} postId - ID của bài viết cần cập nhật.
+ * @param {string} postId - ID của bài viết cần cập nhật.
  * @param {object} postData - Dữ liệu cập nhật cho bài viết, khớp với PostRequest DTO.
  * @returns {Promise<object>} - Promise trả về dữ liệu của bài viết đã cập nhật (PostResponse DTO).
  * @throws {Error} - Ném lỗi nếu cập nhật thất bại.
  */
-export async function updatePost(postId, postData) {
+export async function updatePost(id, postData) {
     try {
         const response = await api.put(`/posts/update`, postData, {
             params: {
-                postId, // Gửi ID bài viết qua query parameter
+                id, // Gửi ID bài viết qua query parameter
             },
             headers: {
                 ...getAuthHeader(),
@@ -258,22 +258,29 @@ export async function updatePost(postId, postData) {
  * @returns {Promise<string | object>} - Promise trả về thông báo thành công hoặc một object rỗng.
  * @throws {Error} - Ném lỗi nếu xóa thất bại.
  */
-export async function deletePost(postId) {
+export async function deletePost(id) {
+    if (!id) {
+        throw new Error("Cần có ID của bài viết để xóa.");
+    }
+
     try {
+        // Quay trở lại sử dụng URL tĩnh và gửi postId qua `params`
         const response = await api.delete(`/posts/delete`, {
             params: {
-                postId, // Gửi ID bài viết qua query parameter
+                id
             },
             headers: {
                 ...getAuthHeader(),
             },
         });
-        // Backend có thể trả về 204 No Content (không có body) hoặc một JSON message
-        return response.data || "Bài viết đã được xóa thành công.";
+
+        return response.data;
+
     } catch (error) {
-        console.error(`Lỗi khi xóa bài viết ID ${postId}:`, error.response?.data || error.message);
-        throw error.response?.data || new Error(`Không thể xóa bài viết ID ${postId}.`);
+        console.error(`Lỗi khi xóa bài viết ID ${id}:`, error.response?.data || error.message);
+        throw error.response?.data || new Error(`Không thể xóa bài viết ID ${id}.`);
     }
+
 }
 
 /* ==========================================================================

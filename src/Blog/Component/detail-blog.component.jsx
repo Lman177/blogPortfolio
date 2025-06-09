@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {getPost, getRelatedPosts} from "@/Blog/Common2/apiFunction.js";
+import {deletePost, getPost, getRelatedPosts} from "@/Blog/Common2/apiFunction.js";
 import {formatDate} from "@/Blog/Common2/date.jsx";
-import AnimationWrapper from "@/Blog/Common2/page-animation.jsx"; // Cần cài đặt react-router-dom
+import AnimationWrapper from "@/Blog/Common2/page-animation.jsx";
+import {UserContext} from "@/App.jsx";
+import toast from "react-hot-toast"; // Cần cài đặt react-router-dom
 
 
 
@@ -94,6 +96,7 @@ const DetailBlog = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+    const { userAuth } = useContext(UserContext);
 
 
     useEffect(() => {
@@ -185,7 +188,24 @@ const DetailBlog = () => {
             </div>
         );
     }
-
+    const handleDeletePost = () => {
+        if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này không? Hành động này không thể hoàn tác.")) {
+            const loadingToast = toast.loading("Đang xóa bài viết...");
+            deletePost(post.id)
+                .then(() => {
+                    toast.dismiss(loadingToast);
+                    toast.success("Đã xóa bài viết thành công!", { duration: 2000 });
+                    setTimeout(() => {
+                        navigate("/blog");
+                    }, 1000);
+                })
+                .catch(err => {
+                    toast.dismiss(loadingToast);
+                    toast.error("Có lỗi xảy ra khi xóa bài viết. Vui lòng thử lại.");
+                    console.error(err);
+                });
+        }
+    };
     // Xử lý contentBlocks để nhóm các LIST_ITEM lại với nhau
     const processedContentBlocks = [];
     let currentListItems = [];
@@ -210,8 +230,8 @@ const DetailBlog = () => {
     } else {
         // console.warn("post.contentBlocks không phải là một mảng:", post.contentBlocks);
     }
-
-
+    const isAuthor = userAuth?.email === post.author?.username;
+    console.log(post)
     return (
         <AnimationWrapper>
 
@@ -229,7 +249,22 @@ const DetailBlog = () => {
                     </svg>
                     <span>Quay lại</span>
                 </button>
-
+            {isAuthor && (
+                <div className="absolute top-100 right-0 flex gap-2">
+                    <Link
+                        to={`/blog/edit-blog/${post.id}`} // Dùng ID để đảm bảo tính duy nhất
+                        className="px-3 py-1.5 bg-gray-200 text-gray-800 text-xs font-semibold rounded-md hover:bg-gray-300 transition-colors"
+                    >
+                        Chỉnh sửa
+                    </Link>
+                    <button
+                        onClick={handleDeletePost}
+                        className="px-3 py-1.5 bg-red-100 text-red-700 text-xs font-semibold rounded-md hover:bg-red-200 transition-colors"
+                    >
+                        Xóa
+                    </button>
+                </div>
+            )}
 
             <article className="max-w-3xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
                 <header className="mb-10">

@@ -47,10 +47,10 @@ const Navbar =()  =>{
 
 
             <div className="flex items-centre gap-3 md:gap-6 ml-auto">
-                {/*<button className=" bg-grey w-12 h-12 rounded-full flex items-center justify-center"*/}
-                {/*onClick={() => setSearchBoxVisibility(currentVal => !currentVal)}>*/}
-                {/*    <i className="fi fi-rr-search  text-xl"></i>*/}
-                {/*</button>*/}
+                <button className=" bg-grey w-12 h-12 rounded-full flex items-center justify-center"
+                onClick={() => setSearchBoxVisibility(currentVal => !currentVal)}>
+                    <i className="fi fi-rr-search  text-xl"></i>
+                </button>
                 {userAuth?.roles?.includes("ROLE_ADMIN") ? (
                     <Link to="editor" className="hidden md:flex fap-2 link">
                         <i className="fi fi-rr-file-edit"></i>
