@@ -52,7 +52,7 @@ const PublishForm = () => {
     const [currentTagNames, setCurrentTagNames] = useState(tagNames || []);
     const [currentSlug, setCurrentSlug] = useState(initialSlug || "");
     const [currentCategoryName, setCurrentCategoryName] = useState(initialCategoryName || "");
-
+    const [accessLevel, setAccessLevel] = useState('PUBLIC'); // New state for access level
 
     useEffect(() => {
         // Update local states if blog context changes (e.g., navigating back from editor)
@@ -61,6 +61,7 @@ const PublishForm = () => {
         setCurrentTagNames(tagNames || []);
         setCurrentSlug(initialSlug || (title ? generateSlug(title) : "")); // Auto-generate slug if not present
         setCurrentCategoryName(initialCategoryName || "");
+        setAccessLevel('PUBLIC'); // Default to PUBLIC on mount or context change
     }, [title, excerpt, tagNames, initialSlug, initialCategoryName]);
 
 
@@ -172,6 +173,7 @@ const PublishForm = () => {
             categoryName: currentCategoryName,
             year: blog.year || new Date().getFullYear(),
             color: blog.color || "#000000",
+            accessLevel, // Add accessLevel to request body
         };
         // Add id to blogObj only if it's an update operation,
         // as createPost might not expect an 'id' field.
@@ -288,6 +290,29 @@ const PublishForm = () => {
                         </div>
                     </div>
                     <p className="mt-1 mb-4 text-dark-grey text-right ">{tagLimit - currentTagNames.length} thẻ còn lại</p>
+
+                    {/* Access Level Switch */}
+                    <div className="mb-4 flex items-center gap-4">
+                        <label className="font-medium text-gray-700">Access Level:</label>
+                        <div className="relative flex w-48 h-10 rounded-full border border-gray-300 bg-gray-100 p-1">
+                            <button
+                                type="button"
+                                aria-label="Set access to Public"
+                                className={`flex-1 flex items-center justify-center text-sm font-medium transition-all duration-300 ease-in-out ${accessLevel === 'PUBLIC' ? 'bg-black text-white shadow-md rounded-full' : 'text-gray-600'}`}
+                                onClick={() => setAccessLevel('PUBLIC')}
+                            >
+                                Public
+                            </button>
+                            <button
+                                type="button"
+                                aria-label="Set access to Member"
+                                className={`flex-1 flex items-center justify-center text-sm font-medium transition-all duration-300 ease-in-out ${accessLevel === 'MEMBER' ? 'bg-black text-white shadow-md rounded-full' : 'text-gray-600'}`}
+                                onClick={() => setAccessLevel('MEMBER')}
+                            >
+                                Member
+                            </button>
+                        </div>
+                    </div>
 
                     <button className="btn-dark px-8 " onClick={publishBlog}>
                         Xuất bản ngay

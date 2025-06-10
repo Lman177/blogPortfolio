@@ -10,10 +10,11 @@ const ProfileComponent = () => {
     const navigate = useNavigate(); // Khởi tạo hook navigate
 
     // Giải nén thông tin người dùng từ context và cung cấp giá trị mặc định
-    const { email, username, picture } = userAuth || {
+    const { email, username, picture, currentPlan } = userAuth || {
         email: 'your.email@example.com',
         username: 'Your Name',
-        picture: {Img}
+        picture: Img,
+        currentPlan: null
     };
 
     const fetchAllBlogs = useCallback(async () => {
@@ -39,35 +40,29 @@ const ProfileComponent = () => {
     };
     const isAdmin = userAuth?.roles?.includes("ROLE_ADMIN") || false; // Kiểm tra xem người dùng có phải là admin không
     return (
-        <div className="min-h-screen bg-neutral-900 text-neutral-100 p-6 md:p-10 font-sans"> {/* Cải thiện padding tổng thể */}
+        <div className="min-h-screen bg-neutral-900 text-neutral-100 p-6 md:p-10 font-sans">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
                 {/* Phần thông tin cá nhân bên trái */}
-                <div className="md:w-1/3 flex-shrink-0 p-6 bg-neutral-800 rounded-lg shadow-xl flex flex-col items-center border border-neutral-700"> {/* Cải thiện shadow, border và chống co rút */}
+                <div className="md:w-1/3 flex-shrink-0 p-6 bg-neutral-800 rounded-lg shadow-xl flex flex-col items-center border border-neutral-700">
                     <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-neutral-600 mb-6">
                         <img
-                            src={picture ? picture: Img}
+                            src={picture ? picture : Img}
                             alt="Profile"
                             className="w-full h-full object-cover"
-                            onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/150x150/000000/FFFFFF?text=Error'; }} // Fallback nếu ảnh lỗi
+                            onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/150x150/000000/FFFFFF?text=Error'; }}
                         />
                     </div>
                     <h1 className="text-3xl font-bold text-neutral-50 mb-2">{email}</h1>
                     <p className="text-lg text-neutral-400 mb-4">{username}</p>
-                    <div className="text-center text-neutral-300 border-t border-neutral-700 pt-4 mt-4 w-full"> {/* Thêm đường phân cách và padding */}
-                        {/*<p className="text-sm">*/}
-                        {/*    Chào mừng đến với trang profile của tôi! Ở đây bạn có thể tìm thấy thông tin cá nhân và các bài viết gần đây của tôi.*/}
-                        {/*</p>*/}
-                        {/*/!* Thêm một phần giới thiệu ngắn (bio) *!/*/}
-                        {/*<p className="text-xs text-neutral-500 mt-2 italic">*/}
-                        {/*    "Mỗi dòng code là một câu chuyện, mỗi dự án là một cuộc phiêu lưu."*/}
-                        {/*</p>*/}
+                    <div className="text-center text-neutral-300 border-t border-neutral-700 pt-4 mt-4 w-full">
+                        Current plan: {currentPlan && currentPlan.name ? currentPlan.name : (typeof currentPlan === 'string' ? currentPlan : 'Free Plan')}
                     </div>
                 </div>
 
                 {/* Phần bài viết bên phải */}
                 {isAdmin ?
                     <div
-                        className="md:w-2/3 p-6 bg-neutral-800 rounded-lg shadow-xl border border-neutral-700"> {/* Cải thiện shadow và border */}
+                        className="md:w-2/3 p-6 bg-neutral-800 rounded-lg shadow-xl border border-neutral-700">
                         <div className="flex justify-between items-center mb-6 border-b border-neutral-700 pb-3">
                             <h2 className="text-2xl font-bold text-neutral-50">My Blogs</h2>
                             {/* Nút quay lại */}

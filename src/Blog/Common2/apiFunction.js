@@ -365,6 +365,26 @@ export async function getRelatedPosts(postId, options = {}) {
     }
 }
 
+//search post by keyword
+export async function getPostByKeyWord(page = 0, size = 5, sort = "", keyword = "") {
+    try {
+        const response = await api.get("/posts/search", {
+            params: {
+                page,
+                size,
+                sort,
+                keyword
+            },
+            headers: {
+                // ...getAuthHeader(), // Có thể không cần token nếu API này public
+            },
+        });
+        return response.data; // Dữ liệu dạng Page<PostResponse>
+    } catch (error) {
+        console.error("Lỗi khi lấy danh sách bài viết:", error.response?.data || error.message);
+        throw error.response?.data || new Error("Không thể lấy danh sách bài viết.");
+    }
+}
 /**
  * Lấy danh sách các bài viết theo category.
  * @param {string} name - Slug của tag muốn lấy bài viết.
@@ -413,3 +433,36 @@ export async function getAllCategories() {
     }
 }
 
+/**
+ * Lấy danh sách tất cả các plan.
+ * @returns {Promise<object>} - Promise trả về danh sách các plan.
+ * @throws {Error} - Ném lỗi nếu không lấy được danh sách.
+ */
+export async function getAllPlans() {
+    try {
+        const response = await api.get("/plans/all");
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi lấy danh sách plan:", error.response?.data || error.message);
+        throw error.response?.data || new Error("Không thể lấy danh sách plan.");
+    }
+}
+
+/**
+ * Tạo thanh toán VNPAY cho subscription
+ * @param {number} planId - ID của gói subscription
+ * @returns {Promise<object>} - Promise trả về paymentUrl
+ */
+export async function createVnpayPayment(planId) {
+    try {
+        const response = await api.post(
+            "/subscriptions/create-vnpay-payment",
+            { planId },
+            { headers: { ...getAuthHeader(), "Content-Type": "application/json" } }
+        );
+        return response.data; // { paymentUrl }
+    } catch (error) {
+        console.error("Lỗi khi tạo thanh toán VNPAY:", error.response?.data || error.message);
+        throw error.response?.data || new Error("Không thể tạo thanh toán VNPAY.");
+    }
+}

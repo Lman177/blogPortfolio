@@ -16,7 +16,8 @@ const OAuthCallbackPage = () => {
         const email = params.get('email');
         const username = params.get('username');
         const picture = params.get('picture');
-        const role = params.get('role'); // Nếu backend gửi role, có thể là 'admin', 'user', v.v.
+        const role = params.get('role');
+        const currentPlan = null; // Nếu backend gửi currentPlan
         // const rolesString = params.get('roles'); // Nếu backend gửi roles
 
         if (token && email) { // Kiểm tra token và email là bắt buộc
@@ -26,7 +27,9 @@ const OAuthCallbackPage = () => {
                 username: decodeURIComponent(email), // Giải mã nếu cần (thường trình duyệt tự làm)
                 email: username ? decodeURIComponent(username) : 'User', // Cung cấp giá trị mặc định
                 picture: picture ? decodeURIComponent(picture) : '', // URL ảnh
-                role: role ? decodeURIComponent(role) : ''
+                role: role ? decodeURIComponent(role) : '',
+                currentPlan: currentPlan // Cung cấp giá trị mặc định
+
             };
 
             // Lưu trữ vào session và cập nhật context

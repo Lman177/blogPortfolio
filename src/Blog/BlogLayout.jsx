@@ -1,4 +1,3 @@
-
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Navbar from "@/Blog/Component/navbar.component.jsx";
 import UserAuthForm from "@/Blog/pages/userAuthForm.page.jsx";
@@ -10,6 +9,10 @@ import DetailBlog from "@/Blog/Component/detail-blog.component.jsx";
 import OAuthCallbackPage from "@/Blog/pages/OAuthCallbackPage.jsx";
 import ProfileComponent from "@/Blog/Component/profile.component.jsx";
 import EditBlogPage from "@/Blog/pages/edit-blog.page.jsx";
+import PricingRegisterPage from "@/Blog/pages/PricingRegisterPage.jsx";
+import PlanSummaryPage from "@/Blog/pages/PlanSummaryPage.jsx";
+import PaymentSuccessPage from "@/Blog/pages/PaymentSuccessPage.jsx";
+import PaymentFailurePage from "@/Blog/Component/PaymentFailurePage.jsx";
 
 
 const BlogLayout = () => {
@@ -35,6 +38,10 @@ const BlogLayout = () => {
                     <Route path=":slug" element={<DetailBlog/>}/>
                     <Route path="/oauth-callback" element={<OAuthCallbackPage />} />
                     <Route path="edit-blog/:id" element={<EditBlogPage/>} />
+                    <Route path="pricing/register" element={<PricingRegisterPage/>} />
+                    <Route path="pricing/summary" element={<PlanSummaryPage/>} />
+                    <Route path="pricing/payment-success" element={<PaymentSuccessPage/>} />
+                    <Route path="pricing/payment-failure" element={<PaymentFailurePage/>} />
                 </Route>
                 <Route path="user/:email" element={<ProfileComponent/> } />
             </Routes>

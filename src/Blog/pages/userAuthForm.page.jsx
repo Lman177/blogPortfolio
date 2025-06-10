@@ -77,7 +77,8 @@ const UserAuthForm = ({ type }) => {
                     id: jwtResponseData.id,
                     email: jwtResponseData.email,
                     roles: jwtResponseData.roles,
-                    username: jwtResponseData.userName || "", // Nếu không có username, để trống
+                    username: jwtResponseData.userName || "",
+                    currentPlan: jwtResponseData.currentPlan
                 };
                 storeInSession("user", JSON.stringify(userDataForState));
 

@@ -82,7 +82,7 @@ const Work = () => {
 
   // THAY ĐỔI MỚI: Quyết định danh sách project sẽ hiển thị
   const projectsToDisplay = showAll ? filteredProjects : filteredProjects.slice(0, 4);
-  console.log("Giá trị scrollTop ddang KHI scroll:", container.current.scrollTop);
+  // console.log("Giá trị scrollTop ddang KHI scroll:", container.current.scrollTop);
 
   const handleToggleShowAll = () => {
     if (showAll) {

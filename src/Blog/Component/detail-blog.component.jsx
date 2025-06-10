@@ -4,7 +4,8 @@ import {deletePost, getPost, getRelatedPosts} from "@/Blog/Common2/apiFunction.j
 import {formatDate} from "@/Blog/Common2/date.jsx";
 import AnimationWrapper from "@/Blog/Common2/page-animation.jsx";
 import {UserContext} from "@/App.jsx";
-import toast from "react-hot-toast"; // Cần cài đặt react-router-dom
+import toast from "react-hot-toast";
+import {PaywallCTA} from "@/Blog/Component/paywallCTA-component.jsx"; // Cần cài đặt react-router-dom
 
 
 
@@ -119,7 +120,7 @@ const DetailBlog = () => {
                     setPost(mainPostData);
                     // Sau khi có bài viết chính, lấy bài viết liên quan
                     const relatedData = await getRelatedPosts(mainPostData.id);
-                    console.log("relatedData",relatedData)
+                    // console.log("relatedData",relatedData)
                     setRelatedPosts(relatedData || []); // Đảm bảo relatedData không phải là undefined
                 } else {
                     // console.error("Dữ liệu bài viết chính không hợp lệ:", mainPostData);
@@ -139,7 +140,12 @@ const DetailBlog = () => {
         window.scrollTo(0, 0);
 
     }, [slug]); // Chạy lại khi slug thay đổi
-
+    const isMemberContent = post?.accessLevel === 'MEMBER';
+    // Fix: Ensure correct logic grouping for paying member
+    const isPayingMember = !!userAuth?.access_token && (userAuth?.currentPlan?.name !== 'Free' && userAuth?.currentPlan !== null);
+    const isAdmin = userAuth?.roles?.includes('ROLE_ADMIN');
+    const showPaywall = isMemberContent && !isPayingMember && !isAdmin;
+    console.log("isPayingMember", isPayingMember)
     const handleCopyLink = async () => {
         try {
             await navigator.clipboard.writeText(window.location.href);
@@ -231,7 +237,8 @@ const DetailBlog = () => {
         // console.warn("post.contentBlocks không phải là một mảng:", post.contentBlocks);
     }
     const isAuthor = userAuth?.email === post.author?.username;
-    console.log(post)
+    // console.log("isAuthor", isAuthor)
+    // console.log(post)
     return (
         <AnimationWrapper>
 
@@ -280,101 +287,127 @@ const DetailBlog = () => {
                         <span>By <span
                             className="font-semibold text-gray-800">{post.author?.username || 'Tác giả ẩn danh'}</span></span>
                         <span className="hidden sm:inline text-gray-400">•</span>
-                        <time dateTime={post.publishedAt ? new Date(post.publishedAt[0], post.publishedAt[1]-1, post.publishedAt[2]).toISOString() : undefined}>
+                        <time
+                            dateTime={post.publishedAt ? new Date(post.publishedAt[0], post.publishedAt[1] - 1, post.publishedAt[2]).toISOString() : undefined}>
                             {formatDate(post.publishedAt)}
                         </time>
                         {post.status === "PUBLISHED" && (
                             <>
                                 <span className="hidden sm:inline text-gray-400">•</span>
-                                <span className="px-2.5 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Published</span>
+                                <span
+                                    className="px-2.5 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Published</span>
                             </>
                         )}
                     </div>
                 </header>
+                <div className="relative">
+                    {showPaywall && <PaywallCTA />}
 
-                {post.featuredImage && (
-                    <img
-                        src={post.featuredImage}
-                        alt={`Ảnh bìa cho bài viết: ${post.title || 'Không có tiêu đề'}`}
-                        className="w-full h-auto max-h-[480px] object-cover rounded-xl mb-10 shadow-lg"
-                        onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src="https://placehold.co/800x450/e2e8f0/cbd5e0?text=Featured+Image+Not+Found";
-                        }}
-                    />
-                )}
+                    {post.featuredImage && (
+                        <img
+                            src={post.featuredImage}
+                            alt={`Ảnh bìa cho bài viết: ${post.title || 'Không có tiêu đề'}`}
+                            className="w-full h-auto max-h-[480px] object-cover rounded-xl mb-10 shadow-lg"
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = "https://placehold.co/800x450/e2e8f0/cbd5e0?text=Featured+Image+Not+Found";
+                            }}
+                        />
+                    )}
 
-                {/* Nội dung bài viết */}
-                <div className="prose prose-lg sm:prose-xl max-w-none text-gray-800 selection:bg-indigo-100 selection:text-indigo-800">
-                    {processedContentBlocks.map((block) => {
-                        if (block.type === 'LIST_GROUP') {
-                            return (
-                                <ul key={block.id} className="list-disc space-y-1 pl-5 mb-4">
-                                    {block.items.map((item, itemIndex) => (
-                                        // Sử dụng id của item nếu có, hoặc index làm fallback
-                                        <ContentBlock key={item.id || `listitem-${block.id}-${itemIndex}`} block={item} />
-                                    ))}
-                                </ul>
-                            );
-                        }
-                        return <ContentBlock key={block.id} block={block} />;
-                    })}
-                </div>
-
-
-                {/* Tags */}
-                {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
-                    <div className="mt-10 pt-6 border-t border-gray-200">
-                        <h3 className="font-semibold text-gray-800 mb-3 text-base">Thẻ liên quan:</h3>
-                        <div className="flex flex-wrap gap-2">
-                            {post.tags.map((tag) => (
-                                <Link key={tag} to={`/tags/${encodeURIComponent(tag.toLowerCase().replace(/\s+/g, '-'))}`} className="bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full hover:bg-gray-200 hover:text-gray-900 transition-colors">
-                                    #{tag}
-                                </Link>
-                            ))}
-                        </div>
+                    {/* Nội dung bài viết */}
+                    <div
+                        className="prose prose-lg sm:prose-xl max-w-none text-gray-800 selection:bg-indigo-100 selection:text-indigo-800">
+                        {processedContentBlocks.map((block) => {
+                            if (block.type === 'LIST_GROUP') {
+                                return (
+                                    <ul key={block.id} className="list-disc space-y-1 pl-5 mb-4">
+                                        {block.items.map((item, itemIndex) => (
+                                            // Sử dụng id của item nếu có, hoặc index làm fallback
+                                            <ContentBlock key={item.id || `listitem-${block.id}-${itemIndex}`}
+                                                          block={item}/>
+                                        ))}
+                                    </ul>
+                                );
+                            }
+                            return <ContentBlock key={block.id} block={block}/>;
+                        })}
                     </div>
-                )}
 
-                {/* Nút chia sẻ */}
-                <div className="mt-10 pt-6 border-t border-gray-200">
-                    <h3 className="font-semibold text-gray-800 mb-3 text-base">Share this blog:</h3>
-                    <div className="flex items-center space-x-3">
-                        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer" title="Chia sẻ lên Facebook" className="p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-blue-600">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" /></svg>
-                        </a>
-                        <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title || "")}`} target="_blank" rel="noopener noreferrer" title="Chia sẻ lên Twitter (X)" className="p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-800">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                        </a>
-                        <button onClick={handleCopyLink} title="Sao chép liên kết" className="relative p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
-                            </svg>
-                            {showCopiedMessage && (
-                                <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded-md shadow-lg whitespace-nowrap">
+
+                    {/* Tags */}
+                    {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
+                        <div className="mt-10 pt-6 border-t border-gray-200">
+                            <h3 className="font-semibold text-gray-800 mb-3 text-base">Thẻ liên quan:</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {post.tags.map((tag) => (
+                                    <Link key={tag}
+                                          to={`/tags/${encodeURIComponent(tag.toLowerCase().replace(/\s+/g, '-'))}`}
+                                          className="bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full hover:bg-gray-200 hover:text-gray-900 transition-colors">
+                                        #{tag}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Nút chia sẻ */}
+                    <div className="mt-10 pt-6 border-t border-gray-200">
+                        <h3 className="font-semibold text-gray-800 mb-3 text-base">Share this blog:</h3>
+                        <div className="flex items-center space-x-3">
+                            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
+                               target="_blank" rel="noopener noreferrer" title="Chia sẻ lên Facebook"
+                               className="p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-blue-600">
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fillRule="evenodd"
+                                          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                                          clipRule="evenodd"/>
+                                </svg>
+                            </a>
+                            <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title || "")}`}
+                               target="_blank" rel="noopener noreferrer" title="Chia sẻ lên Twitter (X)"
+                               className="p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-800">
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                            </a>
+                            <button onClick={handleCopyLink} title="Sao chép liên kết"
+                                    className="relative p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
+                                </svg>
+                                {showCopiedMessage && (
+                                    <span
+                                        className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded-md shadow-lg whitespace-nowrap">
                                     Copied
                                 </span>
-                            )}
-                        </button>
-                    </div>
-                </div>
-
-                {/* Bài viết liên quan */}
-                {relatedPosts && Array.isArray(relatedPosts) && relatedPosts.length > 0 && (
-                    <section className="mt-16 pt-10 border-t border-gray-200">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Some Blogs you may like</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
-                            {relatedPosts.map(relatedPost => (
-                                <RelatedPostCard key={relatedPost.id || relatedPost.slug} post={relatedPost} />
-                            ))}
+                                )}
+                            </button>
                         </div>
-                    </section>
-                )}
+                    </div>
+
+                    {/* Bài viết liên quan */}
+                    {relatedPosts && Array.isArray(relatedPosts) && relatedPosts.length > 0 && (
+                        <section className="mt-16 pt-10 border-t border-gray-200">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Some Blogs you may
+                                like</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+                                {relatedPosts.map(relatedPost => (
+                                    <RelatedPostCard key={relatedPost.id || relatedPost.slug} post={relatedPost}/>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
             </article>
         </div>
 
         </AnimationWrapper>
-    );
+);
 };
 
 export default DetailBlog;
+
