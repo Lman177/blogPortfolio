@@ -2,8 +2,8 @@ import axios from "axios"
 import error from "eslint-plugin-react/lib/util/error.js";
 
 export const api = axios.create({
-    baseURL : "http://localhost:8080/api"
-    // baseURL : "http://34.71.194.110:8080"
+    baseURL: "http://localhost:8080/api"
+    // baseURL: "http://namlimo.id.vn/api"
 })
 
 
@@ -247,8 +247,8 @@ export async function updatePost(id, postData) {
         });
         return response.data;
     } catch (error) {
-        console.error(`Lỗi khi cập nhật bài viết ID ${postId}:`, error.response?.data || error.message);
-        throw error.response?.data || new Error(`Không thể cập nhật bài viết ID ${postId}.`);
+        console.error(`Lỗi khi cập nhật bài viết ID ${id}:`, error.response?.data || error.message);
+        throw error.response?.data || new Error(`Không thể cập nhật bài viết ID ${id}.`);
     }
 }
 

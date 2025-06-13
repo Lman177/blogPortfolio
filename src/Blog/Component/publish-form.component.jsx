@@ -61,7 +61,7 @@ const PublishForm = () => {
         setCurrentTagNames(tagNames || []);
         setCurrentSlug(initialSlug || (title ? generateSlug(title) : "")); // Auto-generate slug if not present
         setCurrentCategoryName(initialCategoryName || "");
-        setAccessLevel('PUBLIC'); // Default to PUBLIC on mount or context change
+        setAccessLevel(accessLevel); // Default to PUBLIC on mount or context change
     }, [title, excerpt, tagNames, initialSlug, initialCategoryName]);
 
 
@@ -213,7 +213,7 @@ const PublishForm = () => {
 
     return (
         <AnimationWrapper>
-            <section className="w-screen min-h-screen grid items-center lg:grid-cols-2 py-16 lg:gap-4">
+            <section className="w-screen h-110% grid items-center lg:grid-cols-2 py-16 lg:gap-4">
                 <Toaster />
                 <button
                     className="w-12 h-12 absolute right-[5vw] z-10 top-[5%] lg:top-[10%] bg-white rounded-full flex items-center justify-center shadow-md"

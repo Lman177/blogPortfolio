@@ -1,0 +1,11 @@
+# my-parent-project/frontend-service/docker-compose.yml
+version: '3.8'
+
+services:
+  frontend:
+    build: . # Dockerfile của React/Vite nằm trong cùng thư mục frontend-service
+    container_name: frontend-container
+    restart: always
+    ports:
+      - "80:80" # Ánh xạ cổng 80 của host tới cổng 80 của Nginx trong container
+

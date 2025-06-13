@@ -31,7 +31,10 @@ export default function Home() {
 
   return (
       <AnimationWrapper>
-          <meta name="description" content="Khám phá các dự án sáng tạo và kỹ năng lập trình của tôi trong lĩnh vực React, Spring Boot và thiết kế web." />
+          <meta name="description"
+                content="Khám phá các dự án sáng tạo và
+                 kỹ năng lập trình của tôi trong lĩnh vực
+                 React, Spring Boot và thiết kế web." />
 
         <Landing/>
         <Description scrollYProgress={scrollYProgress}/>

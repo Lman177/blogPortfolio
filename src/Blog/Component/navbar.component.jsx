@@ -56,7 +56,7 @@ const Navbar =()  =>{
                 }
 
                 {userAuth?.roles?.includes("ROLE_ADMIN") ? (
-                    <Link to="editor" className="hidden md:flex fap-2 link">
+                    <Link to="/blog/editor" className="hidden md:flex fap-2 link">
                         <i className="fi fi-rr-file-edit"></i>
                         <p>Write</p>
                     </Link>

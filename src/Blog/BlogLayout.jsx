@@ -30,7 +30,7 @@ const BlogLayout = () => {
     return (
         <div className="blog-section font-inter text-black">
             <Routes>
-                <Route path="/editor" element={<Editor/>}/>
+                <Route path="editor" element={<Editor/>}/>
                 <Route  element={<Navbar/>} >
                     <Route index element={<HomePage/>}/>
                     <Route path="signin" element={<UserAuthForm type="sign-in"/>}/>
